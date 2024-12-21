@@ -35,7 +35,7 @@ function StudioDetailPage({
   if (!studioData) return <div>스튜디오 정보를 불러올 수 없습니다.</div>;
 
   return (
-    <div>
+    <>
       <TopBar showShare={true} showCart={false} />
       <StudioImages facilityImageUrls={studioData.facilityImageUrls} />
       <StudioSummary
@@ -55,7 +55,7 @@ function StudioDetailPage({
         <StudioProducts products={studioData.products} />
       )}
       {activeTab === "리뷰" && <StudioReviews reviews={reviews} />}
-    </div>
+    </>
   );
 }
 

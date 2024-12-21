@@ -112,3 +112,41 @@ body {
 .custom-checkbox:checked {
   background-image: url("/icons/common/checkBox.svg");
 }
+
+.custom-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.custom-radio input {
+  display: none;
+}
+
+.custom-radio .radio-indicator {
+  width: 16px;
+  height: 16px;
+  border: 2px solid gray;
+  border-radius: 50%;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-radio input:checked + .radio-indicator {
+  border-color: #fbbf24; /* 노란색 테두리 */
+  background-color: #fbbf24; /* 노란색 배경 */
+}
+
+.custom-radio input:checked + .radio-indicator::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -100,7 +100,7 @@ const StudioList = ({
                   </div>
                 </div>
                 <div className="flex items-center gap-4 font-medium">
-                  <div className=" flex items-center px-2 py-1 bg-gray-1 rounded-lg border">
+                  <div className="flex items-center px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/star.svg"
                       alt={`${studio.name}의 평점${studio.rating}`}

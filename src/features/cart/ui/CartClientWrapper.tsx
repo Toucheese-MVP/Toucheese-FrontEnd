@@ -20,6 +20,7 @@ const CartPageClientWrapper = () => {
       <TopBar
         message="장바구니"
         showShare={false}
+        showCart={false}
         location={conceptId ? `/studios?conceptId=${conceptId}` : "/"}
       />
       <CartPage />

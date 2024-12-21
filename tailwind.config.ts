@@ -41,6 +41,7 @@ const config: Config = {
           2: "#FFF4A3",
           1: "#FFFDE6",
         },
+        kakao: "#fee500",
       },
       aspectRatio: {
         "3/4": "3 / 4",

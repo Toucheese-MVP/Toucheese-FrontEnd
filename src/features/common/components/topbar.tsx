@@ -67,6 +67,7 @@ export function TopBar({
           className={`mx-auto max-w-custom px-4 flex justify-between items-center transition-all py-4 md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
+          style={{ minHeight: "4rem" }} // TopBar의 최소 높이 고정
         >
           {showBack && (
             <button
@@ -78,28 +79,31 @@ export function TopBar({
                 alt="back"
                 width={24}
                 height={24}
-                className="object-cover"
+                style={{
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
               />
             </button>
           )}
           <span className="font-bold text-lg justify-self-center ml-auto mr-auto">
-            {message}
+            {message || "생생"}
           </span>
           {showShare && (
-            <div className="ml-auto flex items-center flex-1 justify-end">
-              <button
-                className="relative max-w-10 w-full max-h-10 h-full aspect-3/4 overflow-hidden"
-                onClick={handleModalOpen}
-              >
-                <Image
-                  src="/icons/share.svg"
-                  alt="share"
-                  width={24}
-                  height={24}
-                  className="object-cover"
-                />
-              </button>
-            </div>
+            <button className="relative" onClick={handleModalOpen}>
+              <Image
+                src="/icons/share.svg"
+                alt="share"
+                width={24}
+                height={24}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
+            </button>
           )}
           {showCart && (
             <Link href="/cart">
@@ -108,6 +112,11 @@ export function TopBar({
                 alt="cart"
                 width={24}
                 height={24}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
               />
             </Link>
           )}
@@ -117,14 +126,13 @@ export function TopBar({
       <AnimatePresence>
         {activeShare && (
           <motion.div
-            initial={{ y: "100%" }} // 아래에서 시작
-            animate={{ y: 0 }} // 화면에 나타날 때 위로 슬라이드
-            exit={{ y: "100%" }} // 사라질 때 아래로 슬라이드
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
             className="fixed bottom-0 right-0 left-0 z-50 w-full"
           >
             <div className="relative mx-auto bg-white p-4 rounded-t-lg shadow-lg max-w-custom w-full">
-              {/* 닫기 버튼 */}
               <button
                 onClick={handleModalClose}
                 className="absolute top-2 right-4 text-gray-500 text-lg"

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import Image from "next/image";
+import { useState, useMemo } from "react";
 import { formatContent } from "@/utils/formatContent";
 
 function StudioSummary({
@@ -57,7 +57,7 @@ function StudioSummary({
 
   const isClosed = useMemo(() => {
     if (!todayOperatingHours || todayOperatingHours.openTime === "휴무") {
-      return false; // 휴무
+      return false;
     }
 
     const [closeHours, closeMinutes] = todayOperatingHours.closeTime
@@ -103,7 +103,7 @@ function StudioSummary({
         </div>
         <h2 className="text-lg font-bold">{name}</h2>
       </div>
-      <div className="mt-2 flex bg-primary-1 py-2 px-6  rounded-lg">
+      <div className="relative mt-2 flex bg-primary-1 py-2 px-6  rounded-lg">
         <div>
           {visibleContent.map((paragraph, idx) => (
             <p
@@ -120,9 +120,23 @@ function StudioSummary({
         {formattedContent.length > 1 && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-primary-5 text-sm font-semibold absolute right-10"
+            className="text-primary-5 text-sm font-semibold absolute right-2 top-3"
           >
-            {isExpanded ? "▲" : "▼"}
+            {isExpanded ? (
+              <Image
+                src="/icons/studiodetail/arrow_up_yellow.svg"
+                alt="Dropdown open"
+                width={16}
+                height={16}
+              />
+            ) : (
+              <Image
+                src="/icons/studiodetail/arrow_dropdown_yellow.svg"
+                alt="Dropdown open"
+                width={16}
+                height={16}
+              />
+            )}
           </button>
         )}
       </div>
@@ -160,7 +174,21 @@ function StudioSummary({
               {isOpen ? "영업중" : isClosed ? "영업 종료" : "휴무"}
             </span>
             <span className="text-blue-500 text-sm ml-2">
-              {isDropdownOpen ? "▲" : "▼"}
+              {isDropdownOpen ? (
+                <Image
+                  src="/icons/studiodetail/arrow_up_blue.svg"
+                  alt="Dropdown open"
+                  width={16}
+                  height={16}
+                />
+              ) : (
+                <Image
+                  src="/icons/studiodetail/arrow_dropdown_blue.svg"
+                  alt="Dropdown open"
+                  width={16}
+                  height={16}
+                />
+              )}
             </span>
           </button>
           {isDropdownOpen && (
@@ -209,7 +237,21 @@ function StudioSummary({
           onClick={() => setIsNoticeExpanded(!isNoticeExpanded)}
           className="text-gray-5 text-sm absolute right-4 top-5"
         >
-          {isNoticeExpanded ? "▲" : "▼"}
+          {isNoticeExpanded ? (
+            <Image
+              src="/icons/studiodetail/arrow_up_gray.svg"
+              alt="Dropdown open"
+              width={16}
+              height={16}
+            />
+          ) : (
+            <Image
+              src="/icons/studiodetail/arrow_dropdown_gray.svg"
+              alt="Dropdown open"
+              width={16}
+              height={16}
+            />
+          )}
         </button>
       </div>
     </div>
