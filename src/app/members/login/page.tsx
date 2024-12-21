@@ -25,7 +25,7 @@ function LoginPage() {
 
   const handleKakao = () => {
     router.push(
-      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}&prompt=select_account`
+      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}&response_type=code`
     );
   };
 
@@ -97,18 +97,32 @@ function LoginPage() {
           </button>
         </form>
 
-        <div className="flex flex-col mt-10">
-          <span className="text-center">SNS 로그인</span>
+        <div className="flex flex-col">
+          <div className="flex items-center my-5">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-3 text-gray-500 text-sm">SNS 간편 로그인</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
           <button
             onClick={handleKakao}
-            className="relative max-w-custom w-full h-20"
+            className="flex gap-1 borderborder-kakao bg-kakao items-center justify-center py-3 px-4 rounded-lg"
           >
-            <Image
-              src="/kakao_login_large_wide.png"
-              alt="카카오로그인"
-              fill
-              className="object-fit-cover"
-            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <title>kakao 로고</title>
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.96052 3C5.83983 3 2.5 5.59377 2.5 8.79351C2.5 10.783 3.79233 12.537 5.75942 13.5807L4.9313 16.6204C4.85835 16.8882 5.1634 17.1029 5.39883 16.9479L9.02712 14.5398C9.33301 14.5704 9.64386 14.587 9.96052 14.587C14.0812 14.587 17.421 11.9932 17.421 8.79351C17.421 5.59377 14.0812 3 9.96052 3Z"
+                fill="black"
+              ></path>
+            </svg>
+            카카오 로그인
           </button>
         </div>
       </div>
