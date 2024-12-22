@@ -51,12 +51,11 @@ const ReservationEdit = () => {
     if (!reservation && reservatedList) {
       const targetPage = Math.floor(Number(reservationId) / pageSize);
 
-      // totalPages와 비교하여 유효한 페이지인지 확인
       if (targetPage >= reservatedList.totalPages) {
         console.error(
           `잘못된 페이지 요청: ${targetPage}, totalPages: ${reservatedList.totalPages}`
         );
-        return; // 잘못된 페이지 요청 방지
+        return;
       }
 
       setCurrentPage(targetPage);

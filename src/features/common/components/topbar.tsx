@@ -67,7 +67,7 @@ export function TopBar({
           className={`mx-auto max-w-custom px-4 flex justify-between items-center transition-all py-4 md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
-          style={{ minHeight: "4rem" }} // TopBar의 최소 높이 고정
+          style={{ minHeight: "4rem" }}
         >
           {showBack && (
             <button
@@ -88,7 +88,7 @@ export function TopBar({
             </button>
           )}
           <span className="font-bold text-lg justify-self-center ml-auto mr-auto">
-            {message || "생생"}
+            {message || ""}
           </span>
           {showShare && (
             <button className="relative" onClick={handleModalOpen}>
