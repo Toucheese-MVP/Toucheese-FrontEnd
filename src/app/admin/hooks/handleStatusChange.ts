@@ -1,6 +1,5 @@
 import { apiRequest } from "@/api/apiRequest";
 
-// 예약 상태 변경 함수
 export const handleStatusChange = async (
   reservationId: number,
   status: string

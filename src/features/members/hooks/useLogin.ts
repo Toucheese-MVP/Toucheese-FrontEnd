@@ -1,16 +1,10 @@
 import { useState } from "react";
-import useRequest from "@/features/common/hooks/useRequest";
-interface LoginResponse {
-  refreshToken: string;
-  deviceId: string;
-  memberId: number;
-  name: string;
-}
+import axios from "axios";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loading, error, request } = useRequest<LoginResponse>();
+  const [error, setError] = useState("");
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -22,21 +16,37 @@ const useLogin = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError("");
 
     try {
-      const response = await request("POST", "/v1/members", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/members`,
+        {
+          email,
+          password,
+        }
+      );
 
-      const { refreshToken, deviceId, memberId, name } = response;
+      const authorization = response.headers["authorization"];
+      const { refreshToken, deviceId, memberId, name } = response.data;
 
+      if (!authorization) {
+        throw new Error("서버로부터 유효한 토큰을 받지 못했습니다.");
+      }
+
+      const accessToken = authorization.split(" ")[1];
+      if (!accessToken) {
+        throw new Error("토큰 형식이 올바르지 않습니다.");
+      }
+
+      // Save tokens
       document.cookie = `refreshToken=${refreshToken}; path=/; secure=${
         process.env.NODE_ENV === "production"
       }; samesite=strict; max-age=604800`;
       document.cookie = `deviceId=${deviceId}; path=/; secure=${
         process.env.NODE_ENV === "production"
       }; samesite=strict; max-age=604800`;
+      localStorage.setItem("accessToken", accessToken);
 
       localStorage.setItem(
         "user",
@@ -46,6 +56,20 @@ const useLogin = () => {
       window.location.href = "/";
     } catch (error) {
       console.error("로그인 실패:", error);
+
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setError("잘못된 이메일 또는 비밀번호입니다.");
+        } else {
+          setError(
+            error.response?.data?.message || "서버 오류가 발생했습니다."
+          );
+        }
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("알 수 없는 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -53,7 +77,6 @@ const useLogin = () => {
     email,
     password,
     error,
-    loading,
     handleEmailChange,
     handlePasswordChange,
     handleSubmit,
