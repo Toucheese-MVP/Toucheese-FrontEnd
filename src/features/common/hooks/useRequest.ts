@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import { apiRequest } from "@/api/apiRequest";
 import { ResponseType } from "axios";
-import { getCookie } from "@/utils/getcookie";
 
 interface ApiRequestOptions {
   headers?: Record<string, string>;
@@ -53,7 +52,7 @@ function useRequest<T = unknown, D = unknown>() {
 
   const handleRequest = useCallback(
     async (method: "PUT" | "DELETE", endpoint: string, data?: D) => {
-      const token = getCookie("refreshToken");
+      const token = localStorage.getItem("accessToken");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

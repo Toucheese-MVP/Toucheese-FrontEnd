@@ -18,14 +18,15 @@ function useReservatedList(initialPage: number = 0) {
         setLoadingAll(true);
         const allData: Reservation[] = [];
         let currentPage = 0;
+        let totalPages = 1;
 
-        while (true) {
+        while (currentPage < totalPages) {
           const result = await refetch(currentPage);
 
           if (!result || result.content.length === 0) break;
-          allData.push(...result.content);
-          if (result.last) break;
 
+          allData.push(...result.content);
+          totalPages = result.totalPages;
           currentPage = result.number + 1;
         }
 
@@ -39,7 +40,7 @@ function useReservatedList(initialPage: number = 0) {
     };
 
     fetchAllReservations();
-  }, [refetch]);
+  }, []);
 
   return {
     allReservations,
