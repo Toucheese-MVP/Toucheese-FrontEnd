@@ -41,9 +41,7 @@ const ReviewsPage = () => {
         </h2>
         <p className="text-gray-700">{productDescription || "상품 설명"}</p>
       </div>
-      <div className="mt-10">
-        <ReviewList reviews={reviews || []} />
-      </div>
+      <ReviewList reviews={reviews || []} />
     </>
   );
 };
