@@ -3,6 +3,8 @@ import "./globals.css";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
 import localFont from "next/font/local";
+import Loading from "./loading";
+import PageTransition from "./pageTransition";
 
 const pretendard = localFont({
   src: "../fonts/PretendardVariable.woff2",
@@ -28,13 +30,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard`}>
-        <Suspense>
+        <Suspense fallback={<Loading></Loading>}>
           <main
             id="main"
             className="relative flex flex-col justify-center min-h-screen max-w-[var(--max-width)] px-4"
             style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
           >
-            <div className="pb-24 pt-16 flex-1 flex flex-col">{children}</div>
+            <PageTransition>
+              <div className="pb-24 pt-16 flex-1 flex flex-col">{children}</div>
+            </PageTransition>
           </main>
           <ClientGNBWrapper />
         </Suspense>
