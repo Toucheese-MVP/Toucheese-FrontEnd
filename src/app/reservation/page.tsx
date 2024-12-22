@@ -3,7 +3,7 @@ import ReservationPage from "@/features/reservation/ui/ReservationPage";
 
 function ReservationRouterPage() {
   return (
-    <div className="bg-gray-100 -mx-4 p-4 flex-1">
+    <div className="-mx-4 p-4 flex-1">
       <TopBar
         message="예약일정"
         showCart={false}

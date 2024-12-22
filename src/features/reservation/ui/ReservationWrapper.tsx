@@ -18,7 +18,7 @@ function ReservationEditWrapper({ reservationId }: { reservationId: number }) {
   }
 
   return (
-    <div className="bg-gray-100 -mx-4 p-4 flex-1">
+    <div className="-mx-4 p-4 flex-1">
       <TopBar showShare={false} showCart={false} message="" />
       <ReservationEdit />
     </div>
