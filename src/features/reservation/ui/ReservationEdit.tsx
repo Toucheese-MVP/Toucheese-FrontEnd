@@ -48,15 +48,23 @@ const ReservationEdit = () => {
     : today;
 
   useEffect(() => {
-    if (!reservation) {
-      const targetPage = Math.floor((Number(reservationId) - 1) / pageSize);
+    if (!reservation && reservatedList) {
+      const targetPage = Math.floor(Number(reservationId) / pageSize);
+
+      // totalPages와 비교하여 유효한 페이지인지 확인
+      if (targetPage >= reservatedList.totalPages) {
+        console.error(
+          `잘못된 페이지 요청: ${targetPage}, totalPages: ${reservatedList.totalPages}`
+        );
+        return; // 잘못된 페이지 요청 방지
+      }
+
       setCurrentPage(targetPage);
       refetch(targetPage);
-    } else {
+    } else if (reservation) {
       setSelectedDate(reservation.createDate);
     }
-  }, [reservationId, reservation, refetch]);
-
+  }, [reservationId, reservation, refetch, reservatedList, pageSize]);
   const { calendarData } = useCalendarData(
     reservation?.studioId || 0,
     reservationDate
