@@ -11,7 +11,7 @@ export const TotalAmountButton: React.FC<TotalAmountButtonProps> = ({
 }) => {
   return (
     <button
-      className={`bg-cheese-bg text-white px-4 py-2 rounded w-full ${
+      className={`bg-primary-5 font-bold px-4 py-2 rounded-lg w-full ${
         disabled ? "opacity-50 cursor-not-allowed" : ""
       }`}
       onClick={onClick}

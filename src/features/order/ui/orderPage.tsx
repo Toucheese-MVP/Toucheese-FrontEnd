@@ -18,11 +18,12 @@ const OrderPage = () => {
   const { data: checkoutData, loading, error } = useFetchCheckoutData(cartIds);
 
   const { makePayment } = usePaymentRequest();
-  const [isProcessing, setIsProcessing] = useState(false); // 로딩 상태 추가
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!checkoutData) return <div>결제 정보가 없습니다.</div>;
+  if (loading) return <div className="text-center text-lg">로딩 중...</div>;
+  if (error) return <div className="text-center text-red-500">{error}</div>;
+  if (!checkoutData)
+    return <div className="text-center">결제 정보가 없습니다.</div>;
 
   const handlePayment = async () => {
     if (isProcessing) return;
@@ -57,9 +58,18 @@ const OrderPage = () => {
 
   return (
     <div>
-      <UserInfo memberContactInfo={memberContactInfo} />
-      <OrderProduct cartPaymentList={cartPaymentList} />
-      <PaymentOptions />
+      <section className="bg-white rounded-lg shadow-sm p-4 mb-4">
+        <UserInfo memberContactInfo={memberContactInfo} />
+      </section>
+
+      <section className="bg-white rounded-lg shadow-sm p-4 mb-4">
+        <OrderProduct cartPaymentList={cartPaymentList} />
+      </section>
+
+      <section className="bg-white rounded-lg shadow-sm p-4 mb-4">
+        <PaymentOptions />
+      </section>
+
       <TotalAmountButton
         totalAmount={totalAmount}
         onClick={handlePayment}

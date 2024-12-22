@@ -15,7 +15,7 @@ function ContactItem({ contact }: ContactItemProps) {
   const maxPhotos = 4;
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md my-4">
+    <div className="p-4 bg-white rounded-lg shadow-md my-2">
       <div className="flex items-center mb-2">
         <h2 className="font-bold text-lg">
           <span className="text-yellow-500">Q.</span> {contact.title}

@@ -39,7 +39,7 @@ export default function RootLayout({
               style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
             >
               <PageTransition>
-                <div className="pb-24 pt-16 flex-1 flex flex-col">
+                <div className="pb-28 pt-16 flex-1 flex flex-col">
                   {children}
                 </div>
               </PageTransition>

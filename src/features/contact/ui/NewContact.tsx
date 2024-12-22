@@ -2,16 +2,44 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useCreateQuestion } from "../hooks/useCreateQuestion";
+import { useRouter } from "next/navigation";
 
 const NewContact = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+
+  const { createQuestion, loading, error } = useCreateQuestion();
+  const router = useRouter();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files);
 
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!title || !content) {
+      alert("제목과 내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      await createQuestion({ title, content });
+
+      alert("문의가 등록되었습니다.");
+      setTitle("");
+      setContent("");
+      setSelectedFiles([]);
+
+      router.push("/contact");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      alert(`문의 등록 중 오류 발생: ${error}`);
     }
   };
 
@@ -36,8 +64,10 @@ const NewContact = () => {
         <input
           type="text"
           id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="제목을 입력해주세요."
-          className="w-full border border-gray-3 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color "
+          className="w-full border border-gray-3 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color"
         />
       </div>
 
@@ -50,6 +80,8 @@ const NewContact = () => {
         </label>
         <textarea
           id="description"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           placeholder="문의 내용을 입력해주세요."
           rows={10}
           className="w-full border border-gray-3 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color resize-none"
@@ -85,7 +117,6 @@ const NewContact = () => {
             <span className="text-xs text-gray-5">{`${selectedFiles.length}/5`}</span>
           </label>
 
-          {/* Preview Thumbnails */}
           {previewUrls.map((url, index) => (
             <div
               key={index}
@@ -102,12 +133,13 @@ const NewContact = () => {
         </div>
       </div>
 
-      {/* Submit Button */}
       <button
         type="button"
+        onClick={handleSubmit}
+        disabled={loading}
         className="w-full bg-primary-5 text-black font-medium py-2 rounded-lg shadow hover:bg-yellow-600 transition mt-auto"
       >
-        문의 등록
+        {loading ? "등록 중..." : "문의 등록"}
       </button>
     </div>
   );

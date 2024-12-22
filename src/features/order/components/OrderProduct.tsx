@@ -15,7 +15,7 @@ export const OrderProduct: React.FC<ProductListProps> = ({
     <div className="mb-6">
       <h2 className="text-md font-bold">상품 확인</h2>
       {cartPaymentList.map((item) => (
-        <div key={item.cartId} className="border p-4 mb-4 rounded">
+        <div key={item.cartId} className=" p-4 mb-4 rounded">
           <div className="flex mb-4">
             <div className="relative max-w-48 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
               <Image

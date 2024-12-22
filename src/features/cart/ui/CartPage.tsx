@@ -50,7 +50,7 @@ function CartPage() {
   if (cartData.length === 0) return <div>장바구니가 비어 있습니다.</div>;
 
   return (
-    <div className="h-screen">
+    <div>
       <ul>
         {cartData.map((item) => (
           <CartItem

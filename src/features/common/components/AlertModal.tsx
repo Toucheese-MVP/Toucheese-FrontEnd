@@ -12,9 +12,9 @@ const AlertModal = ({ isOpen, message, onClose }: AlertModalProps) => {
   if (!isOpen) return null;
 
   const shakeAnimation = {
-    initial: { x: 0 },
+    initial: { y: 10 },
     animate: {
-      x: [0, -10, 10, -10, 10, 0],
+      y: [0, 0],
       transition: { duration: 0.25 },
     },
   };
@@ -28,7 +28,7 @@ const AlertModal = ({ isOpen, message, onClose }: AlertModalProps) => {
         <p className="text-gray-800 text-lg">{message}</p>
         <button
           onClick={onClose}
-          className="mt-4 bg-cheese-bg text-white py-2 px-4 rounded hover:bg-custom-bg hover:text-black"
+          className="mt-4 bg-primary-5 text-white py-2 px-4 rounded hover:bg-custom-bg hover:text-black"
         >
           확인
         </button>

@@ -23,7 +23,7 @@ export function usePaginatedRequest<T>(
       });
 
       const response = await request("GET", endpoint, undefined, params);
-      return response; // 요청 결과 반환
+      return response;
     },
     [endpoint, initialPageSize, additionalParams, request]
   );
