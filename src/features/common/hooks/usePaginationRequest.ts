@@ -10,7 +10,7 @@ export function usePaginatedRequest<T>(
   const { data, loading, error, request } = useRequest<T>();
 
   const refetch = useCallback(
-    (page: number, pageSize: number = initialPageSize) => {
+    async (page: number, pageSize: number = initialPageSize): Promise<T> => {
       const params = new URLSearchParams({
         page: page.toString(),
         size: pageSize.toString(),
@@ -21,7 +21,9 @@ export function usePaginatedRequest<T>(
           ])
         ),
       });
-      request("GET", endpoint, undefined, params);
+
+      const response = await request("GET", endpoint, undefined, params);
+      return response; // 요청 결과 반환
     },
     [endpoint, initialPageSize, additionalParams, request]
   );

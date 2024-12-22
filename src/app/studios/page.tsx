@@ -63,7 +63,7 @@ const StudiosRoutePage = () => {
       <TopBar
         showShare={false}
         showCart={true}
-        message={conceptName || "스튜디오 리스트"} // conceptName이 없는 경우 기본 메시지 표시
+        message={conceptName || "스튜디오 리스트"}
         location={"/"}
       />
       <FilterGroup
