@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 const BackgroundWrapper = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
-  const grayBackgroundPaths = ["/contact", "/reservation"];
+  const grayBackgroundPaths = ["/contact", "/reservation", "/cart"];
   const isGrayBackground = grayBackgroundPaths.includes(pathname);
 
   return (

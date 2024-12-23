@@ -16,7 +16,6 @@ function ReservationPage() {
 
   useEffect(() => {
     if (!pageParam) {
-      // URL에 `page=1` 추가
       router.replace("?page=1");
     } else {
       setInitialPage(parseInt(pageParam, 10) - 1); // 0-based 페이지로 변환
@@ -27,8 +26,8 @@ function ReservationPage() {
     useReservatedList(initialPage);
 
   const handlePageChange = (page: number) => {
-    setPage(page - 1); // API는 0-based 페이지 사용
-    router.push(`?page=${page}`); // URL에 `page` 추가
+    setPage(page - 1);
+    router.push(`?page=${page}`);
   };
 
   if (loading) return <div>로딩 중...</div>;
@@ -109,7 +108,7 @@ function ReservationPage() {
               <button
                 onClick={() =>
                   router.push(
-                    `/reservation/edit?reservationId=${reservation.reservationId}&page=${currentPage + 1}`
+                    `/reservation/edit?page=${currentPage + 1}&reservationId=${reservation.reservationId}`
                   )
                 }
                 className="px-4 py-4 bg-gray-1 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
