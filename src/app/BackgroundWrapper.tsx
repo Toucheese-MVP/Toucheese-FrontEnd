@@ -9,7 +9,9 @@ const BackgroundWrapper = ({ children }: { children: ReactNode }) => {
   const isGrayBackground = grayBackgroundPaths.includes(pathname);
 
   return (
-    <div className={isGrayBackground ? "bg-gray-1" : "bg-white"}>
+    <div
+      className={`max-w-custom m-auto ${isGrayBackground ? "bg-gray-1" : "bg-white"}`}
+    >
       {children}
     </div>
   );

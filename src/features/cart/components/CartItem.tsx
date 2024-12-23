@@ -60,74 +60,84 @@ const CartItem: React.FC<CartItemProps> = ({
     }
   };
   return (
-    <div className="bg-white mb-4 rounded-lg shadow-md overflow-hidden">
-      <div className="p-4 flex items-start gap-4">
-        <input
-          type="checkbox"
-          checked={isSelected}
-          onChange={(e) => onSelect(item.cartId, e.target.checked)}
-          className="custom-checkbox"
-        />
-        <div className="relative w-32 aspect-3/4 rounded-lg overflow-hidden bg-gray-200">
-          <Image
-            src={item.productImage}
-            alt={item.productName}
-            fill
-            className="object-cover"
+    <>
+      <div className="bg-white mb-4 rounded-lg shadow-md overflow-hidden relative">
+        <button
+          className="absolute right-2 text-gray-5 px-2 mt-4 rounded-lg font-semibold "
+          onClick={() => setConfirmModal("delete")}
+        >
+          삭제
+        </button>
+        <div className="p-4 flex items-start gap-4">
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={(e) => onSelect(item.cartId, e.target.checked)}
+            className="custom-checkbox"
+          />
+          <div className="relative w-32 aspect-3/4 rounded-lg overflow-hidden bg-gray-200">
+            <Image
+              src={item.productImage}
+              alt={item.productName}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <CartItemDetails
+            productName={item.productName}
+            personnel={item.personnel}
+            reservationDate={item.reservationDate}
+            reservationTime={item.reservationTime}
+            productImage={item.productImage}
+            totalPrice={item.totalPrice}
           />
         </div>
-        <CartItemDetails
-          productName={item.productName}
-          personnel={item.personnel}
-          reservationDate={item.reservationDate}
-          reservationTime={item.reservationTime}
-          productImage={item.productImage}
-          totalPrice={item.totalPrice}
-        />
+
+        <div className="p-4 border-t-4 border-gray-1">
+          <div className="pl-8">
+            <h4 className="text-md font-bold">선택된 옵션:</h4>
+            <CartOptionList options={item.selectAddOptions} />
+          </div>
+          <button
+            className="bg-gray-100 w-full py-2 border-2 rounded-lg font-semibold text-lg mt-4"
+            onClick={() => setUpdatePanel(true)}
+          >
+            옵션 변경
+          </button>
+        </div>
+
+        {updatePanel && (
+          <OptionModal
+            onClose={() => setUpdatePanel(false)}
+            onSave={(data) => {
+              const transformedData = {
+                totalPrice: data.totalPrice,
+                personnel: data.personnel,
+                selectAddOptions: data.selectOptions,
+              };
+              setConfirmModal("save");
+              handleSaveChanges(transformedData);
+            }}
+            initialValues={{
+              addOptions: item.addOptions,
+              totalPrice: item.totalPrice,
+              personnel: item.personnel,
+              selectOptions: item.selectAddOptions, // selectAddOptions → selectOptions
+            }}
+            cartItem={item}
+          />
+        )}
+
+        {confirmModal === "delete" && (
+          <ConfirmModal
+            title="삭제 확인"
+            message="정말로 삭제하시겠습니까?"
+            onConfirm={handleDelete}
+            onCancel={() => setConfirmModal(null)}
+          />
+        )}
       </div>
-
-      <div className="p-4">
-        <h4 className="text-md font-bold">선택된 옵션:</h4>
-        <CartOptionList options={item.selectAddOptions} />
-        <button
-          className="bg-gray-100 w-full py-2 border-2 rounded-lg font-semibold text-lg mt-4"
-          onClick={() => setUpdatePanel(true)}
-        >
-          옵션 변경
-        </button>
-      </div>
-
-      {updatePanel && (
-        <OptionModal
-          onClose={() => setUpdatePanel(false)}
-          onSave={(data) => {
-            const transformedData = {
-              totalPrice: data.totalPrice,
-              personnel: data.personnel,
-              selectAddOptions: data.selectOptions, // selectOptions → selectAddOptions
-            };
-            setConfirmModal("save");
-            handleSaveChanges(transformedData);
-          }}
-          initialValues={{
-            addOptions: item.addOptions,
-            totalPrice: item.totalPrice,
-            personnel: item.personnel,
-            selectOptions: item.selectAddOptions, // selectAddOptions → selectOptions
-          }}
-          cartItem={item}
-        />
-      )}
-
-      {confirmModal === "delete" && (
-        <ConfirmModal
-          title="삭제 확인"
-          message="정말로 삭제하시겠습니까?"
-          onConfirm={handleDelete}
-          onCancel={() => setConfirmModal(null)}
-        />
-      )}
-    </div>
+    </>
   );
 };
 

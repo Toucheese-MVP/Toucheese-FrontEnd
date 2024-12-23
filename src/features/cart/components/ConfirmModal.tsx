@@ -18,13 +18,13 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <p className="mt-2">{message}</p>
         <div className="mt-4 flex justify-center gap-2">
           <button
-            className="w-1/2 bg-gray-300 font-bold px-4 py-4 rounded hover:bg-gray-400"
+            className="w-1/2 bg-gray-3 font-bold px-4 py-4 rounded hover:bg-gray-400"
             onClick={onCancel}
           >
             취소
           </button>
           <button
-            className="w-1/2 bg-cheese-bg font-bold px-4 py-4 rounded hover:bg-yellow-400"
+            className="w-1/2 bg-primary-5 font-bold px-4 py-4 rounded hover:bg-primary-2"
             onClick={onConfirm}
           >
             확인
