@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import useReservatedList from "../hooks/useReservatedList";
 import useCalendarData from "@/features/product/hooks/useCalendar";
 import { handleReservationUpdate } from "../hooks/useUpdateReservation";
@@ -15,59 +15,58 @@ import { parseISO } from "date-fns";
 import ConfirmModal from "@/features/cart/components/ConfirmModal";
 
 const ReservationEdit = () => {
-  const pageSize = 10;
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const {
-    data: reservatedList,
-    loading,
-    refetch,
-  } = useReservatedList(currentPage);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const reservationId = searchParams.get("reservationId");
+  const savedPage = parseInt(localStorage.getItem("currentPage") || "0", 10);
+  const { reservations } = useReservatedList(savedPage);
+
+  const reservation = reservations.find(
+    (item) => item.reservationId === Number(reservationId)
+  );
+
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 날짜 선택 모달 상태
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false); // 컴펌 모달 상태
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (reservationId && reservations.length > 0) {
+      const foundReservation = reservations.find(
+        (item) => item.reservationId === Number(reservationId)
+      );
+      if (foundReservation) {
+        setSelectedDate(foundReservation.createDate);
+        setSelectedTime(foundReservation.createTime);
+      } else {
+        console.error(
+          `예약 정보를 찾을 수 없습니다: reservationId=${reservationId}`
+        );
+        router.push(`/reservation?page=${savedPage + 1}`);
+      }
+    }
+  }, [reservationId, reservations, router, savedPage]);
+
+  const today = new Date();
+  const reservationDate = reservation?.createDate
+    ? parseISO(reservation.createDate)
+    : today;
+
+  const { calendarData } = useCalendarData(
+    reservation?.studioId || 0,
+    reservationDate
+  );
 
   const handleDateTimeSelect = (date: string | null, time: string | null) => {
     setSelectedDate(date);
     setSelectedTime(time);
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  const { reservationId } = useParams();
-  const router = useRouter();
-  const today = new Date();
-
-  const reservation = reservatedList?.content.find(
-    (item) => item.reservationId === Number(reservationId)
-  );
-  const reservationDate = reservation?.createDate
-    ? parseISO(reservation.createDate)
-    : today;
-
-  useEffect(() => {
-    if (!reservation && reservatedList) {
-      const targetPage = Math.floor(Number(reservationId) / pageSize);
-
-      if (targetPage >= reservatedList.totalPages) {
-        console.error(
-          `잘못된 페이지 요청: ${targetPage}, totalPages: ${reservatedList.totalPages}`
-        );
-        return;
-      }
-
-      setCurrentPage(targetPage);
-      refetch(targetPage);
-    } else if (reservation) {
-      setSelectedDate(reservation.createDate);
-    }
-  }, [reservationId, reservation, refetch, reservatedList, pageSize]);
-  const { calendarData } = useCalendarData(
-    reservation?.studioId || 0,
-    reservationDate
-  );
 
   const handleUpdateReservation = async () => {
     if (!selectedDate || !selectedTime || !reservation) {
@@ -84,30 +83,33 @@ const ReservationEdit = () => {
         selectedDate,
         selectedTime
       );
-      router.push("/reservation");
+      router.push(`/reservation?page=${savedPage + 1}`);
     }
   };
 
   const isDayDisabled = (date: Date) => date < today;
 
-  if (loading) {
-    return <div className="text-center mt-20">로딩 중...</div>;
-  }
-
   if (!reservation) {
     return (
-      <div className="text-center mt-20">예약 정보를 찾을 수 없습니다.</div>
+      <div className="text-center mt-20">
+        예약 정보를 찾을 수 없습니다. <br />
+        <button
+          onClick={() => router.push(`/reservation?page=${savedPage + 1}`)}
+        >
+          목록으로 돌아가기
+        </button>
+      </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4 ">
+    <div className="flex flex-col gap-4">
       <div className="p-4 bg-white rounded-lg shadow mb-6 flex flex-col gap-4">
         <ReservationInfo reservation={reservation} />
         <div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className=" flex items-center border border-gray-300 text-gray-500 py-3 px-4 rounded-lg"
+            className="flex items-center border border-gray-300 text-gray-500 py-3 px-4 rounded-lg"
           >
             <Image
               src="/icons/event.svg"
@@ -139,7 +141,7 @@ const ReservationEdit = () => {
       </div>
 
       <ReservationActions
-        onCancel={() => router.push("/reservation")}
+        onCancel={() => router.push(`/reservation?page=${savedPage + 1}`)}
         onUpdate={handleUpdateReservation}
       />
 
@@ -155,7 +157,7 @@ const ReservationEdit = () => {
 
       {isConfirmModalOpen && (
         <ConfirmModal
-          message={`\n예약날짜${selectedDate}\n예약시간: ${selectedTime}`}
+          message={`\n예약날짜 ${selectedDate}\n예약시간: ${selectedTime}`}
           onConfirm={() => {
             setIsConfirmModalOpen(false);
             handleConfirmUpdate();

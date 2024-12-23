@@ -1,11 +1,11 @@
 "use client";
 
-import { useGNBStore } from "@/features/common/store/useGnbStore";
-import ReservationEdit from "@/features/reservation/ui/ReservationEdit";
 import { useEffect } from "react";
+import { useGNBStore } from "@/features/common/store/useGnbStore";
+import ReservationEdit from "./ReservationEdit";
 import { TopBar } from "@/features/common/components/topbar";
 
-function ReservationEditWrapper({ reservationId }: { reservationId: number }) {
+function ReservationEditWrapper() {
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
 
   useEffect(() => {
@@ -13,13 +13,9 @@ function ReservationEditWrapper({ reservationId }: { reservationId: number }) {
     return () => setShowGNB(true);
   }, [setShowGNB]);
 
-  if (!reservationId) {
-    return <div>예약 ID가 존재하지 않습니다.</div>;
-  }
-
   return (
     <div className="-mx-4 p-4 flex-1">
-      <TopBar showShare={false} showCart={false} message="" />
+      <TopBar showShare={false} showCart={false} message="예약 수정" />
       <ReservationEdit />
     </div>
   );

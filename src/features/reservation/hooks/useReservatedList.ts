@@ -3,51 +3,46 @@ import { usePaginatedRequest } from "@/features/common/hooks/usePaginationReques
 import { ReservatedList, Reservation } from "@/types/Reservated.type";
 
 function useReservatedList(initialPage: number = 0) {
-  const [allReservations, setAllReservations] = useState<Reservation[]>([]);
-  const [loadingAll, setLoadingAll] = useState(true);
-  const [errorAll, setErrorAll] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const { data, loading, error, refetch } = usePaginatedRequest<ReservatedList>(
+  const { data, refetch } = usePaginatedRequest<ReservatedList>(
     "/v1/members/reservations",
-    initialPage
+    currentPage
   );
 
   useEffect(() => {
-    const fetchAllReservations = async () => {
+    const fetchReservations = async () => {
       try {
-        setLoadingAll(true);
-        const allData: Reservation[] = [];
-        let currentPage = 0;
-        let totalPages = 1;
+        setLoading(true);
+        const result = await refetch(currentPage);
 
-        while (currentPage < totalPages) {
-          const result = await refetch(currentPage);
-
-          if (!result || result.content.length === 0) break;
-
-          allData.push(...result.content);
-          totalPages = result.totalPages;
-          currentPage = result.number + 1;
+        if (!result || result.content.length === 0) {
+          setReservations([]);
+          return;
         }
 
-        setAllReservations(allData);
+        setReservations(result.content);
       } catch (err) {
-        console.error("전체 데이터를 가져오는 중 오류가 발생했습니다:", err);
-        setErrorAll("전체 데이터를 가져오는 중 오류가 발생했습니다.");
+        console.error("데이터를 가져오는 중 오류가 발생했습니다:", err);
+        setError("데이터를 가져오는 중 오류가 발생했습니다.");
       } finally {
-        setLoadingAll(false);
+        setLoading(false);
       }
     };
 
-    fetchAllReservations();
-  }, []);
+    fetchReservations();
+  }, [currentPage, refetch]);
 
   return {
-    allReservations,
-    data,
-    loading: loading || loadingAll,
-    error: error || errorAll,
-    refetch,
+    reservations,
+    currentPage,
+    setPage: setCurrentPage,
+    totalPages: data?.totalPages || 0,
+    loading,
+    error,
   };
 }
 
