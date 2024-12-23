@@ -19,7 +19,9 @@ const ReservationEdit = () => {
   const router = useRouter();
 
   const reservationId = searchParams.get("reservationId");
-  const savedPage = parseInt(localStorage.getItem("currentPage") || "0", 10);
+  const pageParam = searchParams.get("page");
+  const savedPage = parseInt(pageParam || "1", 10) - 1;
+
   const { reservations } = useReservatedList(savedPage);
 
   const reservation = reservations.find(
@@ -83,7 +85,7 @@ const ReservationEdit = () => {
         selectedDate,
         selectedTime
       );
-      router.push(`/reservation?page=${savedPage + 1}`);
+      router.push(`/reservation?page=${savedPage + 1}`); // page 유지
     }
   };
 
@@ -94,7 +96,7 @@ const ReservationEdit = () => {
       <div className="text-center mt-20">
         예약 정보를 찾을 수 없습니다. <br />
         <button
-          onClick={() => router.push(`/reservation?page=${savedPage + 1}`)}
+          onClick={() => router.push(`/reservation?page=${savedPage + 1}`)} // page 유지
         >
           목록으로 돌아가기
         </button>
@@ -141,7 +143,7 @@ const ReservationEdit = () => {
       </div>
 
       <ReservationActions
-        onCancel={() => router.push(`/reservation?page=${savedPage + 1}`)}
+        onCancel={() => router.push(`/reservation?page=${savedPage + 1}`)} // page 유지
         onUpdate={handleUpdateReservation}
       />
 

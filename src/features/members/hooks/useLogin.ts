@@ -38,8 +38,6 @@ const useLogin = () => {
       if (!accessToken) {
         throw new Error("토큰 형식이 올바르지 않습니다.");
       }
-
-      // Save tokens
       document.cookie = `refreshToken=${refreshToken}; path=/; secure=${
         process.env.NODE_ENV === "production"
       }; samesite=strict; max-age=604800`;
@@ -55,8 +53,6 @@ const useLogin = () => {
 
       window.location.href = "/";
     } catch (error) {
-      console.error("로그인 실패:", error);
-
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
           setError("잘못된 이메일 또는 비밀번호입니다.");

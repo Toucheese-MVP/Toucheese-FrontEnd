@@ -12,25 +12,23 @@ function ReservationPage() {
   const pageParam = searchParams.get("page");
   const router = useRouter();
 
-  // 로컬 저장소에서 저장된 page 값을 가져옴 (클라이언트에서만 실행)
   const [initialPage, setInitialPage] = useState<number>(0);
+
+  useEffect(() => {
+    if (!pageParam) {
+      // URL에 `page=1` 추가
+      router.replace("?page=1");
+    } else {
+      setInitialPage(parseInt(pageParam, 10) - 1); // 0-based 페이지로 변환
+    }
+  }, [pageParam, router]);
+
   const { reservations, currentPage, totalPages, setPage, loading, error } =
     useReservatedList(initialPage);
 
-  // 로컬 저장소 값 가져오기
-  useEffect(() => {
-    const savedPage = localStorage.getItem("currentPage");
-    if (savedPage) {
-      setInitialPage(parseInt(savedPage, 10));
-    } else if (pageParam) {
-      setInitialPage(parseInt(pageParam, 10) - 1); // URL에서 페이지 가져오기
-    }
-  }, [pageParam]);
-
-  // 페이지 변경 시 로컬 저장소에 저장
   const handlePageChange = (page: number) => {
-    setPage(page - 1); // 페이지를 0-based로 설정
-    localStorage.setItem("currentPage", (page - 1).toString());
+    setPage(page - 1); // API는 0-based 페이지 사용
+    router.push(`?page=${page}`); // URL에 `page` 추가
   };
 
   if (loading) return <div>로딩 중...</div>;
@@ -111,7 +109,7 @@ function ReservationPage() {
               <button
                 onClick={() =>
                   router.push(
-                    `/reservation/edit?reservationId=${reservation.reservationId}`
+                    `/reservation/edit?reservationId=${reservation.reservationId}&page=${currentPage + 1}`
                   )
                 }
                 className="px-4 py-4 bg-gray-1 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
@@ -124,7 +122,7 @@ function ReservationPage() {
       ))}
 
       <CommonPagination
-        currentPage={currentPage + 1}
+        currentPage={currentPage + 1} // 1-based 페이지 표시
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
