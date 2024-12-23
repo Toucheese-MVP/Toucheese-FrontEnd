@@ -12,7 +12,7 @@ function ContactNewButton() {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-40 left-1/2 -translate-x-1/2 max-w-52 bg-primary-5 py-3 px-6 rounded-lg text-lg font-bold"
+      className="fixed bottom-32 left-1/2 -translate-x-1/2 max-w-52 bg-primary-5 py-3 px-6 rounded-lg text-lg font-bold"
     >
       + 문의 작성하기
     </button>
