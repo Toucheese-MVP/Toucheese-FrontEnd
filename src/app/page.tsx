@@ -13,7 +13,7 @@ import { getCookie } from "@/utils/getcookie";
 
 function Home() {
   const router = useRouter();
-  const { data: conceptList, loading, error } = useConcept();
+  const { data: conceptList } = useConcept();
   const { setConceptId, setConceptName } = useConceptStore();
 
   useEffect(() => {
@@ -23,9 +23,6 @@ function Home() {
       router.push("/members/login/");
     }
   }, [router]);
-
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다: {error}</div>;
 
   return (
     <div className="-mt-16">

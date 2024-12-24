@@ -17,7 +17,7 @@ apiClient.interceptors.request.use((config) => {
 
   if (!accessToken) {
     console.warn("AccessToken이 없습니다. 로그인 페이지로 이동합니다.");
-    window.location.href = "/members/login";
+    // window.location.href = "/members/login";
     return Promise.reject(new Error("AccessToken이 없습니다."));
   }
 
@@ -55,7 +55,7 @@ apiClient.interceptors.response.use(
           console.error(
             "RefreshToken 또는 DeviceId가 없습니다. 로그인 페이지로 이동합니다."
           );
-          window.location.href = "/members/login";
+          // window.location.href = "/members/login";
           return Promise.reject(error);
         }
 
@@ -86,7 +86,7 @@ apiClient.interceptors.response.use(
           return apiClient(config);
         } catch (reissueError) {
           console.error("토큰 재발급 실패:", reissueError);
-          window.location.href = "/members/login";
+          // window.location.href = "/members/login";
           return Promise.reject(reissueError);
         }
       }
@@ -95,7 +95,7 @@ apiClient.interceptors.response.use(
         alert("서버에서 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
       } else if (status === 403) {
         alert("접근 권한이 없습니다. 다시 로그인해주세요.");
-        window.location.href = "/members/login";
+        // window.location.href = "/members/login";
       }
     } else {
       alert("네트워크 연결 상태를 확인해주세요.");

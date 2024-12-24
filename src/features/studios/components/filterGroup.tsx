@@ -34,6 +34,16 @@ const FilterGroup = ({
             : [value],
     };
 
+    if (key === "locations") {
+      const locationOrder =
+        filterConfigs
+          .find((config) => config.key === "locations")
+          ?.options.map((option) => option.value) || [];
+      newFilters[key] = newFilters[key]?.sort(
+        (a, b) => locationOrder.indexOf(a) - locationOrder.indexOf(b)
+      );
+    }
+
     setTempFilters(newFilters);
   };
 
@@ -70,7 +80,7 @@ const FilterGroup = ({
       )?.label;
       const additionalCount = selectedValues.length - 1;
       return additionalCount > 0
-        ? `${firstLabel} 외 ${additionalCount}`
+        ? `${firstLabel} • ${additionalCount}`
         : firstLabel;
     }
 

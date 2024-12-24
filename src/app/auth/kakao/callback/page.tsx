@@ -27,6 +27,24 @@ function KakaoCallback() {
         const result = await response.json();
         console.log("로그인 성공:", result);
 
+        // Extract tokens and user information
+        const { accessToken, refreshToken, deviceId, memberId, name } = result;
+
+        // Store tokens and user information
+        document.cookie = `refreshToken=${refreshToken}; path=/; secure=${
+          process.env.NODE_ENV === "production"
+        }; samesite=strict; max-age=604800`;
+        document.cookie = `deviceId=${deviceId}; path=/; secure=${
+          process.env.NODE_ENV === "production"
+        }; samesite=strict; max-age=604800`;
+        localStorage.setItem("accessToken", accessToken);
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ memberId, name, deviceId })
+        );
+
+        // Redirect to the main page
         router.push("/");
       } else {
         const errorData = await response.json();

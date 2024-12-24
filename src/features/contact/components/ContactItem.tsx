@@ -18,12 +18,12 @@ function ContactItem({ contact }: ContactItemProps) {
     <div className="p-4 bg-white rounded-lg shadow-md my-2">
       <div className="flex items-center mb-2">
         <h2 className="font-bold text-lg">
-          <span className="text-yellow-500">Q.</span> {contact.title}
+          <span className="text-primary-5">Q.</span> {contact.title}
         </h2>
         <div
           className={`py-1 px-2 ml-auto text-sm rounded-lg border ${
-            contact.status === "답변 완료"
-              ? "bg-primary-1 text-btn-color border border-primary-3"
+            contact.status === "답변완료"
+              ? "bg-primary-3 border border-primary-3"
               : "bg-gray-1 text-gray-6"
           }`}
         >

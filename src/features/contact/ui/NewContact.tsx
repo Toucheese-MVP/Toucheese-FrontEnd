@@ -1,23 +1,46 @@
 "use client";
 
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCreateQuestion } from "../hooks/useCreateQuestion";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+type CreateQuestionResponse = {
+  id: number; // 예상되는 질문 응답 타입
+};
 
 const NewContact = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const { createQuestion, uploadImages, loading, error } = useCreateQuestion();
 
-  const { createQuestion, loading, error } = useCreateQuestion();
-  const router = useRouter();
+  const convertFileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result as string);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  useEffect(() => {
+    const loadPreviewUrls = async () => {
+      const urls = await Promise.all(
+        selectedFiles.map(async (file) => await convertFileToBase64(file))
+      );
+      setPreviewUrls(urls);
+    };
+
+    if (selectedFiles.length > 0) {
+      loadPreviewUrls();
+    }
+  }, [selectedFiles]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files);
-
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     }
   };
@@ -29,28 +52,26 @@ const NewContact = () => {
     }
 
     try {
-      await createQuestion({ title, content });
+      // 질문 생성
+      const questionResponse = (await createQuestion({
+        title,
+        content,
+      })) as CreateQuestionResponse; // 타입 캐스팅
+
+      // 이미지 업로드
+      if (selectedFiles.length > 0) {
+        await uploadImages(questionResponse.id, selectedFiles);
+      }
 
       alert("문의가 등록되었습니다.");
       setTitle("");
       setContent("");
       setSelectedFiles([]);
-
-      router.push("/contact");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert(`문의 등록 중 오류 발생: ${error}`);
     }
   };
-
-  useEffect(() => {
-    const urls = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviewUrls(urls);
-
-    return () => {
-      urls.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, [selectedFiles]);
 
   return (
     <div className="w-full bg-white rounded-lg shadow-md p-6 flex-1 flex flex-col">

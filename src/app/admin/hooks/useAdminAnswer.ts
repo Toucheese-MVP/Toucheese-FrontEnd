@@ -4,7 +4,6 @@ import useRequest from "@/features/common/hooks/useRequest";
 export function useAdminAnswer() {
   const { request, loading, error } = useRequest();
 
-  // 답변 작성
   const createAnswer = useCallback(
     async (questionId: number, answerContent: string) => {
       try {
@@ -23,7 +22,6 @@ export function useAdminAnswer() {
     [request]
   );
 
-  // 답변 수정
   const updateAnswer = useCallback(
     async (questionId: number, answerContent: string) => {
       try {
@@ -42,7 +40,6 @@ export function useAdminAnswer() {
     [request]
   );
 
-  // 답변 삭제
   const deleteAnswer = useCallback(
     async (questionId: number) => {
       try {

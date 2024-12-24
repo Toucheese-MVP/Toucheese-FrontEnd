@@ -19,7 +19,6 @@ export function useManageQuestions() {
     }
   };
 
-  // 문의 글 삭제
   const deleteQuestion = async (questionId: number) => {
     try {
       await request("DELETE", `/v1/questions/${questionId}`);

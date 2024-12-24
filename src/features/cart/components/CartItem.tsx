@@ -2,7 +2,6 @@ import { useState } from "react";
 import Image from "next/image";
 import OptionModal from "./OptionModal";
 import ConfirmModal from "./ConfirmModal";
-import CartOptionList from "./CartOptionList";
 import CartItemDetails from "./CartItemDetails";
 import { CartItem as CartItemType, SelectAddOption } from "@/types/Cart.type";
 import { useCartHelpers } from "../hooks/cartHelpers";
@@ -61,14 +60,15 @@ const CartItem: React.FC<CartItemProps> = ({
   };
   return (
     <>
-      <div className="bg-white mb-4 rounded-lg shadow-md overflow-hidden relative">
+      <div className="bg-white mb-4 rounded-lg shadow-md overflow-hidden relative p-4">
         <button
           className="absolute right-2 text-gray-5 px-2 mt-4 rounded-lg font-semibold "
           onClick={() => setConfirmModal("delete")}
         >
           삭제
         </button>
-        <div className="p-4 flex items-start gap-4">
+        <h1>{item.studioName}</h1>
+        <div className=" flex items-start gap-4">
           <input
             type="checkbox"
             checked={isSelected}
@@ -93,11 +93,11 @@ const CartItem: React.FC<CartItemProps> = ({
           />
         </div>
 
-        <div className="p-4 border-t-4 border-gray-1">
-          <div className="pl-8">
+        <div className=" pl-10">
+          {/* <div className="pl-8">
             <h4 className="text-md font-bold">선택된 옵션:</h4>
             <CartOptionList options={item.selectAddOptions} />
-          </div>
+          </div> */}
           <button
             className="bg-gray-100 w-full py-2 border-2 rounded-lg font-semibold text-lg mt-4"
             onClick={() => setUpdatePanel(true)}
