@@ -18,7 +18,6 @@ const useLogin = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setError("");
 
     try {
       const response = await axios.post(

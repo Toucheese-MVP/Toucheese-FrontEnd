@@ -15,6 +15,10 @@ apiClient.interceptors.request.use((config) => {
   const accessToken = getCookie("accessToken");
   const deviceId = getCookie("deviceId");
 
+  if (window.location.pathname === "/members/login") {
+    return config;
+  }
+
   if (!accessToken) {
     window.location.href = "/members/login";
     return Promise.reject(new Error("AccessToken이 없습니다."));

@@ -17,8 +17,6 @@ function KakaoCallback() {
 
   const handleKakaoCallback = async (code: string) => {
     try {
-      console.log("Kakao 인증 코드:", code);
-
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/kakao/callback`,
         {
