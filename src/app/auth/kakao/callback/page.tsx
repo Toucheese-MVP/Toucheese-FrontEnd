@@ -31,8 +31,6 @@ function KakaoCallback() {
         console.log("API 응답 데이터:", result);
 
         const authorization = response.headers["authorization"];
-        console.log("Authorization 헤더:", authorization);
-
         if (!authorization) {
           throw new Error("서버로부터 유효한 토큰을 받지 못했습니다.");
         }
@@ -46,7 +44,9 @@ function KakaoCallback() {
         document.cookie = `deviceId=${deviceId}; path=/; secure=${
           process.env.NODE_ENV === "production"
         }; samesite=strict; max-age=604800`;
-        localStorage.setItem("accessToken", accessToken);
+        document.cookie = `accessToken=${accessToken}; path=/; secure=${
+          process.env.NODE_ENV === "production"
+        }; samesite=strict; max-age=604800`;
 
         localStorage.setItem(
           "user",

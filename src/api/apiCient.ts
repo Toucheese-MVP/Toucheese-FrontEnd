@@ -15,10 +15,6 @@ apiClient.interceptors.request.use((config) => {
   const accessToken = getCookie("accessToken");
   const deviceId = getCookie("deviceId");
 
-  if (window.location.pathname === "/members/login") {
-    return config;
-  }
-
   if (!accessToken) {
     window.location.href = "/members/login";
     return Promise.reject(new Error("AccessToken이 없습니다."));
@@ -93,6 +89,9 @@ apiClient.interceptors.response.use(
         alert("접근 권한이 없습니다. 다시 로그인해주세요.");
         window.location.href = "/members/login";
       }
+    } else {
+      alert("로그인페이지로 이동합니다.");
+      window.location.href = "/members/login";
     }
 
     return Promise.reject(error);
