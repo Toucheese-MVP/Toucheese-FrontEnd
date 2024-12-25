@@ -6,7 +6,7 @@ import Image from "next/image";
 const LoginPage = () => {
   return (
     <ClientWrapper>
-      <div className="relative flex flex-col justify-center gap-4 p-4 pb-20">
+      <div className="relative flex flex-col justify-center gap-4 flex-1">
         <Image
           src="/symbols/toucheese_font_logo.svg"
           alt="터치즈"
@@ -19,9 +19,9 @@ const LoginPage = () => {
             터치즈에 로그인하고 스튜디오를 한 눈에 살펴보세요.
           </p>
         </div>
+        <LoginForm />
+        <SNSLogin />
       </div>
-      <LoginForm />
-      <SNSLogin />
     </ClientWrapper>
   );
 };
