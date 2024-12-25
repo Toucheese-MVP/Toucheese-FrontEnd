@@ -1,13 +1,14 @@
 "use client";
 
-import { KAKAO_LOGIN_URL } from "@/api/kakaoAuth";
 import { useRouter } from "next/navigation";
 
 const SNSLogin = () => {
   const router = useRouter();
 
   const handleKakaoLogin = () => {
-    router.push(KAKAO_LOGIN_URL);
+    router.push(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}&response_type=code`
+    );
   };
 
   return (

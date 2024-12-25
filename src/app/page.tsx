@@ -17,7 +17,7 @@ function Home() {
   const { setConceptId, setConceptName } = useConceptStore();
 
   useEffect(() => {
-    const token = getCookie("refreshToken");
+    const token = getCookie("accessToken");
 
     if (!token) {
       router.push("/members/login/");
