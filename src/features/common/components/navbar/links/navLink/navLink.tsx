@@ -29,9 +29,7 @@ const NavLink = ({ item }: NavLinkProps) => {
   return (
     <Link
       href={item.path}
-      className={`flex flex-col items-center text-center font-medium transition-colors duration-200 rounded-2xl ${
-        isActive ? "text-primary-5" : "text-gray-8"
-      }`}
+      className="flex flex-col items-center text-center font-medium transition-colors duration-200 rounded-2xl text-gray-8"
     >
       <Image src={iconPath} alt={`${item.title} icon`} width={30} height={30} />
       <p>{item.title}</p>
