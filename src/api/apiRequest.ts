@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, ResponseType } from "axios";
 import apiClient from "./apiCient";
-import { getCookie } from "@/utils/getcookie";
+import { getCookie } from "@/utils/cookieUtils";
 
 export async function apiRequest<T, D = unknown>(
   method: "GET" | "POST" | "PUT" | "DELETE",
@@ -12,7 +12,7 @@ export async function apiRequest<T, D = unknown>(
   try {
     const url = params ? `${endpoint}?${params.toString()}` : endpoint;
 
-    const token = getCookie("refreshToken");
+    const token = getCookie("accessToken");
 
     const defaultHeaders: Record<string, string> = {
       "Content-Type": "application/json",

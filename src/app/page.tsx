@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation";
 import Header from "@/features/common/components/header";
 import { defaultConcept } from "@/types/Concept.type";
 import { useConcept } from "@/features/studios/hooks/useConcept";
@@ -9,20 +9,20 @@ import SearchBar from "@/features/searchBar/searchBar";
 import Image from "next/image";
 import Link from "next/link";
 import { useConceptStore } from "@/features/common/store/useConceptStore";
-import { getCookie } from "@/utils/getcookie";
+// import { getCookie } from "@/utils/getcookie";
 
 function Home() {
-  const router = useRouter();
+  // const router = useRouter();
   const { data: conceptList } = useConcept();
   const { setConceptId, setConceptName } = useConceptStore();
 
-  useEffect(() => {
-    const token = getCookie("refreshToken");
+  // useEffect(() => {
+  //   const token = getCookie("refreshToken");
 
-    if (!token) {
-      router.push("/members/login/");
-    }
-  }, [router]);
+  //   if (!token) {
+  //     router.push("/members/login/");
+  //   }
+  // }, [router]);
 
   return (
     <div className="-mt-16">

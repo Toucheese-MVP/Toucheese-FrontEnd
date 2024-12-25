@@ -1,6 +1,6 @@
 "use client";
 
-import CartPage from "@/features/cart/ui/CartPage";
+import CartList from "@/features/cart/ui/CartPage";
 import { TopBar } from "@/features/common/components/topbar";
 import { useConceptStore } from "@/features/common/store/useConceptStore";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
@@ -23,7 +23,7 @@ const CartPageClientWrapper = () => {
         showCart={false}
         location={conceptId ? `/studios?conceptId=${conceptId}` : "/"}
       />
-      <CartPage />
+      <CartList />
     </>
   );
 };

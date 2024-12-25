@@ -1,11 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import useLogin from "@/features/members/hooks/useLogin";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 function LoginPage() {
   const router = useRouter();

@@ -44,7 +44,9 @@ const useLogin = () => {
       document.cookie = `deviceId=${deviceId}; path=/; secure=${
         process.env.NODE_ENV === "production"
       }; samesite=strict; max-age=604800`;
-      localStorage.setItem("accessToken", accessToken);
+      document.cookie = `accessToken=${accessToken}; path=/; secure=${
+        process.env.NODE_ENV === "production"
+      }; samesite=strict; max-age=604800`;
 
       localStorage.setItem(
         "user",

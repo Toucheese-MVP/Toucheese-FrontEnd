@@ -6,7 +6,7 @@ import { useCart } from "@/features/cart/hooks/useCart";
 import CartSummary from "../components/CartSummary";
 import CartItem from "@/features/cart/components/CartItem";
 
-function CartPage() {
+function CartList() {
   const { cartData, refetch } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const router = useRouter();
@@ -74,4 +74,4 @@ function CartPage() {
   );
 }
 
-export default CartPage;
+export default CartList;

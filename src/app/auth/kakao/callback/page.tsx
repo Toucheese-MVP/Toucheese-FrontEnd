@@ -1,8 +1,6 @@
-"use client";
-
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
+import apiClient from "@/api/apiCient";
 
 function KakaoCallback() {
   const router = useRouter();
@@ -17,12 +15,9 @@ function KakaoCallback() {
 
   const handleKakaoCallback = async (code: string) => {
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/kakao/callback`,
-        {
-          params: { code }, // Query parameter로 전달
-        }
-      );
+      const response = await apiClient.get("/v1/auth/kakao/callback", {
+        params: { code },
+      });
 
       if (response.status === 200) {
         const result = response.data;
@@ -49,17 +44,12 @@ function KakaoCallback() {
           JSON.stringify({ memberId, name, deviceId })
         );
 
-        // Redirect to the main page
         router.push("/");
       } else {
         console.error("로그인 실패:", response.data);
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios 에러:", error.response?.data || "알 수 없는 오류");
-      } else {
-        console.error("요청 중 에러 발생:", error);
-      }
+      console.error("요청 중 에러 발생:", error);
     }
   };
 
