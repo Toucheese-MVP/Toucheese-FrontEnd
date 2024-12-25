@@ -17,7 +17,7 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
 
   return (
     // flex-grow w-full flex flex-col justify-center gap-4 p-4 pb-20
-    <div className="">{children}</div>
+    <div>{children}</div>
   );
 };
 
