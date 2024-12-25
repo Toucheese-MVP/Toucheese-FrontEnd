@@ -86,9 +86,12 @@ apiClient.interceptors.response.use(
       if (status >= 500) {
         alert("서버에서 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
       } else if (status === 403) {
-        alert("접근권한이 없습니다.");
+        alert("접근 권한이 없습니다. 다시 로그인해주세요.");
         window.location.href = "/members/login";
       }
+    } else {
+      alert("로그인페이지로 이동합니다.");
+      window.location.href = "/members/login";
     }
 
     return Promise.reject(error);
