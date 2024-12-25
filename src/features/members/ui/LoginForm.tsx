@@ -1,3 +1,5 @@
+"use client";
+
 import useLogin from "../hooks/useLogin";
 import Link from "next/link";
 
