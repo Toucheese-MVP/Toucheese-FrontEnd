@@ -1,5 +1,7 @@
-import { useState } from "react";
+"use client";
+
 import axios from "axios";
+import { useState } from "react";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");

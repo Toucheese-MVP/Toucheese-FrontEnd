@@ -1,7 +1,7 @@
 import { TopBar } from "@/features/common/components/topbar";
 import ReservationPage from "@/features/reservation/ui/ReservationPage";
 
-function ReservationRouterPage() {
+function ReservationRoutePage() {
   return (
     <div className="-mx-4 p-4 flex-1">
       <TopBar
@@ -14,4 +14,4 @@ function ReservationRouterPage() {
     </div>
   );
 }
-export default ReservationRouterPage;
+export default ReservationRoutePage;

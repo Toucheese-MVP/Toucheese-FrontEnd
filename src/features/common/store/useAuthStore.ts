@@ -2,9 +2,9 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface AuthState {
-  token: string | null; // JWT 토큰
-  setToken: (token: string) => void; // 토큰 저장
-  clearToken: () => void; // 토큰 삭제
+  token: string | null;
+  setToken: (token: string) => void;
+  clearToken: () => void;
 }
 const zustandLocalStorage = {
   getItem: (key: string) => {
@@ -22,7 +22,7 @@ const zustandLocalStorage = {
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      token: null, // 초기 상태는 null
+      token: null,
       setToken: (token: string) => set({ token }),
       clearToken: () => set({ token: null }),
     }),
