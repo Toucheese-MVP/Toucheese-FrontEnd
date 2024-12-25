@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 
 function KakaoCallback() {
   const router = useRouter();
@@ -16,21 +17,25 @@ function KakaoCallback() {
 
   const handleKakaoCallback = async (code: string) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/kakao/callback?code=${code}`,
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/kakao/callback`,
         {
-          method: "GET",
+          params: { code }, // Query parameter로 전달
         }
       );
 
-      if (response.ok) {
-        const result = await response.json();
+      if (response.status === 200) {
+        const result = response.data;
+        const authorization = response.headers["authorization"];
         console.log("로그인 성공:", result);
 
-        // Extract tokens and user information
-        const { accessToken, refreshToken, deviceId, memberId, name } = result;
+        if (!authorization) {
+          throw new Error("서버로부터 유효한 토큰을 받지 못했습니다.");
+        }
 
-        // Store tokens and user information
+        const { refreshToken, deviceId, memberId, name } = result;
+        const accessToken = authorization.split(" ")[1];
+
         document.cookie = `refreshToken=${refreshToken}; path=/; secure=${
           process.env.NODE_ENV === "production"
         }; samesite=strict; max-age=604800`;
@@ -47,11 +52,14 @@ function KakaoCallback() {
         // Redirect to the main page
         router.push("/");
       } else {
-        const errorData = await response.json();
-        console.error("로그인 실패:", errorData);
+        console.error("로그인 실패:", response.data);
       }
     } catch (error) {
-      console.error("요청 중 에러 발생:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Axios 에러:", error.response?.data || "알 수 없는 오류");
+      } else {
+        console.error("요청 중 에러 발생:", error);
+      }
     }
   };
 
