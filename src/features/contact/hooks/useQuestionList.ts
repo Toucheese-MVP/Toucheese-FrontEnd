@@ -27,7 +27,7 @@ export function useQuestionsList(
 
   const fetchQuestions = useCallback(
     async (page: number) => {
-      const token = getCookie("refreshToken");
+      const token = getCookie("accessToken");
       if (!token) {
         throw new Error("Token not found");
       }
