@@ -2,10 +2,10 @@ import { SelectAddOption } from "@/types/Cart.type";
 import useRequest from "@/features/common/hooks/useRequest";
 
 export const useCartHelpers = () => {
-  const { handleRequest } = useRequest();
+  const { request } = useRequest();
 
   const deleteCartItem = async (cartId: number) => {
-    return handleRequest("DELETE", `/v1/members/carts/${cartId}`);
+    return request("DELETE", `/v1/members/carts/${cartId}`);
   };
 
   const saveCartItemChanges = async (
@@ -22,7 +22,7 @@ export const useCartHelpers = () => {
       addOptions: data.selectAddOptions.map((option) => option.selectOptionId),
     };
 
-    return handleRequest("PUT", `/v1/members/carts/${cartId}`, apiData);
+    return request("PUT", `/v1/members/carts/${cartId}`, apiData);
   };
 
   return { deleteCartItem, saveCartItemChanges };

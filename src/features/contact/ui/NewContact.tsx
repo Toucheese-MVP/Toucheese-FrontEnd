@@ -4,16 +4,12 @@ import { useEffect, useState } from "react";
 import { useCreateQuestion } from "../hooks/useCreateQuestion";
 import Image from "next/image";
 
-type CreateQuestionResponse = {
-  id: number; // 예상되는 질문 응답 타입
-};
-
 const NewContact = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const { createQuestion, uploadImages, loading, error } = useCreateQuestion();
+  const { createQuestion, loading } = useCreateQuestion();
 
   const convertFileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -38,9 +34,35 @@ const NewContact = () => {
     }
   }, [selectedFiles]);
 
+  const validateFile = (file: File): boolean => {
+    const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png"];
+    const MAX_SIZE = 5 * 1024 * 1024;
+
+    const extension = file.name.split(".").pop()?.toLowerCase();
+    if (!ALLOWED_EXTENSIONS.includes(extension || "")) {
+      alert(
+        `허용되지 않는 확장자입니다. [허용 확장자: ${ALLOWED_EXTENSIONS.join(", ")}]`
+      );
+      return false;
+    }
+
+    if (file.size > MAX_SIZE) {
+      alert("파일 크기는 5MB 이하로 업로드해주세요.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const files = Array.from(event.target.files);
+      const files = Array.from(event.target.files).filter(validateFile);
+
+      if (selectedFiles.length + files.length > 5) {
+        alert("이미지는 최대 5개까지 첨부할 수 있습니다.");
+        return;
+      }
+
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     }
   };
@@ -52,25 +74,26 @@ const NewContact = () => {
     }
 
     try {
-      // 질문 생성
-      const questionResponse = (await createQuestion({
+      await createQuestion({
         title,
         content,
-      })) as CreateQuestionResponse; // 타입 캐스팅
-
-      // 이미지 업로드
-      if (selectedFiles.length > 0) {
-        await uploadImages(questionResponse.id, selectedFiles);
-      }
+        files: selectedFiles, // 파일 추가
+      });
 
       alert("문의가 등록되었습니다.");
       setTitle("");
       setContent("");
       setSelectedFiles([]);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      setPreviewUrls([]);
     } catch (err) {
-      alert(`문의 등록 중 오류 발생: ${error}`);
+      console.error(err);
+      alert(`문의 등록 중 오류 발생: ${(err as Error).message}`);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setPreviewUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
   };
 
   return (
@@ -149,6 +172,13 @@ const NewContact = () => {
                 className="object-cover w-full h-full"
                 fill
               />
+              <button
+                type="button"
+                onClick={() => removeFile(index)}
+                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+              >
+                ×
+              </button>
             </div>
           ))}
         </div>

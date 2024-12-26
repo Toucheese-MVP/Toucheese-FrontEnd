@@ -69,7 +69,7 @@ function ContactList() {
                 author: "작성자",
                 date: item.createDate,
                 photos: [],
-                link: `/contact/${item.id}`,
+                link: `/contact/${parseInt(item.id, 10)}`,
               }}
             />
           </div>
