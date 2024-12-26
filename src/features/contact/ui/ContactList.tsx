@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import ContactItem from "../components/ContactItem";
 import ContactNewButton from "../components/ContactNewButton";
 import AlertModal from "@/features/common/components/AlertModal";
@@ -8,7 +9,7 @@ import ContactEdit from "../components/ContactEdit";
 import { useQuestionsList } from "../hooks/useQuestionList";
 import { useManageQuestions } from "../hooks/useManageQuestions";
 import { useFetchQuestion } from "../hooks/useFetchAnswer";
-import { motion } from "framer-motion";
+import CommonPagination from "@/features/common/components/pagination";
 
 function ContactList() {
   const { questions, error, setPage, currentPage, totalPages, refetch } =
@@ -75,6 +76,11 @@ function ContactList() {
       showModal("문의 글이 삭제되었습니다.");
       refetch(1);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+    refetch(page);
   };
 
   if (error) return <div>오류 발생: {error}</div>;
@@ -168,22 +174,11 @@ function ContactList() {
         </div>
       ))}
 
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={() => setPage(Math.max(currentPage - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-4 py-2 mr-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          이전
-        </button>
-        <button
-          onClick={() => setPage(Math.min(currentPage + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          다음
-        </button>
-      </div>
+      <CommonPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
 
       <ContactNewButton />
     </div>

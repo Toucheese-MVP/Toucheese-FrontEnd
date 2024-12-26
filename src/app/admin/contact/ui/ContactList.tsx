@@ -1,7 +1,9 @@
 "use client";
+
 import { useState } from "react";
 import { useAdminQuestions } from "../../hooks/AdminQuestion";
 import { useAdminAnswer } from "../../hooks/useAdminAnswer";
+import CommonPagination from "@/features/common/components/pagination";
 
 interface QuestionDetail {
   id: number;
@@ -17,7 +19,8 @@ interface QuestionDetail {
 }
 
 function AdminContactList() {
-  const { data, loading, error, refetch } = useAdminQuestions();
+  const { data, loading, error, refetch, currentPage, totalPages, setPage } =
+    useAdminQuestions(1, 10);
   const { createAnswer, updateAnswer, deleteAnswer, getAnswerDetail } =
     useAdminAnswer();
   const [selectedQuestion, setSelectedQuestion] =
@@ -34,7 +37,7 @@ function AdminContactList() {
     try {
       await createAnswer(questionId, title, content);
       alert("답변이 성공적으로 작성되었습니다.");
-      await refetch(0, 10); // 전체 데이터 새로고침
+      await refetch(currentPage); // 현재 페이지 데이터 새로고침
       await handleViewDetail(questionId); // 모달 데이터 새로고침
     } catch (err) {
       console.error("답변 작성 중 오류:", err);
@@ -52,7 +55,7 @@ function AdminContactList() {
     try {
       await updateAnswer(questionId, content);
       alert("답변이 성공적으로 수정되었습니다.");
-      await refetch(0, 10); // 전체 데이터 새로고침
+      await refetch(currentPage); // 현재 페이지 데이터 새로고침
       await handleViewDetail(questionId); // 모달 데이터 새로고침
     } catch (err) {
       console.error("답변 수정 중 오류:", err);
@@ -80,7 +83,7 @@ function AdminContactList() {
     try {
       await deleteAnswer(answerId);
       alert("답변이 성공적으로 삭제되었습니다.");
-      await refetch(0, 10); // 전체 데이터 새로고침
+      await refetch(currentPage); // 현재 페이지 데이터 새로고침
       if (selectedQuestion) {
         await handleViewDetail(selectedQuestion.id); // 모달 데이터 새로고침
       }
@@ -88,6 +91,11 @@ function AdminContactList() {
       console.error("답변 삭제 실패:", err);
       alert("답변 삭제 중 오류가 발생했습니다.");
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+    refetch(page);
   };
 
   if (loading) {
@@ -144,6 +152,11 @@ function AdminContactList() {
           </div>
         ))}
       </div>
+      <CommonPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
       {selectedQuestion && (
         <div className="p-6 mt-4 border rounded-lg bg-gray-50 shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-11/12 md:w-2/3 lg:w-1/2">
           <h3 className="text-lg font-bold mb-4">문의글 상세</h3>
