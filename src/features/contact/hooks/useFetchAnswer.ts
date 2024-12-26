@@ -1,3 +1,4 @@
+import { getCookie } from "@/utils/cookieUtils";
 import { useState } from "react";
 
 export const useFetchQuestion = () => {
@@ -23,7 +24,7 @@ export const useFetchQuestion = () => {
         {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${getCookie("accessToken")}`,
           },
         }
       );

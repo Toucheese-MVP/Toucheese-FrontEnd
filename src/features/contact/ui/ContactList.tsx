@@ -153,8 +153,8 @@ function ContactList() {
                     <span className="font-bold text-primary-5">A. </span>
                     터치즈의 답변
                   </h4>
-                  <p className=" text-gray-800">
-                    {JSON.parse(questionDetail.answerResponse.content).content}
+                  <p className="text-gray-800">
+                    {questionDetail.answerResponse.content}
                   </p>
                   <p className="mt-10 text-sm text-gray-5">
                     작성일: {questionDetail.answerResponse.createDate}

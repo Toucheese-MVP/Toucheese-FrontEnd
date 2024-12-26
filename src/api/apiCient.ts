@@ -54,13 +54,12 @@ apiClient.interceptors.response.use(
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/v1/tokens/reissue`,
             {
-              refreshToken,
               deviceId,
+              refreshToken,
             },
             {
               headers: {
                 Authorization: `Bearer ${getCookie("accessToken")}`,
-                "content-type": "application/json",
               },
             }
           );

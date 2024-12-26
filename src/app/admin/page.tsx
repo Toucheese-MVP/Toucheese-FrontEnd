@@ -21,7 +21,6 @@ const AdminReservationPage = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-4">예약 조회</h1>
-
       <ReservationList reservations={reservations} />
       <Pagination
         currentPage={currentPage}
