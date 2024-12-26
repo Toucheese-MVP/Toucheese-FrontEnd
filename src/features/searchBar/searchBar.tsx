@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSearch } from "@/features/searchBar/hooks/useSearch";
+import Link from "next/link";
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -80,12 +81,14 @@ function SearchBar() {
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-gray-300" />
                     )} */}
-                    <div className="text-gray-6">
-                      <h3 className="text-lg font-semibold">{studio.name}</h3>
-                      <p className="text-sm">
-                        {studio.address || "주소 정보 없음"}
-                      </p>
-                    </div>
+                    <Link href={`studios/${studio.id}`}>
+                      <div className="text-gray-6">
+                        <h3 className="text-lg font-semibold">{studio.name}</h3>
+                        <p className="text-sm">
+                          {studio.address || "주소 정보 없음"}
+                        </p>
+                      </div>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -5,7 +5,7 @@ const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 5000,
   headers: {
-    "content-type": "application/json",
+    "Content-Type": "application/json",
     Accept: "application/json",
   },
   withCredentials: true,
@@ -20,12 +20,11 @@ apiClient.interceptors.request.use((config) => {
     return Promise.reject(new Error("AccessToken이 없습니다."));
   }
 
-  if (accessToken && config.headers) {
+  if (config.headers) {
     config.headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-
-  if (deviceId && config.headers) {
-    config.headers["Device-Id"] = deviceId;
+    if (deviceId) {
+      config.headers["Device-Id"] = deviceId;
+    }
   }
 
   return config;
@@ -40,6 +39,7 @@ apiClient.interceptors.response.use(
       const { status, config } = response;
 
       if (status === 401 && !config._retry) {
+        config._retry = true;
         const refreshToken = getCookie("refreshToken");
         const deviceId = getCookie("deviceId");
 
@@ -49,9 +49,7 @@ apiClient.interceptors.response.use(
         }
 
         try {
-          config._retry = true;
-
-          const response = await axios.post(
+          const tokenResponse = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/v1/tokens/reissue`,
             {
               deviceId,
@@ -64,14 +62,18 @@ apiClient.interceptors.response.use(
             }
           );
 
-          const newAuthorization = response.headers["authorization"];
-          const newAccessToken = newAuthorization?.split(" ")[1];
+          const authorization = tokenResponse.headers["authorization"];
+          const newAccessToken = authorization?.split(" ")[1];
 
           if (!newAccessToken) {
             throw new Error("새로운 AccessToken을 받지 못했습니다.");
           }
 
-          setCookie("accessToken", newAccessToken, { maxAge: 604800 });
+          setCookie("accessToken", newAccessToken, {
+            path: "/",
+            maxAge: 604800, // 7일
+            secure: process.env.NODE_ENV === "production",
+          });
 
           config.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
@@ -89,7 +91,7 @@ apiClient.interceptors.response.use(
         window.location.href = "/members/login";
       }
     } else {
-      alert("로그인페이지로 이동합니다.");
+      alert("네트워크 오류가 발생했습니다. 다시 로그인하세요.");
       window.location.href = "/members/login";
     }
 
