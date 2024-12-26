@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { TopBar } from "@/features/common/components/topbar";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 import useProductStore from "@/features/product/store/ProductStore";
@@ -48,12 +47,7 @@ function ProductWrapper({ productId }: { productId: number }) {
   }
   if (!product) return <div>상품이 존재하지 않습니다.</div>;
 
-  return (
-    <>
-      <TopBar showShare={false} showCart={false} message="상품상세" />
-      <ProductDetail product={product} />
-    </>
-  );
+  return <ProductDetail product={product} />;
 }
 
 export default ProductWrapper;

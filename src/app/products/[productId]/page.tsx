@@ -1,16 +1,33 @@
-import ProductWrapper from "@/features/product/ui/ProductWrapper";
+"use client";
 
-async function ProductRoutePage({
+import { useEffect, useState } from "react";
+import ProductWrapper from "@/features/product/ui/ProductWrapper";
+import { TopBar } from "@/features/common/components/topbar";
+
+function ProductRoutePage({
   params,
 }: {
   params: Promise<{ productId: string }>;
 }) {
-  const productIdNumber = parseInt((await params).productId, 10);
+  const [productId, setProductId] = useState<number | null>(null);
 
-  if (isNaN(productIdNumber)) {
-    return <div>유효하지 않은 상품 ID입니다.</div>;
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      const productIdNumber = parseInt(resolvedParams.productId, 10);
+      setProductId(productIdNumber);
+    });
+  }, [params]);
+
+  if (productId === null) {
+    return <div>상품 데이터를 불러오는 중입니다...</div>;
   }
 
-  return <ProductWrapper productId={productIdNumber} />;
+  return (
+    <>
+      <TopBar showShare={false} showCart={false} message="상품상세" />
+      <ProductWrapper productId={productId} />
+    </>
+  );
 }
+
 export default ProductRoutePage;

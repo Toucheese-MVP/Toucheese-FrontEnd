@@ -5,6 +5,7 @@ import ConfirmModal from "./ConfirmModal";
 import CartItemDetails from "./CartItemDetails";
 import { CartItem as CartItemType, SelectAddOption } from "@/types/Cart.type";
 import { useCartHelpers } from "../hooks/cartHelpers";
+
 interface CartItemProps {
   item: CartItemType;
   isSelected: boolean;
@@ -58,23 +59,11 @@ const CartItem: React.FC<CartItemProps> = ({
       console.error("옵션 업데이트 실패:", err);
     }
   };
+
   return (
     <>
       <div className="bg-white mb-4 rounded-lg shadow-md overflow-hidden relative p-4">
-        <button
-          className="absolute right-2 text-gray-5 px-2 mt-4 rounded-lg font-semibold "
-          onClick={() => setConfirmModal("delete")}
-        >
-          삭제
-        </button>
-        <h1>{item.studioName}</h1>
-        <div className=" flex items-start gap-4">
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={(e) => onSelect(item.cartId, e.target.checked)}
-            className="custom-checkbox"
-          />
+        <div className="flex items-start gap-4">
           <div className="relative w-32 aspect-3/4 rounded-lg overflow-hidden bg-gray-200">
             <Image
               src={item.productImage}
@@ -83,28 +72,25 @@ const CartItem: React.FC<CartItemProps> = ({
               className="object-cover"
             />
           </div>
+
           <CartItemDetails
+            studioName={item.studioName}
             productName={item.productName}
             personnel={item.personnel}
             reservationDate={item.reservationDate}
             reservationTime={item.reservationTime}
-            productImage={item.productImage}
             totalPrice={item.totalPrice}
+            isSelected={isSelected}
+            onSelect={(checked) => onSelect(item.cartId, checked)}
           />
         </div>
 
-        <div className=" pl-10">
-          {/* <div className="pl-8">
-            <h4 className="text-md font-bold">선택된 옵션:</h4>
-            <CartOptionList options={item.selectAddOptions} />
-          </div> */}
-          <button
-            className="bg-gray-100 w-full py-2 border-2 rounded-lg font-semibold text-lg mt-4"
-            onClick={() => setUpdatePanel(true)}
-          >
-            옵션 변경
-          </button>
-        </div>
+        <button
+          className="bg-gray-100 w-full py-2 border-2 rounded-lg font-semibold text-lg mt-4"
+          onClick={() => setUpdatePanel(true)}
+        >
+          옵션 변경
+        </button>
 
         {updatePanel && (
           <OptionModal
@@ -122,7 +108,7 @@ const CartItem: React.FC<CartItemProps> = ({
               addOptions: item.addOptions,
               totalPrice: item.totalPrice,
               personnel: item.personnel,
-              selectOptions: item.selectAddOptions, // selectAddOptions → selectOptions
+              selectOptions: item.selectAddOptions,
             }}
             cartItem={item}
           />

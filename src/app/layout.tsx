@@ -1,8 +1,8 @@
+import localFont from "next/font/local";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
-import localFont from "next/font/local";
 import Loading from "./loading";
 import PageTransition from "./pageTransition";
 import BackgroundWrapper from "./BackgroundWrapper";

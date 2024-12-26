@@ -58,22 +58,18 @@ const OrderPage = () => {
 
   return (
     <div>
-      <section className="bg-white rounded-lg shadow-sm p-4 mb-4">
+      <section className="bg-white rounded-lg shadow-sm mb-4">
         <UserInfo memberContactInfo={memberContactInfo} />
       </section>
 
-      <section className="bg-white rounded-lg shadow-sm p-4 mb-4">
-        <OrderProduct cartPaymentList={cartPaymentList} />
-      </section>
+      <OrderProduct cartPaymentList={cartPaymentList} />
 
-      <section className="bg-white rounded-lg shadow-sm p-4 mb-4">
-        <PaymentOptions />
-      </section>
+      <PaymentOptions />
 
       <TotalAmountButton
         totalAmount={totalAmount}
         onClick={handlePayment}
-        disabled={isProcessing} // 버튼 비활성화 상태 추가
+        disabled={isProcessing}
       />
     </div>
   );
