@@ -101,55 +101,57 @@ function KakaoCallback() {
   };
 
   if (isFirstLogin) {
-    <div className="flex flex-col flex-1">
-      <div className="relative flex flex-col gap-4 flex-1">
-        <Image
-          src="/symbols/toucheese_font_logo.svg"
-          alt="터치즈"
-          width={200}
-          height={100}
-        />
-        <div>
-          <h1 className="text-xl font-bold">터치즈에 오신것을 환영합니다!</h1>
-          <p>회원정보 등록을 위해 이름과 전화번호를 입력해주세요!</p>
+    return (
+      <div className="flex flex-col flex-1">
+        <div className="relative flex flex-col gap-4 flex-1">
+          <Image
+            src="/symbols/toucheese_font_logo.svg"
+            alt="터치즈"
+            width={200}
+            height={100}
+          />
+          <div>
+            <h1 className="text-xl font-bold">터치즈에 오신것을 환영합니다!</h1>
+            <p>회원정보 등록을 위해 이름과 전화번호를 입력해주세요!</p>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col">
+              <label htmlFor="name">이름</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="phone">전화번호</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full text-center bg-primary-5 py-2 px-4 rounded-lg font-bold mt-4"
+            >
+              저장
+            </button>
+          </form>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col">
-            <label htmlFor="name">이름</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="phone">전화번호</label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full text-center bg-primary-5 py-2 px-4 rounded-lg font-bold mt-4"
-          >
-            저장
-          </button>
-        </form>
       </div>
-    </div>;
+    );
   }
 
-  return <div className="text-center">잠시만 기다려주세요!</div>;
+  return <div className="flex flex-col">잠시만 기다려주세요!</div>;
 }
 
 export default KakaoCallback;
