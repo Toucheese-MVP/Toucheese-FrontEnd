@@ -1,26 +1,37 @@
-import useRequest from "@/features/common/hooks/useRequest";
-
+import { getCookie } from "@/utils/cookieUtils";
+import { useState } from "react";
 export const useFetchQuestion = () => {
-  const {
-    data: questionDetail,
-    loading,
-    error,
-    request,
-  } = useRequest<{
+  const [questionDetail, setQuestionDetail] = useState<{
     id: number;
     title: string;
     content: string;
+    createDate: string;
+    answerStatus: string;
     answerResponse: {
       id: number;
       content: string;
       createDate: string;
     } | null;
-  }>();
-
+  } | null>(null);
   const fetchQuestion = async (questionId: number) => {
-    if (!questionId) throw new Error("questionId가 제공되지 않았습니다.");
-    await request("GET", `/v1/questions/${questionId}`);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/questions/${questionId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${getCookie("accessToken")}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch question detail");
+      }
+      const data = await response.json();
+      setQuestionDetail(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  return { questionDetail, loading, error, fetchQuestion };
+  return { questionDetail, fetchQuestion };
 };

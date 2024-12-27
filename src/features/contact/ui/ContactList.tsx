@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import ContactItem from "../components/ContactItem";
 import ContactNewButton from "../components/ContactNewButton";
 import AlertModal from "@/features/common/components/AlertModal";
@@ -9,6 +10,7 @@ import { useQuestionsList } from "../hooks/useQuestionList";
 import { useManageQuestions } from "../hooks/useManageQuestions";
 
 function ContactList() {
+  const router = useRouter();
   const { questions, error, setPage, currentPage, totalPages, refetch } =
     useQuestionsList();
   const { deleteQuestion, loading: managingLoading } = useManageQuestions();
@@ -36,6 +38,10 @@ function ContactList() {
     refetch(page);
   };
 
+  const handleItemClick = (questionId: number) => {
+    router.push(`/contact/${questionId}`);
+  };
+
   if (error) return <div>오류 발생: {error}</div>;
 
   return (
@@ -47,8 +53,12 @@ function ContactList() {
       />
 
       {questions.map((item) => (
-        <div key={item.id} className="mb-4">
-          <div className="cursor-pointer flex flex-col">
+        <div
+          key={item.id}
+          className="mb-4 cursor-pointer"
+          onClick={() => handleItemClick(parseInt(item.id, 10))}
+        >
+          <div className="flex flex-col">
             <div className="flex space-x-2 justify-end">
               <button
                 onClick={(e) => {
@@ -69,7 +79,6 @@ function ContactList() {
                 author: "작성자",
                 date: item.createDate,
                 photos: [],
-                link: `/contact/${parseInt(item.id, 10)}`,
               }}
             />
           </div>

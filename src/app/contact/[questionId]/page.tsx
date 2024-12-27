@@ -1,49 +1,57 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { TopBar } from "@/features/common/components/topbar";
+import ContactItem from "@/features/contact/components/ContactItem";
 import { useFetchQuestion } from "@/features/contact/hooks/useFetchAnswer";
+import { use, useEffect } from "react";
 
-function QuestionDetailPage() {
-  const searchParams = useSearchParams();
-  const questionId = searchParams.get("questionId");
-  const { questionDetail, loading, error, fetchQuestion } = useFetchQuestion();
+function QuestionDetailPage({
+  params,
+}: {
+  params: Promise<{ questionId: string }>;
+}) {
+  const resolvedParams = use(params);
+  const questionId = parseInt(resolvedParams.questionId, 10);
+
+  const { questionDetail, fetchQuestion } = useFetchQuestion();
 
   useEffect(() => {
-    if (questionId) {
-      fetchQuestion(Number(questionId)).catch((err) => {
-        console.error("데이터 요청 실패:", err);
-      });
+    if (!isNaN(questionId)) {
+      fetchQuestion(questionId);
     }
-  }, [questionId, fetchQuestion]);
-
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  }, []);
 
   if (!questionDetail) {
     return <div>문의 내용을 찾을 수 없습니다.</div>;
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-lg font-bold mb-4">{questionDetail.title}</h1>
-      <p className="text-gray-700 mb-4">{questionDetail.content}</p>
-      <div className="border rounded-lg p-4 bg-gray-50">
+    <div>
+      <TopBar message="문의 상세보기" showCart={false} showShare={false} />
+      <ContactItem
+        contact={{
+          id: questionDetail.id,
+          title: questionDetail.title,
+          status: questionDetail.answerStatus,
+          author: "작성자",
+          date: questionDetail.createDate,
+          photos: [],
+        }}
+      />
+      <div className="border rounded-lg p-4 bg-primary-1">
         {questionDetail.answerResponse ? (
           <>
             <h2 className="text-md font-bold mb-2">답변</h2>
             <p>{questionDetail.answerResponse.content}</p>
             <p className="text-sm text-gray-500 mt-2">
-              작성일: {questionDetail.answerResponse.createDate}
+              작성일:{" "}
+              {new Date(
+                questionDetail.answerResponse.createDate
+              ).toLocaleDateString()}
             </p>
           </>
         ) : (
-          <p className="text-sm text-gray-500">답변이 아직 없습니다.</p>
+          <p className="text-sm text-gray-500 italic">답변이 아직 없습니다.</p>
         )}
       </div>
     </div>
