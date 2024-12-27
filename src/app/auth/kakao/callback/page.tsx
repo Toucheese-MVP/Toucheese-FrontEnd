@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { getCookie } from "@/utils/cookieUtils";
 
 function KakaoCallback() {
   const router = useRouter();
@@ -38,7 +39,6 @@ function KakaoCallback() {
           result;
         const accessToken = authorization.split(" ")[1];
 
-        // Set cookies
         document.cookie = `refreshToken=${refreshToken}; path=/; secure=${
           process.env.NODE_ENV === "production"
         }; samesite=strict; max-age=604800`;
@@ -54,7 +54,6 @@ function KakaoCallback() {
           JSON.stringify({ memberId, nickname, deviceId })
         );
 
-        // If first login, set state
         if (isFirstLogin) {
           setIsFirstLogin(true);
         } else {
@@ -81,12 +80,17 @@ function KakaoCallback() {
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/members`,
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("accessToken")}`,
+          },
+        }
       );
 
       if (response.status === 200) {
         alert("회원 정보가 성공적으로 업데이트되었습니다.");
-        router.push("/"); // Onboarding 완료 후 홈으로 이동
+        router.push("/");
       } else {
         console.error("정보 업데이트 실패:", response.data);
       }
