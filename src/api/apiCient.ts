@@ -54,11 +54,6 @@ apiClient.interceptors.response.use(
             {
               deviceId,
               refreshToken,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${getCookie("accessToken")}`,
-              },
             }
           );
 
