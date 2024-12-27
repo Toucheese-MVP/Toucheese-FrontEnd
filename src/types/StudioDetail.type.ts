@@ -4,7 +4,7 @@ export interface StudioDetail {
   id: number;
   name: string;
   profileImage: string;
-  description: string;
+  description?: string;
   rating: number;
   reviewCount: number;
   operationHour: string;

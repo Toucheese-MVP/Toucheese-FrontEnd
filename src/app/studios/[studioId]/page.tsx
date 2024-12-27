@@ -45,7 +45,6 @@ function StudioDetailPage({
           (sum, p) => sum + p.reviewCount,
           0
         )}
-        description={studioData.description}
         notice={studioData.notice}
         address={studioData.address}
         operatingHours={studioData.operatingHours}
