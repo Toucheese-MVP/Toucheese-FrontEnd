@@ -3,10 +3,10 @@
 import { use, useEffect } from "react";
 import { useStudioDetail } from "@/features/studios/hooks/useStudioDetail";
 import { useStudioReviews } from "@/features/review/hooks/useReview";
-import { StudioImages } from "@/features/studios/ui/StudioImages";
-import StudioSummary from "@/features/studios/ui/StudioSummary";
-import { StudioTabs } from "@/features/studios/ui/StudioTabs";
-import { StudioProducts } from "@/features/studios/ui/StudioProducts";
+import { StudioImages } from "@/features/studios/components/StudioImages";
+import StudioSummary from "@/features/studios/components/StudioSummary";
+import { StudioTabs } from "@/features/studios/components/StudioTabs";
+import { StudioProducts } from "@/features/studios/components/StudioProducts";
 import { StudioReviews } from "@/features/studios/ui/StudioReviews";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { TopBar } from "@/features/common/components/topbar";

@@ -71,7 +71,7 @@ apiClient.interceptors.response.use(
 
           setCookie("accessToken", newAccessToken, {
             path: "/",
-            maxAge: 604800, // 7일
+            maxAge: 604800,
             secure: process.env.NODE_ENV === "production",
           });
 

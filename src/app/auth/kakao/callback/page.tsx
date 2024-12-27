@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { getCookie } from "@/utils/cookieUtils";
+import Image from "next/image";
 
 function KakaoCallback() {
   const router = useRouter();
@@ -100,11 +101,20 @@ function KakaoCallback() {
   };
 
   if (isFirstLogin) {
-    return (
-      <div>
-        <h1>회원 정보 입력</h1>
+    <div className="flex flex-col flex-1">
+      <div className="relative flex flex-col gap-4 flex-1">
+        <Image
+          src="/symbols/toucheese_font_logo.svg"
+          alt="터치즈"
+          width={200}
+          height={100}
+        />
+        <div>
+          <h1 className="text-xl font-bold">터치즈에 오신것을 환영합니다!</h1>
+          <p>회원정보 등록을 위해 이름과 전화번호를 입력해주세요!</p>
+        </div>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="name">이름</label>
             <input
               id="name"
@@ -113,9 +123,10 @@ function KakaoCallback() {
               value={formData.name}
               onChange={handleChange}
               required
+              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
             />
           </div>
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="phone">전화번호</label>
             <input
               id="phone"
@@ -124,15 +135,21 @@ function KakaoCallback() {
               value={formData.phone}
               onChange={handleChange}
               required
+              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
             />
           </div>
-          <button type="submit">저장</button>
+          <button
+            type="submit"
+            className="w-full text-center bg-primary-5 py-2 px-4 rounded-lg font-bold mt-4"
+          >
+            저장
+          </button>
         </form>
       </div>
-    );
+    </div>;
   }
 
-  return <div>로그인 중입니다...</div>;
+  return <div className="text-center">잠시만 기다려주세요!</div>;
 }
 
 export default KakaoCallback;

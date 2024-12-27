@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import FilterGroup from "@/features/studios/components/filterGroup";
-import StudioList from "@/features/studios/components/studioList";
+import StudioList from "@/features/studios/ui/studioList";
 import { TopBar } from "@/features/common/components/topbar";
 import { useConceptStore } from "@/features/common/store/useConceptStore";
 
