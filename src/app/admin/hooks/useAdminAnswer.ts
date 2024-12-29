@@ -1,17 +1,19 @@
 import { useCallback } from "react";
 import useRequest from "@/features/common/hooks/useRequest";
 
+interface AnswerResponse {
+  id: number;
+  title: string;
+  content: string;
+  createDate: string;
+}
+
 interface QuestionDetail {
   id: number;
   title: string;
   content: string;
   createDate: string;
-  answerResponse: {
-    id: number;
-    title: string;
-    content: string;
-    createDate: string;
-  };
+  answerResponse?: AnswerResponse;
 }
 
 export function useAdminAnswer() {
@@ -19,20 +21,19 @@ export function useAdminAnswer() {
 
   const createAnswer = useCallback(
     async (questionId: number, title: string, answerContent: string) => {
-      const body = JSON.stringify({
-        title: title.trim(),
-        content: answerContent.trim(),
-      });
       try {
         const response = await request(
           "POST",
           `/v1/admin/questions/${questionId}/answers`,
-          body
+          JSON.stringify({
+            title: title.trim(),
+            content: answerContent.trim(),
+          })
         );
-        console.log("답변 작성 성공:", response);
+        console.log("POST 요청 성공:", response);
         return response;
       } catch (err) {
-        console.error("답변 작성 실패:", err);
+        console.error("POST 요청 실패:", err);
         throw err;
       }
     },
@@ -40,20 +41,20 @@ export function useAdminAnswer() {
   );
 
   const updateAnswer = useCallback(
-    async (questionId: number, title: string, content: string) => {
+    async (questionId: number, title: string, answerContent: string) => {
       try {
         const response = await request(
           "PUT",
           `/v1/admin/questions/${questionId}/answers`,
-          {
+          JSON.stringify({
             title: title.trim(),
-            content: content.trim(),
-          }
+            content: answerContent.trim(),
+          })
         );
-        console.log("답변 수정 성공:", response);
+        console.log("PUT 요청 성공:", response);
         return response;
       } catch (err) {
-        console.error("답변 수정 실패:", err);
+        console.error("PUT 요청 실패:", err);
         throw err;
       }
     },
@@ -65,7 +66,8 @@ export function useAdminAnswer() {
       try {
         const response = await request(
           "DELETE",
-          `/v1/admin/questions/answers/${answerId}`
+          `/v1/admin/questions/answers/${answerId}`,
+          null
         );
         console.log("답변 삭제 성공:", response);
         return response;
@@ -76,6 +78,7 @@ export function useAdminAnswer() {
     },
     [request]
   );
+
   const isQuestionDetail = (data: unknown): data is QuestionDetail => {
     return (
       typeof data === "object" &&
@@ -83,18 +86,33 @@ export function useAdminAnswer() {
       "id" in data &&
       "title" in data &&
       "content" in data &&
-      "createDate" in data
+      "createDate" in data &&
+      ("answerResponse" in data
+        ? typeof (data as QuestionDetail).answerResponse === "object"
+        : true)
     );
   };
-  const getAnswerDetail = async (
-    questionId: number
-  ): Promise<QuestionDetail> => {
-    const response = await request("GET", `/v1/admin/questions/${questionId}`);
-    if (!isQuestionDetail(response)) {
-      throw new Error("Invalid response format");
-    }
-    return response;
-  };
+
+  const getAnswerDetail = useCallback(
+    async (questionId: number): Promise<QuestionDetail> => {
+      try {
+        const response = await request(
+          "GET",
+          `/v1/admin/questions/${questionId}`,
+          null
+        );
+        if (!isQuestionDetail(response)) {
+          throw new Error("Invalid response format");
+        }
+        console.log("질문 세부 정보 가져오기 성공:", response);
+        return response;
+      } catch (err) {
+        console.error("질문 세부 정보 가져오기 실패:", err);
+        throw err;
+      }
+    },
+    [request]
+  );
 
   return {
     createAnswer,

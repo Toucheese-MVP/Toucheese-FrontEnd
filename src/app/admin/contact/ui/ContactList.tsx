@@ -29,6 +29,7 @@ function AdminContactList() {
     totalPages,
     setPage,
   } = useAdminQuestions(1, 10);
+
   const { createAnswer, updateAnswer, deleteAnswer, getAnswerDetail } =
     useAdminAnswer();
 
@@ -44,28 +45,49 @@ function AdminContactList() {
     setIsEditing(false);
   }, []);
 
-  const handleCreateOrUpdateAnswer = async () => {
+  const handleCreateAnswer = async () => {
     if (!answerTitle.trim() || !answerContent.trim()) {
       alert("제목과 내용을 입력해주세요.");
       return;
     }
 
     try {
-      if (selectedQuestion) {
-        if (isEditing) {
-          await updateAnswer(selectedQuestion.id, answerTitle, answerContent);
-          alert("답변이 성공적으로 수정되었습니다.");
-        } else {
-          await createAnswer(selectedQuestion.id, answerTitle, answerContent);
-          alert("답변이 성공적으로 작성되었습니다.");
-        }
-        resetForm();
-        await refetch(currentPage);
-        await handleViewDetail(selectedQuestion.id);
+      if (!selectedQuestion) {
+        alert("선택된 질문이 없습니다.");
+        return;
       }
+
+      await createAnswer(selectedQuestion.id, answerTitle, answerContent);
+      alert("답변이 성공적으로 작성되었습니다.");
+      resetForm();
+      await refetch(currentPage);
+      await handleViewDetail(selectedQuestion.id);
     } catch (err) {
-      console.error(`답변 ${isEditing ? "수정" : "작성"} 중 오류:`, err);
-      alert(`답변 ${isEditing ? "수정" : "작성"} 중 오류가 발생했습니다.`);
+      console.error("답변 작성 중 오류:", err);
+      alert("답변 작성 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleUpdateAnswer = async () => {
+    if (!answerTitle.trim() || !answerContent.trim()) {
+      alert("제목과 내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      if (!selectedQuestion) {
+        alert("선택된 질문이 없습니다.");
+        return;
+      }
+
+      await updateAnswer(selectedQuestion.id, answerTitle, answerContent);
+      alert("답변이 성공적으로 수정되었습니다.");
+      resetForm();
+      await refetch(currentPage);
+      await handleViewDetail(selectedQuestion.id);
+    } catch (err) {
+      console.error("답변 수정 중 오류:", err);
+      alert("답변 수정 중 오류가 발생했습니다.");
     }
   };
 
@@ -117,7 +139,7 @@ function AdminContactList() {
           {data?.content.map((question) => (
             <tr
               key={question.id}
-              className="border-b"
+              className="border-b cursor-pointer hover:bg-gray-100"
               onClick={() => handleViewDetail(question.id)}
             >
               <td className="py-2 px-2 text-center">{question.id}</td>
@@ -148,7 +170,7 @@ function AdminContactList() {
           answerContent={answerContent}
           onTitleChange={setAnswerTitle}
           onContentChange={setAnswerContent}
-          onSubmit={handleCreateOrUpdateAnswer}
+          onSubmit={isEditing ? handleUpdateAnswer : handleCreateAnswer}
           onCancel={resetForm}
           onDelete={handleDeleteAnswer}
           onEdit={() => setIsEditing(true)}
