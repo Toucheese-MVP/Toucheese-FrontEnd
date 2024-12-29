@@ -18,7 +18,7 @@ export function useAdminAnswer() {
   const { request, loading, error } = useRequest();
 
   const createAnswer = useCallback(
-    async (questionId: number, answerContent: string, title: string) => {
+    async (questionId: number, title: string, answerContent: string) => {
       const body = JSON.stringify({
         title: title.trim(),
         content: answerContent.trim(),
@@ -40,12 +40,15 @@ export function useAdminAnswer() {
   );
 
   const updateAnswer = useCallback(
-    async (questionId: number, answerContent: string) => {
+    async (questionId: number, title: string, content: string) => {
       try {
         const response = await request(
           "PUT",
           `/v1/admin/questions/${questionId}/answers`,
-          { content: answerContent }
+          {
+            title: title.trim(),
+            content: content.trim(),
+          }
         );
         console.log("답변 수정 성공:", response);
         return response;
