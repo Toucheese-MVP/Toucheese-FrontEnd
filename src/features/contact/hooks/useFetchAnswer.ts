@@ -7,8 +7,10 @@ export const useFetchQuestion = () => {
     content: string;
     createDate: string;
     answerStatus: string;
+    imageUrls: [];
     answerResponse: {
       id: number;
+      title: string;
       content: string;
       createDate: string;
     } | null;

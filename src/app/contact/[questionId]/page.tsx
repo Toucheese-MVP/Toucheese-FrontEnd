@@ -35,13 +35,15 @@ function QuestionDetailPage({
           status: questionDetail.answerStatus,
           author: "작성자",
           date: questionDetail.createDate,
-          photos: [],
+          photos: questionDetail.imageUrls,
         }}
       />
       <div className="border rounded-lg p-4 bg-primary-1">
         {questionDetail.answerResponse ? (
           <>
-            <h2 className="text-md font-bold mb-2">답변</h2>
+            <h2 className="text-md font-bold mb-2">
+              제목 : {questionDetail.answerResponse.title}
+            </h2>
             <p>{questionDetail.answerResponse.content}</p>
             <p className="text-sm text-gray-500 mt-2">
               작성일:{" "}

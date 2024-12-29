@@ -14,6 +14,7 @@ type Question = {
   content: string;
   createDate: string;
   answerStatus: string;
+  imageUrls: [];
 };
 
 export function useQuestionsList(

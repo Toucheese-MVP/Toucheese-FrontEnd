@@ -25,7 +25,7 @@ export function useCreateQuestion() {
 
       formData.append("title", data.title);
       formData.append("content", data.content);
-      data.files.forEach((file) => formData.append("uploadFiles", file));
+      data.files.map((file) => formData.append("uploadFiles", file));
 
       const response = await request(
         "POST",
@@ -36,7 +36,7 @@ export function useCreateQuestion() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
+      console.log(formData);
       setSuccess(true);
       return response;
     } catch (err) {

@@ -78,7 +78,7 @@ function ContactList() {
                 status: item.answerStatus,
                 author: "작성자",
                 date: item.createDate,
-                photos: [],
+                photos: item.imageUrls,
               }}
             />
           </div>
