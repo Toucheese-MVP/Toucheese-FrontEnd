@@ -41,11 +41,11 @@ export function useAdminAnswer() {
   );
 
   const updateAnswer = useCallback(
-    async (questionId: number, title: string, answerContent: string) => {
+    async (answerId: number, title: string, answerContent: string) => {
       try {
         const response = await request(
           "PUT",
-          `/v1/admin/questions/${questionId}/answers`,
+          `/v1/admin/questions/answers/${answerId}`,
           JSON.stringify({
             title: title.trim(),
             content: answerContent.trim(),
