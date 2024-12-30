@@ -75,12 +75,16 @@ function AdminContactList() {
     }
 
     try {
-      if (!selectedQuestion) {
-        alert("선택된 질문이 없습니다.");
+      if (!selectedQuestion || !selectedQuestion.answerResponse?.id) {
+        alert("선택된 답변이 없습니다.");
         return;
       }
 
-      await updateAnswer(selectedQuestion.id, answerTitle, answerContent);
+      await updateAnswer(
+        selectedQuestion.answerResponse.id,
+        answerTitle,
+        answerContent
+      );
       alert("답변이 성공적으로 수정되었습니다.");
       resetForm();
       await refetch(currentPage);
@@ -171,7 +175,10 @@ function AdminContactList() {
           onContentChange={setAnswerContent}
           onSubmit={isEditing ? handleUpdateAnswer : handleCreateAnswer}
           onCancel={resetForm}
-          onDelete={handleDeleteAnswer}
+          onDelete={() =>
+            selectedQuestion.answerResponse &&
+            handleDeleteAnswer(selectedQuestion.answerResponse.id)
+          }
           onEdit={() => setIsEditing(true)}
           onClose={() => setSelectedQuestion(null)}
         />
