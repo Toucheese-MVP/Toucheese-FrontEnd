@@ -32,8 +32,9 @@ function Home() {
           >
             <div className="relative aspect-[3/4]">
               <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/concept${index + 1}.webp`}
+                src={`/concept${index + 1}.webp`}
                 alt={concept.name}
+                unoptimized
                 fill
                 className="object-cover duration-300 hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
