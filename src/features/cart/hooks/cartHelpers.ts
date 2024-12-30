@@ -4,7 +4,7 @@ import useRequest from "@/features/common/hooks/useRequest";
 export const useCartHelpers = () => {
   const { request } = useRequest();
 
-  const deleteCartItem = async (cartIds: string) => {
+  const deleteCartItem = async (cartIds: number) => {
     return request("DELETE", `/v1/members/carts/${cartIds}`);
   };
 
