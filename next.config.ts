@@ -22,9 +22,12 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    deviceSizes: [320, 420, 768, 1024, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
+
   webpack(config, { isServer }) {
-    // 빌드에서 제외할 폴더 추가
     if (!isServer) {
       config.resolve.alias["api/test"] = false;
     }

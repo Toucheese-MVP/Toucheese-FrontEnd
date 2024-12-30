@@ -66,8 +66,7 @@ export function useAdminAnswer() {
       try {
         const response = await request(
           "DELETE",
-          `/v1/admin/questions/answers/${answerId}`,
-          null
+          `/v1/admin/questions/answers/${answerId}`
         );
         console.log("답변 삭제 성공:", response);
         return response;

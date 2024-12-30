@@ -124,7 +124,6 @@ function AdminContactList() {
 
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
-      {/* Table */}
       <table className="hidden md:table min-w-full text-sm text-gray-800 border-collapse">
         <thead className="bg-gray-200">
           <tr>

@@ -16,6 +16,7 @@ function Header() {
             alt="back"
             width={36}
             height={36}
+            style={{ height: "auto" }}
           />
         </Link>
       )}
@@ -27,6 +28,7 @@ function Header() {
           height={100}
           priority
           loading="eager"
+          style={{ height: "auto" }}
         />
       </Link>
     </header>
