@@ -32,7 +32,7 @@ function Home() {
           >
             <div className="relative aspect-[3/4]">
               <Image
-                src={`/concept${index + 1}.webp`}
+                src={`https://www.toucheese-macwin.store/concept${index + 1}.webp`}
                 alt={concept.name}
                 fill
                 className="object-cover duration-300 hover:scale-105"
