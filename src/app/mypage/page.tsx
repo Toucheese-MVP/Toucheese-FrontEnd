@@ -1,11 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import { TopBar } from "@/features/common/components/topbar";
 import Image from "next/image";
+import AlertModal from "@/features/common/components/AlertModal";
+import Link from "next/link";
 
 const MyPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleMenuClick = (menuName: string) => {
     alert(`${menuName} 클릭됨`);
+  };
+
+  const handleLogout = () => {
+    // 쿠키 삭제
+    document.cookie =
+      "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie =
+      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+    // 모달 표시
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    // 로그인 페이지로 이동
+    window.location.href = "/members/login";
   };
 
   return (
@@ -23,7 +45,9 @@ const MyPage = () => {
           </div>
           <div>
             <div className="font-bold text-lg">터치즈</div>
-            <div className="text-sm text-gray-500">likeil@a.net</div>
+            <div className="text-sm text-gray-500">
+              toucheese@toucheese.store
+            </div>
             <div className="text-sm text-gray-500">010-0000-0000</div>
           </div>
         </div>
@@ -35,7 +59,6 @@ const MyPage = () => {
         >
           <span>예약한 스튜디오 리스트</span>
           <span>
-            {" "}
             <Image
               src="icons/arrow_forward_ios.svg"
               alt="바로가기"
@@ -75,7 +98,7 @@ const MyPage = () => {
 
         <div
           className="bg-white p-4 flex justify-between items-center shadow-sm cursor-pointer mt-2"
-          onClick={() => handleMenuClick("로그아웃")}
+          onClick={handleLogout}
         >
           <span>로그아웃</span>
           <span>
@@ -89,7 +112,7 @@ const MyPage = () => {
         </div>
         <div
           className="bg-white p-4 flex justify-between items-center shadow-sm cursor-pointer mt-2"
-          onClick={() => handleMenuClick("로그아웃")}
+          onClick={() => handleMenuClick("회원탈퇴")}
         >
           <span className="text-red-500">회원탈퇴</span>
           <span>
@@ -102,6 +125,22 @@ const MyPage = () => {
           </span>
         </div>
       </div>
+
+      <div className="mt-8 text-center text-sm text-gray-500">
+        <Link href="/legal/terms">
+          <span className="hover:underline">이용약관</span>
+        </Link>
+        <span className="mx-2">|</span>
+        <Link href="/legal/privacy">
+          <span className="hover:underline">개인정보처리방침</span>
+        </Link>
+      </div>
+
+      <AlertModal
+        isOpen={isModalOpen}
+        message="로그아웃 되었습니다."
+        onClose={handleModalClose}
+      />
     </div>
   );
 };
