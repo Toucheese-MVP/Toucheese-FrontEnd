@@ -43,7 +43,7 @@ function CartList() {
     }
 
     try {
-      const cartIds = selectedItems.join(",");
+      const cartIds = Number(selectedItems);
       await deleteCartItem(cartIds);
       alert("선택한 항목이 삭제되었습니다.");
       setSelectedItems([]);
