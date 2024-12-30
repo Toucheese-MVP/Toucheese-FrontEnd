@@ -4,6 +4,7 @@ interface ContactItemProps {
   contact: {
     id: number;
     title: string;
+    content: string;
     status: string;
     author: string;
     date: string;
@@ -29,7 +30,7 @@ function ContactItem({ contact }: ContactItemProps) {
           {contact.status}
         </div>
       </div>
-
+      <p>{contact.content}</p>
       {contact.photos.length > 0 && (
         <div className="flex items-center gap-2 mb-2">
           {contact.photos.slice(0, maxPhotos).map((photo, index) => (

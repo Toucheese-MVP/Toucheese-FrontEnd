@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    unoptimized: true,
   },
 
   webpack(config, { isServer }) {

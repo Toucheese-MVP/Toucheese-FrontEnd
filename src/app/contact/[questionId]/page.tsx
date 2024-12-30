@@ -32,6 +32,7 @@ function QuestionDetailPage({
         contact={{
           id: questionDetail.id,
           title: questionDetail.title,
+          content: questionDetail.content,
           status: questionDetail.answerStatus,
           author: "작성자",
           date: questionDetail.createDate,
