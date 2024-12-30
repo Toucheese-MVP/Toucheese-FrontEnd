@@ -36,7 +36,6 @@ function Home() {
                 alt={concept.name}
                 fill
                 className="object-cover duration-300 hover:scale-105"
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                 loading={index === 0 ? "eager" : "lazy"}
                 quality={75}
               />
