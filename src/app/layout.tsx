@@ -7,9 +7,8 @@ import Loading from "./loading";
 import BackgroundWrapper from "./BackgroundWrapper";
 
 const pretendard = localFont({
-  src: "../fonts/PretendardVariable.woff2",
+  src: [{ path: "../fonts/PretendardVariable.woff2", weight: "45 920" }],
   display: "swap",
-  weight: "45 920",
   variable: "--font-pretendard",
 });
 
@@ -24,12 +23,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} bg-white`}>
+      <body
+        className={`${pretendard.variable} bg-white`}
+        style={{
+          fontFamily:
+            "var(--pretendard), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+        }}
+      >
         <Suspense fallback={<Loading />}>
           <main
             className="relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto"
