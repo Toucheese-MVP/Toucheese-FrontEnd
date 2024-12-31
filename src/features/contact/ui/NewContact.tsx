@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useCreateQuestion } from "../hooks/useCreateQuestion";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 const NewContact = () => {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -77,10 +78,11 @@ const NewContact = () => {
       await createQuestion({
         title,
         content,
-        files: selectedFiles, // 파일 추가
+        files: selectedFiles,
       });
 
       alert("문의가 등록되었습니다.");
+      router.push("/contact");
       setTitle("");
       setContent("");
       setSelectedFiles([]);
