@@ -54,6 +54,9 @@ const config: Config = {
       maxWidth: {
         custom: "var(--max-width)",
       },
+      width: {
+        custom: "var(--max-width)",
+      },
       keyframes: {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },

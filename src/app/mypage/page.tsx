@@ -14,19 +14,16 @@ const MyPage = () => {
   };
 
   const handleLogout = () => {
-    // 쿠키 삭제
     document.cookie =
       "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     document.cookie =
       "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-    // 모달 표시
     setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    // 로그인 페이지로 이동
     window.location.href = "/members/login";
   };
 

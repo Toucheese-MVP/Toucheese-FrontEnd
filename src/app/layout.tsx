@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
 import Loading from "./loading";
-import PageTransition from "./pageTransition";
 import BackgroundWrapper from "./BackgroundWrapper";
 
 const pretendard = localFont({
@@ -31,22 +30,19 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} bg-white`}>
-        <BackgroundWrapper>
-          <Suspense fallback={<Loading></Loading>}>
-            <main
-              id="main"
-              className="relative flex flex-col justify-center min-h-screen max-w-[var(--max-width)] px-4"
-              style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
-            >
-              <PageTransition>
-                <div className="pb-28 pt-16 flex-1 flex flex-col">
-                  {children}
-                </div>
-              </PageTransition>
-            </main>
-            <ClientGNBWrapper />
-          </Suspense>
-        </BackgroundWrapper>
+        <Suspense fallback={<Loading />}>
+          <main
+            className="relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto"
+            style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
+          >
+            <BackgroundWrapper>
+              <div className="pb-28 pt-16 px-4 flex-1 flex flex-col">
+                {children}
+              </div>
+            </BackgroundWrapper>
+          </main>
+          <ClientGNBWrapper />
+        </Suspense>
       </body>
     </html>
   );

@@ -50,7 +50,7 @@ export function TopBar({
 
   const handleShare = (platform: string) => {
     if (platform === "copy") {
-      navigator.clipboard.writeText(window.location.href); // 현재 URL 복사
+      navigator.clipboard.writeText(window.location.href);
       alert("링크가 복사되었습니다!");
     } else {
       alert(`${platform}으로 공유합니다.`);
@@ -60,14 +60,11 @@ export function TopBar({
 
   return (
     <>
-      <div
-        className={`fixed z-10 w-full left-0 top-0 right-0 transition-colors duration-300`}
-      >
+      <div className="fixed z-10 top-0 left-0 right-0">
         <div
-          className={`mx-auto max-w-custom px-4 flex justify-between items-center transition-all py-4 md:min-h-16 h-full ${
+          className={`flex justify-between mx-auto w-custom p-4  items-center md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
-          style={{ minHeight: "4rem" }}
         >
           {showBack && (
             <button

@@ -7,9 +7,11 @@ const TermsPage = () => {
     <>
       <TopBar showShare={false} showCart={false} />
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">이용약관</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          터치즈(TOUCHEESE) 서비스 이용약관
+        </h1>
         <div className="text-gray-800 leading-relaxed whitespace-pre-wrap">
-          {`터치즈(TOUCHEESE) 서비스 이용약관
+          {`
 제 1 조 (목적)
 이 약관은 ㈜멋쟁이사자처럼 이 제공하는 온라인 서비스 터치즈 (TOUCHEESE) (이하 "서비스"라고 합니다.)의 이용과 관련하여 회사와 회원 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
 제 2 조 (정의)
