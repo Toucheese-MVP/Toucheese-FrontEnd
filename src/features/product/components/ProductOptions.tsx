@@ -38,6 +38,7 @@ const ProductOptions = ({
               />
               <span>{option.name}</span>
             </label>
+            <span>{option.price.toLocaleString()}원</span>
           </li>
         ))}
       </ul>
