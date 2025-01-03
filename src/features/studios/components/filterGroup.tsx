@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { SelectedFilters } from "@/features/studios/types/filters.type";
+import { SelectedFilters } from "../types/filters.type";
 import { filterConfigs } from "@/api/constants/filterConfigs";
 
 const FilterGroup = ({
@@ -88,9 +88,9 @@ const FilterGroup = ({
   };
 
   return (
-    <div className="flex gap-4 mb-4 relative">
+    <div className="relative flex gap-x-4 mb-4 overflow-x-scroll scrollbar-hide max-w-full">
       <button
-        className="p-2 rounded-full aspect-square bg-gray-1 text-gray-8 border border-gray-2"
+        className="p-2 rounded-full aspect-square bg-gray-1 text-gray-8 border border-gray-2 flex-shrink-0"
         onClick={handleReset}
       >
         <Image
@@ -107,9 +107,9 @@ const FilterGroup = ({
       </button>
 
       {filterConfigs.map((config) => (
-        <div key={config.key}>
+        <div key={config.key} className="flex-shrink-0">
           <button
-            className="px-4 py-2 rounded-full bg-gray-1 text-gray-8 flex items-center gap-1  border border-gray-2"
+            className="px-4 py-2 rounded-full bg-gray-1 text-gray-8 flex items-center gap-1 border border-gray-2"
             onClick={() => toggleDropdown(config.key)}
           >
             {getFilterChipLabel(config.key)}
@@ -157,7 +157,7 @@ const FilterGroup = ({
                     {config.options.map((option) => (
                       <li key={option.value} className="min-w-24">
                         {config.key === "locations" ? (
-                          <label className="flex items-center gap-2 ">
+                          <label className="flex items-center gap-2">
                             <input
                               type="checkbox"
                               className="custom-checkbox"
