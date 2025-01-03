@@ -15,9 +15,7 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
     return () => setShowGNB(true);
   }, [setShowGNB]);
 
-  return (
-    <div className="flex-grow w-full flex flex-col gap-4 pb-20">{children}</div>
-  );
+  return <div className="w-full flex-1 flex flex-col">{children}</div>;
 };
 
 export default ClientWrapper;

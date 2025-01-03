@@ -6,7 +6,7 @@ import Image from "next/image";
 const LoginPage = () => {
   return (
     <ClientWrapper>
-      <div className="relative flex flex-col justify-center gap-4 flex-1">
+      <div className="my-auto">
         <Image
           src="/symbols/toucheese_font_logo.svg"
           alt="터치즈"

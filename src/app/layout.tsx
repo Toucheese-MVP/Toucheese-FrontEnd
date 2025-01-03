@@ -37,14 +37,10 @@ export default function RootLayout({
       >
         <Suspense fallback={<Loading />}>
           <main
-            className="relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto"
+            className="relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto pt-16"
             style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
           >
-            <BackgroundWrapper>
-              <div className="pb-28 pt-16 px-4 flex-1 flex flex-col">
-                {children}
-              </div>
-            </BackgroundWrapper>
+            <BackgroundWrapper>{children}</BackgroundWrapper>
           </main>
           <ClientGNBWrapper />
         </Suspense>
