@@ -62,7 +62,7 @@ export function TopBar({
     <>
       <div className="fixed z-10 top-0 left-0 right-0">
         <div
-          className={`flex justify-between mx-auto w-custom p-4  items-center md:min-h-16 h-full ${
+          className={`flex justify-between mx-auto w-full max-w-custom  p-4  items-center md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
         >
