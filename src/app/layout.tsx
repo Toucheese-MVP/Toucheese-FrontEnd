@@ -14,11 +14,21 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: "터치즈-맥반윈반",
-  description: "스프린트 최종단계",
+  description: "스튜디오 고민은 그만!",
   icons: {
-    icon: "/icon.ico",
-    shortcut: "/icon32.png",
+    icon: [
+      { rel: "icon", url: "/favicons/favicon-16x16.png", sizes: "16x16" },
+      { rel: "icon", url: "/favicons/favicon-32x32.png", sizes: "32x32" },
+    ],
+    apple: [
+      {
+        rel: "apple-touch-icon",
+        url: "/favicons/apple-icon-180x180.png",
+        sizes: "180x180",
+      },
+    ],
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
