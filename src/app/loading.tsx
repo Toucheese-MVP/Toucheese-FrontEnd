@@ -1,5 +1,3 @@
-"use client";
-
 export default function Loading() {
   return (
     <div className="fixed inset-0 flex items-center flex-col justify-center bg-white bg-opacity-75 z-50 text-black">
