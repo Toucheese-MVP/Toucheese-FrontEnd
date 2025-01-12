@@ -50,7 +50,7 @@ const LoginForm = () => {
           <label className="font-medium">자동로그인</label>
         </div>
         <div className="flex space-x-2">
-          <Link href="#">회원가입</Link>
+          <Link href="/members/signUp">회원가입</Link>
           <span>/</span>
           <Link href="#">ID·PASSWORD 찾기</Link>
         </div>
