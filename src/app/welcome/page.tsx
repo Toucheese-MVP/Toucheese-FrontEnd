@@ -22,7 +22,7 @@ const WelcomePage = () => {
           터치즈에서 딱 맞는 스튜디오를 찾아보세요.
         </p>
         <button
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/members/login")}
           className="mt-4 w-full py-4 bg-primary-5 font-bold text-lg rounded-lg "
         >
           스튜디오 둘러보기
