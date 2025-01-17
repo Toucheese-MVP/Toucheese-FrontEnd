@@ -28,7 +28,7 @@ const SignUpPage = () => {
   });
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // 최소 8자, 문자와 숫자 포함
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
   const handleConfirmPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>
