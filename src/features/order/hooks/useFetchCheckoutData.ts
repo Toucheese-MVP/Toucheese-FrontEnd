@@ -24,7 +24,6 @@ function useFetchCheckoutData(cartIds: string | null) {
     fetchData();
   }, [cartIds, request]);
 
-  // 기본값 처리 추가
   return {
     data: data
       ? {
