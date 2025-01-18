@@ -1,6 +1,7 @@
 "use client";
 
 import { TopBar } from "@/features/common/components/topbar";
+import StarRating from "@/features/review/components/StarRating";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -41,6 +42,7 @@ const item = {
 function Review() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [rating, setRating] = useState(0);
 
   const convertFileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -151,7 +153,12 @@ function Review() {
             </span>
             촬영 경험은 어떠셨나요?
           </h3>
-          <div className=""></div>
+          <div className="flex py-2">
+            <StarRating maxStars={5} onChange={setRating} />
+          </div>
+          {rating > 0 && (
+            <p className=" text-gray-600">선택한 별점: {rating}점</p>
+          )}
         </div>
         <div>
           <h3 className="font-semibold">리뷰작성</h3>
