@@ -91,6 +91,7 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
                   <option value="예약접수">예약접수</option>
                   <option value="예약확정">예약확정</option>
                   <option value="예약취소">예약취소</option>
+                  <option value="촬영완료">촬영완료</option>
                 </select>
               </td>
             </tr>
