@@ -26,7 +26,7 @@ const StudioTitle: React.FC<StudioTitleProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 my-2">
       <div
         className={`relative overflow-hidden rounded-full border border-gray-1 flex items-center ${sizeClasses[size]}`}
       >
@@ -48,10 +48,8 @@ const StudioTitle: React.FC<StudioTitleProps> = ({
 
       <div>
         <h2 className="text-gray-800 font-semibold">{name}</h2>
-
-        {/* 예약 날짜가 있을 경우만 표시 */}
         {createDate && (
-          <p className="text-gray-500 font-medium flex gap-1 items-center">
+          <p className="-ml-1 text-gray-500 font-medium flex gap-1 items-center">
             <Image
               src="/icons/event.svg"
               alt="calendar"

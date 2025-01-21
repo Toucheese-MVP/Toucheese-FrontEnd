@@ -1,3 +1,4 @@
+import StudioTitle from "@/components/StudioTitle";
 import Image from "next/image";
 import { useState, useMemo } from "react";
 
@@ -43,7 +44,7 @@ function StudioSummary({
     }
 
     if (todayOperatingHours.openTime === "24시간") {
-      return true; // 24시간 운영일 경우 항상 열림
+      return true;
     }
 
     const [openHours, openMinutes] = todayOperatingHours.openTime
@@ -99,17 +100,7 @@ function StudioSummary({
 
   return (
     <div className="border-b-8 border-gray-1">
-      <div className="flex items-center gap-4 my-4">
-        <div className="w-12 h-12 overflow-hidden rounded-full">
-          <Image
-            src={profileImage}
-            alt={`${name} profile`}
-            width={48}
-            height={48}
-          />
-        </div>
-        <h2 className="text-lg font-bold">{name}</h2>
-      </div>
+      <StudioTitle name={name} profileImage={`${profileImage}`} />
       <div className="my-4 bg-primary-1 p-4 rounded-lg relative">
         <div className="flex gap-4 text-gray-7">
           <p
