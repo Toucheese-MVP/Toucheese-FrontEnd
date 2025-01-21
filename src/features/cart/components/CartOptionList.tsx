@@ -1,4 +1,3 @@
-import React from "react";
 import { SelectAddOption } from "@/types/Cart.type";
 
 interface OptionListProps {

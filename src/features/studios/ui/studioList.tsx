@@ -12,6 +12,7 @@ import { useFilters } from "@/features/studios/hooks/useFilters";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import CommonPagination from "@/features/common/components/pagination";
+import StudioTitle from "@/components/StudioTitle";
 
 const StudioList = ({
   conceptId,
@@ -83,22 +84,10 @@ const StudioList = ({
           {studios.map((studio) => (
             <Link href={`/studios/${studio.id}`} key={studio.id}>
               <div className="flex flex-col gap-4 border-b-8 py-4 border-gray-1 transition-all duration-300">
-                <div className="flex items-center gap-4">
-                  <div className="max-h-12 max-w-12 overflow-hidden rounded-full flex items-center">
-                    <Image
-                      src={studio.profileImage}
-                      alt={`${studio.name} profile`}
-                      width={64}
-                      height={64}
-                      priority
-                    />
-                  </div>
-                  <div>
-                    <h2 className="text-gray-8 text-lg font-semibold">
-                      {studio.name}
-                    </h2>
-                  </div>
-                </div>
+                <StudioTitle
+                  name={`${studio.name}`}
+                  profileImage={`${studio.profileImage}`}
+                />
                 <div className="flex items-center gap-4 font-medium">
                   <div className="flex items-center px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
