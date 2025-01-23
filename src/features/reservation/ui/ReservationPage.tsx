@@ -2,15 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import useReservatedList from "../hooks/useReservatedList";
 import CommonPagination from "@/features/common/components/pagination";
+import useReservationStore from "../store/useReservationStore";
+import StudioTitle from "@/components/StudioTitle";
 
 function ReservationPage() {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get("page");
   const router = useRouter();
+  const { setReservation } = useReservationStore();
 
   const [initialPage, setInitialPage] = useState<number>(0);
 
@@ -28,6 +30,18 @@ function ReservationPage() {
   const handlePageChange = (page: number) => {
     setPage(page - 1);
     router.push(`?page=${page}`);
+  };
+  const handleReviewClick = (reservationId: number) => {
+    const selectedReservation = reservations.find(
+      (res) => res.reservationId === reservationId
+    );
+
+    if (selectedReservation) {
+      setReservation(selectedReservation); // Zustand에 선택한 데이터 저장
+      router.push("/review"); // 리뷰 페이지로 이동
+    } else {
+      alert("예약 정보를 찾을 수 없습니다.");
+    }
   };
 
   if (loading) return <div>로딩 중...</div>;
@@ -48,26 +62,13 @@ function ReservationPage() {
           className="p-4 my-4 rounded-lg border bg-white border-gray-200"
         >
           <div className="relative flex items-center justify-between gap-3">
-            <div className="w-12 h-12 rounded-full relative overflow-hidden">
-              <Image
-                src={reservation.studioImage}
-                alt={`${reservation.studioName}`}
-                fill
-              />
-            </div>
-            <div className="mr-auto">
-              <p className="font-semibold">{reservation.studioName}</p>
-              <p className="text-gray-500 font-medium flex gap-1 items-center">
-                <Image
-                  src="/icons/event.svg"
-                  alt="calendar"
-                  width={20}
-                  height={20}
-                  className="object-cover"
-                />
-                {reservation.createDate}
-              </p>
-            </div>
+            <StudioTitle
+              name={reservation.studioName}
+              profileImage={reservation.studioImage}
+              createDate={reservation.createDate}
+              size="md"
+            />
+
             <div
               className={`self-start px-2 py-1 mt-2 rounded-lg border border-gray-200 bg-gray-200 font-medium ${
                 reservation.status === "예약확정"
@@ -90,12 +91,12 @@ function ReservationPage() {
               >
                 스튜디오 홈
               </Link>
-              <Link
-                href={`/review/${reservation.reservationId}`}
+              <button
+                onClick={() => handleReviewClick(reservation.reservationId)}
                 className="px-4 py-4 bg-primary-5 w-1/2 text-center rounded-lg border border-gray-200 font-semibold text-black"
               >
                 리뷰 쓰기
-              </Link>
+              </button>
             </div>
           ) : reservation.status === "예약취소" ? null : (
             <div className="mt-4 flex justify-between gap-2">
@@ -121,7 +122,7 @@ function ReservationPage() {
       ))}
 
       <CommonPagination
-        currentPage={currentPage + 1} // 1-based 페이지 표시
+        currentPage={currentPage + 1}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
