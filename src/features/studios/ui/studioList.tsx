@@ -9,10 +9,11 @@ import "swiper/css/navigation";
 
 import { useStudioList } from "../hooks/useStudiosList";
 import { useFilters } from "@/features/studios/hooks/useFilters";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import CommonPagination from "@/features/common/components/pagination";
 import StudioTitle from "@/components/StudioTitle";
+import { SkeletonLoader } from "@/features/common/components/SkeletonLoader";
 
 const StudioList = ({
   conceptId,
@@ -21,8 +22,8 @@ const StudioList = ({
   conceptId: number;
   filters: { price?: number; rating?: number; locations?: string[] };
 }) => {
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   const {
     data: allStudiosData,
@@ -38,17 +39,26 @@ const StudioList = ({
     refetch: refetchFilteredStudios,
   } = useFilters(conceptId, filters, currentPage);
 
-  const isFilterApplied =
-    filters.price !== undefined ||
-    filters.rating !== undefined ||
-    (filters.locations && filters.locations.length > 0);
+  const isFilterApplied = useMemo(
+    () =>
+      filters.price !== undefined ||
+      filters.rating !== undefined ||
+      (filters.locations && filters.locations.length > 0),
+    [filters]
+  );
 
   useEffect(() => {
-    const data = isFilterApplied ? filteredStudiosData : allStudiosData;
-    if (data) {
-      setTotalPages(data.totalPages || 1);
+    if (isFilterApplied) {
+      setTotalPages(filteredStudiosData?.totalPages ?? 1);
+    } else {
+      setTotalPages(allStudiosData?.totalPages ?? 1);
     }
   }, [isFilterApplied, filteredStudiosData, allStudiosData]);
+
+  const isLoading = isFilterApplied
+    ? filteredStudiosLoading
+    : allStudiosLoading;
+  const isError = isFilterApplied ? filteredStudiosError : allStudiosError;
 
   const refetch = (page: number) => {
     if (isFilterApplied) {
@@ -58,16 +68,6 @@ const StudioList = ({
     }
   };
 
-  if (isFilterApplied && filteredStudiosLoading)
-    return <p>로딩 중 (필터 적용)...</p>;
-  if (!isFilterApplied && allStudiosLoading)
-    return <p>로딩 중 (전체 조회)...</p>;
-
-  if (isFilterApplied && filteredStudiosError)
-    return <p>오류 발생: 필터된 데이터를 불러오지 못했습니다.</p>;
-  if (!isFilterApplied && allStudiosError)
-    return <p>오류 발생: 전체 데이터를 불러오지 못했습니다.</p>;
-
   const studios = isFilterApplied
     ? filteredStudiosData?.content || []
     : allStudiosData?.content || [];
@@ -75,24 +75,30 @@ const StudioList = ({
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage - 1);
     refetch(newPage - 1);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <>
-      {studios.length > 0 ? (
+      {isLoading ? (
+        <SkeletonLoader itemCount={5} showImage={true} showText={true} />
+      ) : isError ? (
+        <p>오류 발생: 데이터를 불러오지 못했습니다.</p>
+      ) : studios.length > 0 ? (
         <>
           {studios.map((studio) => (
             <Link href={`/studios/${studio.id}`} key={studio.id}>
               <div className="flex flex-col gap-4 border-b-8 py-4 border-gray-1 transition-all duration-300">
                 <StudioTitle
-                  name={`${studio.name}`}
-                  profileImage={`${studio.profileImage}`}
+                  name={studio.name}
+                  profileImage={studio.profileImage}
                 />
                 <div className="flex items-center gap-4 font-medium">
                   <div className="flex items-center px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/star.svg"
-                      alt={`${studio.name}의 평점${studio.rating}`}
+                      alt={`${studio.name}의 평점 ${studio.rating}`}
                       width={24}
                       height={24}
                       style={{
@@ -106,7 +112,7 @@ const StudioList = ({
                   <div className="flex items-center gap-1 px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/credit_card.svg"
-                      alt={`${studio.name}의 평점${studio.rating}`}
+                      alt={`${studio.name}의 가격 ${studio.price.toLocaleString()}원`}
                       width={24}
                       height={24}
                       style={{
@@ -147,7 +153,7 @@ const StudioList = ({
           ))}
 
           <CommonPagination
-            currentPage={currentPage + 1} // 페이지 인덱스는 0부터 시작하므로 +1
+            currentPage={currentPage + 1}
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
