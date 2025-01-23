@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import useReservatedList from "../hooks/useReservatedList";
 import CommonPagination from "@/features/common/components/pagination";
-import useReservationStore from "../store/useReservationStore";
+// import useReservationStore from "../store/useReservationStore";
 import StudioTitle from "@/components/StudioTitle";
 
 function ReservationPage() {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get("page");
   const router = useRouter();
-  const { setReservation } = useReservationStore();
+  // const { setReservation } = useReservationStore();
 
   const [initialPage, setInitialPage] = useState<number>(0);
 
@@ -37,7 +37,7 @@ function ReservationPage() {
     );
 
     if (selectedReservation) {
-      setReservation(selectedReservation); // Zustand에 선택한 데이터 저장
+      // setReservation(selectedReservation); // Zustand에 선택한 데이터 저장
       router.push("/review"); // 리뷰 페이지로 이동
     } else {
       alert("예약 정보를 찾을 수 없습니다.");
