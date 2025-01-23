@@ -97,7 +97,7 @@ function SearchBar() {
           {!loading &&
             debouncedQuery.trim() &&
             (!Array.isArray(results) || results.length === 0) && (
-              <div className="py-4 rounded-b-lg text-white">
+              <div className="py-4 rounded-b-lg text-gray-6">
                 검색 결과가 없습니다.
               </div>
             )}
