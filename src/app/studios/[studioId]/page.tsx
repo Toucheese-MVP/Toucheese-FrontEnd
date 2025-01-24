@@ -11,6 +11,7 @@ import { StudioReviews } from "@/features/studios/ui/StudioReviews";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { TopBar } from "@/features/common/components/topbar";
 import useStudioStore from "@/features/studios/store/StudioStore";
+import { StudioDetailSkeleton } from "@/features/common/components/StudioSkeletonLoader";
 
 function StudioDetailPage({
   params,
@@ -31,7 +32,9 @@ function StudioDetailPage({
     return () => setShowGNB(true);
   }, [studioIdNumber, setStudioId, setShowGNB, setOperatingHours]);
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) {
+    return <StudioDetailSkeleton />;
+  }
   if (!studioData) return <div>스튜디오 정보를 불러올 수 없습니다.</div>;
 
   return (
