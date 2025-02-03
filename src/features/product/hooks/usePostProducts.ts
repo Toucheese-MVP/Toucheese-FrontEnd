@@ -16,12 +16,15 @@ export function useProductDetail(product: ProductDetailItems) {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedAddOptions, setSelectedAddOptions] = useState<AddOption[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
 
   const { request, loading, error } = useRequest();
 
   useEffect(() => {
     if (error) {
-      alert(`에러가 발생했습니다: ${error}`);
+      setAlertMessage(`에러가 발생했습니다: ${error}`);
+      setIsAlertOpen(true);
     }
   }, [error]);
 
@@ -44,7 +47,8 @@ export function useProductDetail(product: ProductDetailItems) {
 
   const handleOrder = async () => {
     if (!selectedDate || !selectedTime || !studioId) {
-      alert("모든 예약 정보를 입력해주세요.");
+      setAlertMessage("모든 예약 정보를 입력해주세요.");
+      setIsAlertOpen(true);
       return;
     }
 
@@ -59,14 +63,15 @@ export function useProductDetail(product: ProductDetailItems) {
     };
 
     try {
-      const result = await request(
+      await request(
         "POST",
         `${process.env.NEXT_PUBLIC_API_URL}/v1/members/carts`,
         reservationData
       );
 
-      alert("상품이 성공적으로 예약되었습니다.");
-      console.log("서버 응답:", result);
+      // 성공 시 알림 모달 띄우기
+      setAlertMessage(`상품이 성공적으로 예약되었습니다.`);
+      setIsAlertOpen(true);
 
       setOrderData({
         name: product.name,
@@ -79,9 +84,14 @@ export function useProductDetail(product: ProductDetailItems) {
         totalPrice: calculateTotalPrice(),
       });
 
-      router.push("/cart/");
+      setTimeout(() => {
+        setIsAlertOpen(false);
+        router.push("/cart/");
+      }, 1500);
     } catch (error) {
       console.error("예약 요청 중 오류 발생:", error);
+      setAlertMessage("예약 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setIsAlertOpen(true);
     }
   };
 
@@ -98,5 +108,8 @@ export function useProductDetail(product: ProductDetailItems) {
     calculateTotalPrice,
     studioId,
     loading,
+    alertMessage,
+    isAlertOpen,
+    setIsAlertOpen,
   };
 }
