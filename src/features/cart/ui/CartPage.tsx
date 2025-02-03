@@ -10,7 +10,7 @@ import { useCartHelpers } from "../hooks/cartHelpers";
 function CartList() {
   const { cartData, refetch } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  const { deleteCartItem } = useCartHelpers();
+  const { deleteCartItems } = useCartHelpers();
   const router = useRouter();
 
   const totalAmount = useMemo(() => {
@@ -43,8 +43,7 @@ function CartList() {
     }
 
     try {
-      const cartIds = Number(selectedItems);
-      await deleteCartItem(cartIds);
+      await deleteCartItems(selectedItems);
       alert("선택한 항목이 삭제되었습니다.");
       setSelectedItems([]);
       refetch();

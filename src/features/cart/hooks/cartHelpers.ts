@@ -4,8 +4,9 @@ import useRequest from "@/features/common/hooks/useRequest";
 export const useCartHelpers = () => {
   const { request } = useRequest();
 
-  const deleteCartItem = async (cartIds: number) => {
-    return request("DELETE", `/v1/members/carts/${cartIds}`);
+  const deleteCartItems = async (cartIds: number[]) => {
+    const ids = cartIds.join(",");
+    return request("DELETE", `/v1/members/carts/${ids}`);
   };
 
   const saveCartItemChanges = async (
@@ -25,5 +26,5 @@ export const useCartHelpers = () => {
     return request("PUT", `/v1/members/carts/${cartId}`, apiData);
   };
 
-  return { deleteCartItem, saveCartItemChanges };
+  return { deleteCartItems, saveCartItemChanges };
 };
