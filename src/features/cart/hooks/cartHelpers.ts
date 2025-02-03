@@ -5,6 +5,8 @@ export const useCartHelpers = () => {
   const { request } = useRequest();
 
   const deleteCartItems = async (cartIds: number[]) => {
+    if (cartIds.length === 0) return;
+
     const ids = cartIds.join(",");
     return request("DELETE", `/v1/members/carts/${ids}`);
   };

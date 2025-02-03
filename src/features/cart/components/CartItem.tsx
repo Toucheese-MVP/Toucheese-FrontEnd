@@ -16,7 +16,7 @@ interface CartItemProps {
     personnel: number;
     selectAddOptions: SelectAddOption[];
   }) => void;
-  onDelete: (id: number) => void;
+  onDelete: () => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({
@@ -30,16 +30,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const [confirmModal, setConfirmModal] = useState<"delete" | "save" | null>(
     null
   );
-  const { deleteCartItem, saveCartItemChanges } = useCartHelpers();
-
-  const handleDelete = async () => {
-    try {
-      await deleteCartItem(item.cartId);
-      onDelete(item.cartId);
-    } catch (err) {
-      console.error("삭제 실패:", err);
-    }
-  };
+  const { saveCartItemChanges } = useCartHelpers();
 
   const handleSaveChanges = async (data: {
     totalPrice: number;
@@ -118,7 +109,7 @@ const CartItem: React.FC<CartItemProps> = ({
           <ConfirmModal
             title="삭제 확인"
             message="정말로 삭제하시겠습니까?"
-            onConfirm={handleDelete}
+            onConfirm={onDelete}
             onCancel={() => setConfirmModal(null)}
           />
         )}

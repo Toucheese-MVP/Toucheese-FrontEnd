@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/features/cart/hooks/useCart";
 import CartSummary from "../components/CartSummary";
 import CartItem from "@/features/cart/components/CartItem";
+import ConfirmModal from "../components/ConfirmModal";
 import { useCartHelpers } from "../hooks/cartHelpers";
 
 function CartList() {
   const { cartData, refetch } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null); // ✅ 삭제할 cartId 상태 추가
   const { deleteCartItems } = useCartHelpers();
   const router = useRouter();
 
@@ -32,20 +34,19 @@ function CartList() {
     });
   };
 
+  // ✅ `alert` 제거, ConfirmModal을 통해 삭제 확정
   const handleDelete = async () => {
-    if (selectedItems.length === 0) {
-      alert("삭제할 항목을 선택해주세요.");
-      return;
-    }
+    const itemsToDelete =
+      confirmDelete === -1 ? selectedItems : [confirmDelete!]; // ✅ 다중 삭제 or 단일 삭제 분기 처리
 
-    if (!confirm("선택한 항목을 삭제하시겠습니까?")) {
-      return;
-    }
+    if (itemsToDelete.length === 0) return;
 
     try {
-      await deleteCartItems(selectedItems);
-      alert("선택한 항목이 삭제되었습니다.");
-      setSelectedItems([]);
+      await deleteCartItems(itemsToDelete);
+      setSelectedItems((prev) =>
+        prev.filter((id) => !itemsToDelete.includes(id))
+      );
+      setConfirmDelete(null); // ✅ 삭제 후 모달 닫기
       refetch();
     } catch (err) {
       console.error("삭제 중 오류:", err);
@@ -75,7 +76,7 @@ function CartList() {
           선택된 항목: {selectedItems.length}개
         </p>
         <button
-          onClick={handleDelete}
+          onClick={() => setConfirmDelete(-1)} // ✅ 다중 삭제 모드 (-1은 선택된 항목 삭제)
           disabled={selectedItems.length === 0}
           className="bg-primary-5 text-white px-4 py-2 rounded ml-auto disabled:bg-gray-300"
         >
@@ -90,10 +91,11 @@ function CartList() {
             isSelected={selectedItems.includes(item.cartId)}
             onSelect={handleSelect}
             onSave={handleSave}
-            onDelete={handleDelete}
+            onDelete={() => setConfirmDelete(item.cartId)} // ✅ 개별 삭제 모드 (cartId 저장)
           />
         ))}
       </ul>
+
       <div className="mt-4 fixed max-w-custom w-full p-4 left-1/2 bottom-0 -translate-x-1/2">
         <CartSummary
           totalAmount={totalAmount}
@@ -101,6 +103,19 @@ function CartList() {
           isButtonDisabled={selectedItems.length === 0}
         />
       </div>
+
+      {confirmDelete !== null && (
+        <ConfirmModal
+          title="삭제 확인"
+          message={
+            confirmDelete === -1
+              ? "선택한 항목을 삭제하시겠습니까?"
+              : "이 항목을 삭제하시겠습니까?"
+          }
+          onConfirm={handleDelete}
+          onCancel={() => setConfirmDelete(null)}
+        />
+      )}
     </div>
   );
 }
