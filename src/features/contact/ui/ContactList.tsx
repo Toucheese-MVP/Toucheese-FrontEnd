@@ -8,12 +8,13 @@ import AlertModal from "@/features/common/components/AlertModal";
 import CommonPagination from "@/features/common/components/pagination";
 import { useQuestionsList } from "../hooks/useQuestionList";
 import { useManageQuestions } from "../hooks/useManageQuestions";
+import { SkeletonLoader } from "@/features/common/components/SkeletonLoader";
 
 function ContactList() {
   const router = useRouter();
   const { questions, error, setPage, currentPage, totalPages, refetch } =
     useQuestionsList();
-  const { deleteQuestion, loading: managingLoading } = useManageQuestions();
+  const { deleteQuestion, loading } = useManageQuestions();
 
   const [modalMessage, setModalMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,6 +43,16 @@ function ContactList() {
     router.push(`/contact/${questionId}`);
   };
 
+  if (loading) {
+    return (
+      <div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <SkeletonLoader key={index} showText={false} />
+        ))}
+      </div>
+    );
+  }
+
   if (error) return <div>오류 발생: {error}</div>;
 
   return (
@@ -65,7 +76,7 @@ function ContactList() {
                   e.stopPropagation();
                   handleDelete(parseInt(item.id, 10));
                 }}
-                disabled={managingLoading}
+                disabled={loading}
                 className="text-gray-500 text-sm hover:text-gray-700"
               >
                 삭제

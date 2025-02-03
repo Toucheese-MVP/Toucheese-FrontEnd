@@ -7,6 +7,7 @@ import useReservatedList from "../hooks/useReservatedList";
 import CommonPagination from "@/features/common/components/pagination";
 // import useReservationStore from "../store/useReservationStore";
 import StudioTitle from "@/components/StudioTitle";
+import { SkeletonLoader } from "@/features/common/components/SkeletonLoader";
 
 function ReservationPage() {
   const searchParams = useSearchParams();
@@ -44,7 +45,15 @@ function ReservationPage() {
     }
   };
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) {
+    return (
+      <div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <SkeletonLoader key={index} showText={false} />
+        ))}
+      </div>
+    );
+  }
   if (error) return <div>에러가 발생했습니다: {error}</div>;
   if (!reservations || reservations.length === 0) {
     return (

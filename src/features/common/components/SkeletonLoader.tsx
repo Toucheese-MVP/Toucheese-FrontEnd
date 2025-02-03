@@ -19,11 +19,6 @@ export const SkeletonLoader = ({
           {showImage && (
             <div className="w-full max-w-[600px] h-40 bg-gray-200 rounded-md"></div>
           )}
-
-          <div className="flex gap-4">
-            <div className="h-6 w-20 bg-gray-200 rounded-md"></div>
-            <div className="h-6 w-32 bg-gray-200 rounded-md"></div>
-          </div>
         </div>
       ))}
     </>
