@@ -11,7 +11,7 @@ import { useCartHelpers } from "../hooks/cartHelpers";
 function CartList() {
   const { cartData, refetch } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  const [confirmDelete, setConfirmDelete] = useState<number | null>(null); // ✅ 삭제할 cartId 상태 추가
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null); 
   const { deleteCartItems } = useCartHelpers();
   const router = useRouter();
 
@@ -34,10 +34,9 @@ function CartList() {
     });
   };
 
-  // ✅ `alert` 제거, ConfirmModal을 통해 삭제 확정
   const handleDelete = async () => {
     const itemsToDelete =
-      confirmDelete === -1 ? selectedItems : [confirmDelete!]; // ✅ 다중 삭제 or 단일 삭제 분기 처리
+      confirmDelete === -1 ? selectedItems : [confirmDelete!];
 
     if (itemsToDelete.length === 0) return;
 
@@ -46,7 +45,7 @@ function CartList() {
       setSelectedItems((prev) =>
         prev.filter((id) => !itemsToDelete.includes(id))
       );
-      setConfirmDelete(null); // ✅ 삭제 후 모달 닫기
+      setConfirmDelete(null);
       refetch();
     } catch (err) {
       console.error("삭제 중 오류:", err);
@@ -76,7 +75,7 @@ function CartList() {
           선택된 항목: {selectedItems.length}개
         </p>
         <button
-          onClick={() => setConfirmDelete(-1)} // ✅ 다중 삭제 모드 (-1은 선택된 항목 삭제)
+          onClick={() => setConfirmDelete(-1)}
           disabled={selectedItems.length === 0}
           className="bg-primary-5 text-white px-4 py-2 rounded ml-auto disabled:bg-gray-300"
         >
@@ -91,7 +90,7 @@ function CartList() {
             isSelected={selectedItems.includes(item.cartId)}
             onSelect={handleSelect}
             onSave={handleSave}
-            onDelete={() => setConfirmDelete(item.cartId)} // ✅ 개별 삭제 모드 (cartId 저장)
+            onDelete={() => setConfirmDelete(item.cartId)}
           />
         ))}
       </ul>
