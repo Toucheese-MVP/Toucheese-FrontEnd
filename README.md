@@ -7,6 +7,10 @@
 
 https://www.toucheese-macwin.store/
 
+## 터치즈 랜딩페이지
+
+https://toucheese.vercel.app/
+
 ## 프로젝트 개요
 
 이 프로젝트는 **Next.js 14**를 기반으로 **TypeScript**, **Tailwind CSS**, **Zustand** 등의 최신 기술 스택을 활용하여 개발되었습니다.
