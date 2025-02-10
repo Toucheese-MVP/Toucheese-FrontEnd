@@ -4,6 +4,8 @@ import useSignUp from "@/features/members/hooks/useSignUp";
 import { TopBar } from "@/features/common/components/topbar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 const SignUpPage = () => {
   const {
     email,
@@ -165,31 +167,47 @@ const SignUpPage = () => {
               <p className="text-sm text-red-500">{inputErrors.email}</p>
             )}
           </div>
-          <div className="relative">
+          <div>
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
               비밀번호
             </label>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="비밀번호를 입력하세요."
-              className={`mt-1 w-full px-3 py-2 border ${
-                inputErrors.password ? "border-red-500" : "border-gray-300"
-              } rounded-md focus:ring-primary-500 focus:border-primary-500`}
-              required
-            />
-            <button
-              type="button"
-              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"
-              onClick={() => setShowPassword((prev) => !prev)}
-            >
-              {showPassword ? "숨기기" : "보기"}
-            </button>
+            <div className="relative mt-1">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="비밀번호를 입력하세요."
+                className={` w-full px-3 py-2 border ${
+                  inputErrors.password ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-primary-500 focus:border-primary-500`}
+                required
+              />
+              <button
+                type="button"
+                className="absolute top-0 bottom-0 right-3 text-gray-500"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? (
+                  <Image
+                    src="/icons/auth/visibility_off.svg"
+                    width={20}
+                    height={20}
+                    alt="숨기기"
+                  />
+                ) : (
+                  <Image
+                    src="/icons/auth/visibility_on.svg"
+                    width={20}
+                    height={20}
+                    alt="보기"
+                  />
+                )}
+              </button>
+            </div>
             {inputErrors.password && (
               <p className="text-sm text-red-500">{inputErrors.password}</p>
             )}
