@@ -6,11 +6,16 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
+const DEFAULT_IMAGE_URL = "/default-facility.png"; // 기본 이미지 URL (public 폴더 안에 위치)
+
 export function StudioImages({
   facilityImageUrls,
 }: {
   facilityImageUrls: string[];
 }) {
+  const imagesToShow =
+    facilityImageUrls.length > 0 ? facilityImageUrls : [DEFAULT_IMAGE_URL];
+
   return (
     <div className="relative h-[300px] -mx-4">
       <Swiper
@@ -23,7 +28,7 @@ export function StudioImages({
         modules={[Pagination]}
         className="w-full h-full"
       >
-        {facilityImageUrls.map((image, idx) => (
+        {imagesToShow.map((image, idx) => (
           <SwiperSlide key={idx} className="h-full">
             <div className="relative w-full h-full ">
               <Image
