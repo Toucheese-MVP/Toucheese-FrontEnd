@@ -13,7 +13,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "터치즈-맥반윈반",
+  title: "터치즈",
   description:
     "스튜디오 고민은 그만! 터치즈에서 원하는 스튜디오를 한 눈에 살펴보고 예약하세요!",
   icons: {
