@@ -57,7 +57,9 @@ const useLogin = () => {
       window.location.href = "/";
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 400) {
+          setError("아이디 또는 비밀번호가 일치하지 않습니다.");
+        } else if (error.response?.status === 401) {
           setError("잘못된 이메일 또는 비밀번호입니다.");
         } else {
           setError(
