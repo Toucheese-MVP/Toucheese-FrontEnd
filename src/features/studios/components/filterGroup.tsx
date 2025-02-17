@@ -88,7 +88,7 @@ const FilterGroup = ({
   };
 
   return (
-    <div className="relative z-50 flex gap-x-4 mb-4 overflow-x-scroll scrollbar-hide max-w-full">
+    <div className="relative z-40 flex gap-x-4 mb-4 overflow-x-scroll scrollbar-hide max-w-full">
       <button
         className="p-2 rounded-full aspect-square bg-gray-1 text-gray-8 border border-gray-2 flex-shrink-0"
         onClick={handleReset}
