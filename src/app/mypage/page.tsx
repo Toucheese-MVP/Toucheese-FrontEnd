@@ -32,13 +32,45 @@ const MyPage = () => {
     alert(`${menuName} 클릭됨`);
   };
 
-  const handleLogout = () => {
-    document.cookie =
-      "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    document.cookie =
-      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+  const handleLogout = async () => {
+    try {
+      // 브라우저의 쿠키에서 deviceID 가져오기
+      const cookies = document.cookie.split("; ").reduce(
+        (acc, cookie) => {
+          const [key, value] = cookie.split("=");
+          acc[key] = value;
+          return acc;
+        },
+        {} as Record<string, string>
+      );
 
-    setIsModalOpen(true);
+      const deviceID = cookies["deviceId"];
+      const accessToken = cookies["accessToken"];
+
+      if (!deviceID) {
+        console.error("deviceID가 없습니다.");
+        return;
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/tokens/logout?deviceId=${deviceID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("로그아웃 실패");
+      }
+      window.location.href = "/members/login";
+    } catch (error) {
+      console.error("로그아웃 중 오류 발생:", error);
+    }
   };
 
   const handleModalClose = () => {
