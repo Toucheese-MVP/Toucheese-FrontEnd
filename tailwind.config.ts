@@ -14,7 +14,16 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        pretendard: ["Pretendard", "sans-serif"],
+        pretendard: [
+          "var(--font-pretendard)",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "'Segoe UI'",
+          "Roboto",
+          "'Helvetica Neue'",
+          "Arial",
+          "sans-serif",
+        ],
       },
       colors: {
         gray: {
