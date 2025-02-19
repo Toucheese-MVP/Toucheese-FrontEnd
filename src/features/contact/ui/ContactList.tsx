@@ -63,45 +63,50 @@ function ContactList() {
         onClose={handleModalClose}
       />
 
-      {questions.map((item) => (
-        <div
-          key={item.id}
-          className="mb-4 cursor-pointer"
-          onClick={() => handleItemClick(parseInt(item.id, 10))}
-        >
-          <div className="flex flex-col">
-            <div className="flex space-x-2 justify-end">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(parseInt(item.id, 10));
-                }}
-                disabled={loading}
-                className="text-gray-500 text-sm hover:text-gray-700"
-              >
-                삭제
-              </button>
-            </div>
-            <ContactItem
-              contact={{
-                id: parseInt(item.id),
-                title: item.title,
-                content: item.content,
-                status: item.answerStatus,
-                author: "작성자",
-                date: item.createDate,
-                photos: item.imageUrls,
-              }}
-            />
-          </div>
+      {questions.length === 0 ? (
+        <div className="text-center text-gray-500 py-6">
+          문의 내용이 없습니다.
         </div>
-      ))}
-
-      <CommonPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      ) : (
+        questions.map((item) => (
+          <div
+            key={item.id}
+            className="mb-4 cursor-pointer"
+            onClick={() => handleItemClick(parseInt(item.id, 10))}
+          >
+            <div className="flex flex-col">
+              <div className="flex space-x-2 justify-end">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(parseInt(item.id, 10));
+                  }}
+                  disabled={loading}
+                  className="text-gray-500 text-sm hover:text-gray-700"
+                >
+                  삭제
+                </button>
+              </div>
+              <ContactItem
+                contact={{
+                  id: parseInt(item.id),
+                  title: item.title,
+                  content: item.content,
+                  status: item.answerStatus,
+                  author: "작성자",
+                  date: item.createDate,
+                  photos: item.imageUrls,
+                }}
+              />
+              <CommonPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </div>
+        ))
+      )}
 
       <ContactNewButton />
     </div>
