@@ -69,7 +69,6 @@ export function useProductDetail(product: ProductDetailItems) {
         reservationData
       );
 
-      // 성공 시 알림 모달 띄우기
       setAlertMessage(`상품이 성공적으로 예약되었습니다.`);
       setIsAlertOpen(true);
 
