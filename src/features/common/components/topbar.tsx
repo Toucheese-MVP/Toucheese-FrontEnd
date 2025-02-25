@@ -62,61 +62,67 @@ export function TopBar({
     <>
       <div className="fixed z-50 top-0 left-0 right-0">
         <div
-          className={`flex justify-between mx-auto w-full max-w-custom  p-4  items-center md:min-h-16 h-full ${
+          className={`flex  mx-auto w-full max-w-custom  p-4  items-center md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
         >
-          {showBack && (
-            <button
-              className="relative"
-              onClick={() => (location ? router.push(location) : router.back())}
-            >
-              <Image
-                src="/icons/arrow_back_ios_new.svg"
-                alt="back"
-                width={24}
-                height={24}
-                style={{
-                  width: "auto",
-                  height: "auto",
-                  objectFit: "contain",
-                }}
-              />
-            </button>
-          )}
-          <span className="font-bold text-lg justify-self-center ml-auto mr-auto">
+          <div className="w-8 flex justify-start">
+            {showBack && (
+              <button
+                className="relative"
+                onClick={() =>
+                  location ? router.push(location) : router.back()
+                }
+              >
+                <Image
+                  src="/icons/arrow_back_ios_new.svg"
+                  alt="back"
+                  width={24}
+                  height={24}
+                  style={{
+                    width: "auto",
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </button>
+            )}
+          </div>
+          <span className="font-bold text-lg flex-grow text-center">
             {message || ""}
           </span>
-          {showShare && (
-            <button className="relative" onClick={handleModalOpen}>
-              <Image
-                src="/icons/share.svg"
-                alt="share"
-                width={24}
-                height={24}
-                style={{
-                  width: "auto",
-                  height: "auto",
-                  objectFit: "contain",
-                }}
-              />
-            </button>
-          )}
-          {showCart && (
-            <Link href="/cart">
-              <Image
-                src="/icons/shopping_bag.svg"
-                alt="cart"
-                width={24}
-                height={24}
-                style={{
-                  width: "auto",
-                  height: "auto",
-                  objectFit: "contain",
-                }}
-              />
-            </Link>
-          )}
+          <div className="w-8 flex justify-end">
+            {showShare && (
+              <button className="relative" onClick={handleModalOpen}>
+                <Image
+                  src="/icons/share.svg"
+                  alt="share"
+                  width={24}
+                  height={24}
+                  style={{
+                    width: "auto",
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </button>
+            )}
+            {showCart && (
+              <Link href="/cart">
+                <Image
+                  src="/icons/shopping_bag.svg"
+                  alt="cart"
+                  width={24}
+                  height={24}
+                  style={{
+                    width: "auto",
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 
