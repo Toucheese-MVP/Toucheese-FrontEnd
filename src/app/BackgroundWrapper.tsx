@@ -21,7 +21,7 @@ const BackgroundWrapper = ({ children }: { children: ReactNode }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={` px-4 pb-32   ${isGrayBackground ? "bg-gray-1 flex-1 flex flex-col" : "bg-white flex-1 flex flex-col"}`}
+        className={` px-4 pb-36   ${isGrayBackground ? "bg-gray-1 flex-1 flex flex-col" : "bg-white flex-1 flex flex-col"}`}
       >
         {children}
       </motion.div>
