@@ -108,29 +108,31 @@ function StudioSummary({
               isNoticeExpanded ? "line-clamp-none" : "line-clamp-1"
             } overflow-hidden transition-all`}
           >
-            {notice}
+            {notice || "공지사항이 없습니다"}
           </p>
         </div>
-        <button
-          onClick={() => setIsNoticeExpanded(!isNoticeExpanded)}
-          className="text-gray-5 text-sm absolute right-4 top-5"
-        >
-          {isNoticeExpanded ? (
-            <Image
-              src="/icons/studiodetail/arrow_up_gray.svg"
-              alt="Dropdown open"
-              width={16}
-              height={16}
-            />
-          ) : (
-            <Image
-              src="/icons/studiodetail/arrow_dropdown_gray.svg"
-              alt="Dropdown open"
-              width={16}
-              height={16}
-            />
-          )}
-        </button>
+        {notice.trim() && (
+          <button
+            onClick={() => setIsNoticeExpanded(!isNoticeExpanded)}
+            className="text-gray-5 text-sm absolute right-4 top-5"
+          >
+            {isNoticeExpanded ? (
+              <Image
+                src="/icons/studiodetail/arrow_up_gray.svg"
+                alt="Dropdown open"
+                width={16}
+                height={16}
+              />
+            ) : (
+              <Image
+                src="/icons/studiodetail/arrow_dropdown_gray.svg"
+                alt="Dropdown open"
+                width={16}
+                height={16}
+              />
+            )}
+          </button>
+        )}
       </div>
       <div className="mt-2 flex flex-col gap-2">
         <p className="text-gray-5">리뷰 {totalReviews}개</p>
