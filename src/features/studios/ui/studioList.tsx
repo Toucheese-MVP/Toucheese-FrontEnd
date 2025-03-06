@@ -98,7 +98,7 @@ const StudioList = ({
                   <div className="flex items-center px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/star.svg"
-                      alt={`${studio.name}의 평점 ${studio.rating}`}
+                      alt={`${studio.name}의 평점 ${studio.rating ?? "평점 없음"}`}
                       width={24}
                       height={24}
                       style={{
@@ -107,12 +107,14 @@ const StudioList = ({
                         objectFit: "contain",
                       }}
                     />
-                    <span>{studio.rating}</span>
+                    <span>
+                      {studio.rating !== null ? studio.rating : "평점 없음"}
+                    </span>
                   </div>
                   <div className="flex items-center gap-1 px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/credit_card.svg"
-                      alt={`${studio.name}의 가격 ${studio.price.toLocaleString()}원`}
+                      alt={`${studio.name}의 가격 ${studio.price !== null ? studio.price.toLocaleString() : "가격 정보 없음"}원`}
                       width={24}
                       height={24}
                       style={{
@@ -121,7 +123,11 @@ const StudioList = ({
                         objectFit: "contain",
                       }}
                     />
-                    <span>{studio.price.toLocaleString()}원</span>
+                    <span>
+                      {studio.price !== null
+                        ? `${studio.price.toLocaleString()}원`
+                        : "가격 정보 없음"}
+                    </span>
                   </div>
                 </div>
                 <div className="w-full max-w-[600px] overflow-hidden">
