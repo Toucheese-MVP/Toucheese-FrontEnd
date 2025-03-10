@@ -21,6 +21,7 @@ export interface Reservation {
   createDate: string;
   createTime: string;
   status: string;
+  productId: number;
 }
 
 // interface Time {
