@@ -4,45 +4,18 @@ import { TopBar } from "@/features/common/components/topbar";
 import StarRating from "@/features/review/components/StarRating";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-const item = {
-  cartId: 74,
-  studioName: "루케필름스튜디오",
-  productImage: "https://i.toucheese-macwin.store/resized/fnzp2.webp",
-  productName: "컬러 증명사진",
-  productPrice: 35000,
-  personnel: 1,
-  reservationDate: "2025-02-20",
-  reservationTime: "11:00",
-  totalPrice: 105000,
-  selectAddOptions: [
-    {
-      selectOptionId: 1,
-      selectOptionName: "추가인화",
-      selectOptionPrice: 10000,
-    },
-    {
-      selectOptionId: 2,
-      selectOptionName: "고해상 보정본/원본 1장",
-      selectOptionPrice: 10000,
-    },
-    {
-      selectOptionId: 3,
-      selectOptionName: "고해상 원본 전체",
-      selectOptionPrice: 30000,
-    },
-    {
-      selectOptionId: 4,
-      selectOptionName: "추가보정",
-      selectOptionPrice: 20000,
-    },
-  ],
-};
+import { useReviewStore } from "@/features/review/store/useReviewStore";
+import { usePostReview } from "@/features/review/hooks/usePostReview";
 
 function Review() {
+  const { reviewData } = useReviewStore();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [rating, setRating] = useState(0);
+  const [content, setContent] = useState("");
+  const studioId = reviewData?.studioId ?? 0;
+  const productId = reviewData?.productId ?? 1;
+  const { createReview, loading } = usePostReview(studioId, productId);
 
   const convertFileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -99,57 +72,80 @@ function Review() {
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     }
   };
+
   const removeFile = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviewUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
   };
 
+  const handleSubmit = async () => {
+    if (!content.trim()) {
+      alert("리뷰 내용을 입력해주세요.");
+      return;
+    }
+    if (rating === 0) {
+      alert("별점을 선택해주세요.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("content", content);
+      formData.append("rating", String(rating));
+      selectedFiles.forEach((file) => formData.append("uploadFiles", file));
+
+      await createReview({
+        content,
+        rating,
+        // uploadFiles: selectedFiles.map((file) => file.name), // API에서 실제 파일을 받을 수 있는지 확인 필요
+      });
+
+      alert("리뷰가 등록되었습니다.");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      alert("리뷰 작성 중 오류가 발생했습니다.");
+    }
+  };
+
+  if (!reviewData) {
+    return (
+      <div className="text-center mt-10 text-gray-500">
+        예약 정보가 없습니다.
+      </div>
+    );
+  }
+
   return (
     <>
-      <TopBar message="스튜디오명" showShare={false} showCart={false} />
+      <TopBar
+        message={reviewData.studioName}
+        showShare={false}
+        showCart={false}
+      />
       <div className="flex flex-col gap-4">
         <div className="flex items-start gap-4 p-4 shadow-md rounded-lg">
-          <div className="relative w-32 aspect-3/4 rounded-lg overflow-hidden bg-gray-200">
+          <div className="relative w-12 aspect-square rounded-lg overflow-hidden bg-gray-200">
             <Image
-              src={item.productImage}
-              alt={item.productName}
+              src={reviewData.studioImage}
+              alt={reviewData.studioName}
               fill
               className="object-cover"
             />
           </div>
           <div className="flex-1">
             <div className="flex font-bold">
-              <p>{item.productName}</p>
-              <p className="ml-auto">{item.productPrice.toLocaleString()}원</p>
+              <p>{reviewData.productName}</p>
             </div>
-            {item.selectAddOptions.length > 0 && (
-              <div className="py-2 text-gray-6">
-                <ul>
-                  {item.selectAddOptions.map((option) => (
-                    <li
-                      key={option.selectOptionId}
-                      className="flex justify-between flex-wrap"
-                    >
-                      <p>{option.selectOptionName}</p>
-                      <p> {option.selectOptionPrice.toLocaleString()}원</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <p>예약인원 : {item.personnel}명</p>
             <p>
-              예약일자 : {item.reservationDate} {item.reservationTime}
-            </p>
-            <p className="mt-4 text-right font-bold text-xl">
-              상품가격: {item.totalPrice.toLocaleString()}원
+              예약일자 : {reviewData.createDate} {reviewData.createTime}
             </p>
           </div>
         </div>
+
         <div className="py-4 border-y-8 border-gray-1">
           <h3 className="text-xl">
             <span className="font-bold">
-              {item.studioName} <br />
+              {reviewData.studioName} <br />
             </span>
             촬영 경험은 어떠셨나요?
           </h3>
@@ -157,19 +153,21 @@ function Review() {
             <StarRating maxStars={5} onChange={setRating} />
           </div>
           {rating > 0 && (
-            <p className=" text-gray-600">선택한 별점: {rating}점</p>
+            <p className="text-gray-600">선택한 별점: {rating}점</p>
           )}
         </div>
+
         <div>
-          <h3 className="font-semibold">리뷰작성</h3>
+          <h3 className="font-semibold">리뷰 작성</h3>
           <textarea
-            name=""
-            id=""
             className="p-4 resize-none w-full border border-gray-2 mt-5 rounded-xl text-sm min-h-48 focus:border-primary-4 outline-none"
-            placeholder="리뷰 용내을 입력해주세요."
+            placeholder="리뷰 내용을 입력해주세요."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
 
+        {/* 이미지 업로드 */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-7 mb-2">
             이미지 첨부
@@ -221,12 +219,17 @@ function Review() {
             ))}
           </div>
         </div>
+
         <div className="flex gap-4">
-          <button className="p-4 text-center w-full rounded-lg font-semibold text-lg text-white  bg-gray-7">
+          <button className="p-4 text-center w-full rounded-lg font-semibold text-lg text-white bg-gray-7">
             작성 취소
           </button>
-          <button className="p-4 text-center w-full rounded-lg font-semibold text-lg  bg-primary-4">
-            작성 완료
+          <button
+            onClick={handleSubmit}
+            className="p-4 text-center w-full rounded-lg font-semibold text-lg bg-primary-4"
+            disabled={loading}
+          >
+            {loading ? "작성 중..." : "작성 완료"}
           </button>
         </div>
       </div>
