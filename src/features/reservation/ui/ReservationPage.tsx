@@ -1,54 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import useReservatedList from "../hooks/useReservatedList";
 import CommonPagination from "@/features/common/components/pagination";
-// import useReservationStore from "../store/useReservationStore";
 import StudioTitle from "@/components/StudioTitle";
 import { SkeletonLoader } from "@/features/common/components/SkeletonLoader";
+import { useReviewStore } from "@/features/review/store/useReviewStore";
 
 function ReservationPage() {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get("page");
+  const pageParam = searchParams.get("page") || "1"; // 기본값 1
   const router = useRouter();
-  // const { setReservation } = useReservationStore();
+  const { setReviewData } = useReviewStore();
 
-  const [initialPage, setInitialPage] = useState<number>(0);
-
-  useEffect(() => {
-    if (!pageParam) {
-      router.replace("?page=1");
-    } else {
-      setInitialPage(parseInt(pageParam, 10) - 1); // 0-based 페이지로 변환
-    }
-  }, [pageParam, router]);
+  const initialPage = useMemo(() => parseInt(pageParam, 10) - 1, [pageParam]);
 
   const { reservations, currentPage, totalPages, setPage, loading, error } =
     useReservatedList(initialPage);
 
-  const handlePageChange = (page: number) => {
-    setPage(page - 1);
-    router.push(`?page=${page}`);
-  };
-  const handleReviewClick = (reservationId: number) => {
-    const selectedReservation = reservations.find(
-      (res) => res.reservationId === reservationId
-    );
+  useEffect(() => {
+    setPage(initialPage);
+  }, [initialPage, setPage]);
 
-    if (selectedReservation) {
-      // setReservation(selectedReservation); // Zustand에 선택한 데이터 저장
-      router.push("/review"); // 리뷰 페이지로 이동
-    } else {
-      alert("예약 정보를 찾을 수 없습니다.");
-    }
+  const handlePageChange = (page: number) => {
+    router.push(`?page=${page}`);
   };
 
   if (loading) {
     return (
       <div>
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 1 }).map((_, index) => (
           <SkeletonLoader key={index} showText={false} />
         ))}
       </div>
@@ -101,7 +84,19 @@ function ReservationPage() {
                 스튜디오 홈
               </Link>
               <button
-                onClick={() => handleReviewClick(reservation.reservationId)}
+                onClick={() => {
+                  setReviewData({
+                    reservationId: reservation.reservationId,
+                    studioId: reservation.studioId,
+                    studioName: reservation.studioName,
+                    studioImage: reservation.studioImage,
+                    productName: reservation.productName,
+                    createDate: reservation.createDate,
+                    createTime: reservation.createTime,
+                    productId: reservation.productId ?? 1,
+                  });
+                  router.push(`/review`);
+                }}
                 className="px-4 py-4 bg-primary-5 w-1/2 text-center rounded-lg border border-gray-200 font-semibold text-black"
               >
                 리뷰 쓰기
