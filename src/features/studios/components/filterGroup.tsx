@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { SelectedFilters } from "../types/filters.type";
 import { filterConfigs } from "@/api/constants/filterConfigs";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FilterGroup = ({
   filters,
@@ -128,35 +129,50 @@ const FilterGroup = ({
         </div>
       ))}
 
-      {activeDropdown && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end justify-center">
-          <div className="w-full bg-white rounded-t-2xl shadow-lg pb-10 p-4 max-h-[70%] max-w-custom overflow-y-auto md:pb-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">
-                {filterConfigs.find((config) => config.key === activeDropdown)
-                  ?.label || ""}
-              </h2>
-              <button
-                onClick={handleCloseBottomSheet}
-                className="text-gray-500"
-              >
-                <Image
-                  src="/icons/close.svg"
-                  alt="필터메뉴닫기"
-                  width={20}
-                  height={20}
-                />
-              </button>
-            </div>
+      <AnimatePresence>
+        {activeDropdown && (
+          <>
+            {/* 오버레이 */}
+            <motion.div
+              className="fixed inset-0 bg-black bg-opacity-50 z-50"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleCloseBottomSheet}
+            />
 
-            <ul className="flex flex-col gap-4">
-              {filterConfigs.map((config) => (
-                <div key={config.key} className="border-b p-4 -mx-4">
-                  <h3 className="text-lg font-medium mb-2">{config.label}</h3>
-                  <ul className="flex flex-wrap gap-4">
-                    {config.options.map((option) => (
-                      <li key={option.value} className="min-w-24">
-                        {config.key === "locations" ? (
+            <motion.div
+              className="fixed bottom-0 left-0 right-0 w-full bg-white rounded-t-2xl shadow-lg pb-10 p-4 max-h-[70%] max-w-custom overflow-y-auto md:pb-4 z-50 mx-auto"
+              initial={{ y: "100%" }} // ✅ 아래에서 시작
+              animate={{ y: 0 }} // ✅ 위로 슬라이드 인
+              exit={{ y: "100%" }} // ✅ 아래로 슬라이드 아웃
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">
+                  {filterConfigs.find((config) => config.key === activeDropdown)
+                    ?.label || ""}
+                </h2>
+                <button
+                  onClick={handleCloseBottomSheet}
+                  className="text-gray-500"
+                >
+                  <Image
+                    src="/icons/close.svg"
+                    alt="필터메뉴닫기"
+                    width={20}
+                    height={20}
+                  />
+                </button>
+              </div>
+
+              <ul className="flex flex-col gap-4">
+                {filterConfigs.map((config) => (
+                  <div key={config.key} className="border-b p-4 -mx-4">
+                    <h3 className="text-lg font-medium mb-2">{config.label}</h3>
+                    <ul className="flex flex-wrap gap-4">
+                      {config.options.map((option) => (
+                        <li key={option.value} className="min-w-24">
                           <label className="flex items-center gap-2">
                             <input
                               type="checkbox"
@@ -171,48 +187,31 @@ const FilterGroup = ({
                             />
                             {option.label}
                           </label>
-                        ) : config.key === "rating" ||
-                          config.key === "price" ? (
-                          <label className="flex items-center gap-2 custom-radio">
-                            <input
-                              type="radio"
-                              name={config.key}
-                              value={option.value}
-                              checked={
-                                tempFilters[config.key]?.[0] === option.value
-                              }
-                              onChange={() =>
-                                updateTempFilter(config.key, option.value)
-                              }
-                            />
-                            <span className="radio-indicator"></span>
-                            {option.label}
-                          </label>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </ul>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </ul>
 
-            <div className="flex mt-4 gap-2">
-              <button
-                className="px-6 py-2 bg-gray-2 rounded"
-                onClick={handleReset}
-              >
-                초기화
-              </button>
-              <button
-                className="px-6 py-2 bg-primary-5 font-bold rounded-lg flex-1"
-                onClick={handleApply}
-              >
-                적용하기
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              <div className="flex mt-4 gap-2">
+                <button
+                  className="px-6 py-2 bg-gray-2 rounded"
+                  onClick={handleReset}
+                >
+                  초기화
+                </button>
+                <button
+                  className="px-6 py-2 bg-primary-5 font-bold rounded-lg flex-1"
+                  onClick={handleApply}
+                >
+                  적용하기
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
