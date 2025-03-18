@@ -20,9 +20,7 @@ function Review() {
   const convertFileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result as string);
-      };
+      reader.onloadend = () => resolve(reader.result as string);
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
@@ -87,17 +85,16 @@ function Review() {
       alert("별점을 선택해주세요.");
       return;
     }
+    if (selectedFiles.length === 0) {
+      alert("최소 한 개 이상의 이미지를 업로드해주세요.");
+      return;
+    }
 
     try {
-      const formData = new FormData();
-      formData.append("content", content);
-      formData.append("rating", String(rating));
-      selectedFiles.forEach((file) => formData.append("uploadFiles", file));
-
       await createReview({
         content,
         rating,
-        // uploadFiles: selectedFiles.map((file) => file.name), // API에서 실제 파일을 받을 수 있는지 확인 필요
+        uploadFiles: selectedFiles, // ✅ 이미지 파일 전달
       });
 
       alert("리뷰가 등록되었습니다.");
