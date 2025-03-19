@@ -60,9 +60,9 @@ export function TopBar({
 
   return (
     <>
-      <div className="fixed z-50 top-0 left-0 right-0">
+      <div className="fixed z-40 top-0 left-0 right-0">
         <div
-          className={`flex  mx-auto w-full max-w-custom  p-4  items-center md:min-h-16 h-full ${
+          className={`flex  mx-auto w-full max-w-custom p-4 items-center md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
         >
@@ -129,13 +129,13 @@ export function TopBar({
       <AnimatePresence>
         {activeShare && (
           <motion.div
-            initial={{ y: "100%" }}
+            initial={{ y: 100 }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            transition={{ type: "Keyframes", stiffness: 100, damping: 0 }}
             className="fixed bottom-0 right-0 left-0 z-50 w-full"
           >
-            <div className="relative mx-auto bg-white p-4 rounded-t-lg shadow-lg max-w-custom w-full">
+            <div className="relative mx-auto bg-white p-4 rounded-t-lg shadow-lg max-w-custom w-full border-2 border-gray-100">
               <button
                 onClick={handleModalClose}
                 className="absolute top-2 right-4 text-gray-500 text-lg"
