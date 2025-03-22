@@ -30,7 +30,8 @@ const SignUpPage = () => {
   });
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~`|\\-]{8,}$/;
 
   const handleConfirmPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -62,7 +63,7 @@ const SignUpPage = () => {
       setInputErrors((prev) => ({
         ...prev,
         password:
-          "비밀번호는 최소 8자 이상이어야 하며, 문자와 숫자를 포함해야 합니다.",
+          "비밀번호는 최소 8자 이상이어야 하며, 문자와 숫자를 포함해야 합니다.(특수문자 입력가능)",
       }));
       hasError = true;
     } else {
