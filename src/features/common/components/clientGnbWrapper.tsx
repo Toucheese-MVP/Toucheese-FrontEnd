@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useGNBStore } from "../../store/useGnbStore";
-import NavBar from "./Navbar";
+import { useGNBStore } from "../store/useGnbStore";
+import NavBar from "./navbar/Navbar";
 
 const ClientGNBWrapper = () => {
   const showGNB = useGNBStore((state) => state.showGNB);
