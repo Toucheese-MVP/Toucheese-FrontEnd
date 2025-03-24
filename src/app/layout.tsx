@@ -4,7 +4,7 @@ import { defaultMetadata as metadata } from "@/constants/metadata";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
 import Loading from "./loading";
-import BackgroundWrapper from "./BackgroundWrapper";
+import BackgroundWrapper from "@/features/common/ui/BackgroundWrapper";
 
 const pretendard = localFont({
   src: [
