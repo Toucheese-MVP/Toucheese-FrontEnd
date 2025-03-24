@@ -94,7 +94,7 @@ function Review() {
       await createReview({
         content,
         rating,
-        uploadFiles: selectedFiles, // ✅ 이미지 파일 전달
+        uploadFiles: selectedFiles,
       });
 
       alert("리뷰가 등록되었습니다.");
