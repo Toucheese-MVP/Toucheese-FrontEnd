@@ -1,7 +1,7 @@
 import { TopBar } from "@/features/common/components/topbar";
 import ContactList from "@/features/contact/ui/ContactList";
 
-function ContactRoutePage() {
+function Page() {
   return (
     <div className="-mx-4 p-4 pb-20 flex-1">
       <TopBar
@@ -15,4 +15,4 @@ function ContactRoutePage() {
   );
 }
 
-export default ContactRoutePage;
+export default Page;
