@@ -1,4 +1,4 @@
-export interface ReservatedList {
+export interface ReservationPage {
   totalPages: number;
   totalElements: number;
   size: number;

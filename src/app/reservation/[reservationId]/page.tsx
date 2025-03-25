@@ -1,24 +1,23 @@
+// ✅ CSR 기반 Entry 역할을 직접 수행하는 페이지
 "use client";
 
 import { useEffect } from "react";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
-import ReservationEdit from "@/features/reservation/ui/ReservationEdit";
 import { TopBar } from "@/features/common/components/topbar";
+import ReservationEditView from "@/features/reservation/ui/ReservationEditView";
 
-function Page() {
+export default function Page() {
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
 
   useEffect(() => {
     setShowGNB(false);
     return () => setShowGNB(true);
-  }, [setShowGNB]);
+  }, []);
 
   return (
     <div className="-mx-4 p-4 flex-1">
-      <TopBar showShare={false} showCart={false} message="예약 수정" />
-      <ReservationEdit />
+      <TopBar message="예약 수정" showCart={false} showShare={false} />
+      <ReservationEditView />
     </div>
   );
 }
-
-export default Page;

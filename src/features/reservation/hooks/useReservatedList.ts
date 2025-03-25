@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { usePaginatedRequest } from "@/features/common/hooks/usePaginationRequest";
-import { ReservatedList, Reservation } from "@/types/Reservated.type";
+import { ReservationPage, Reservation } from "@/types/Reservated.type";
 
 function useReservatedList(initialPage: number = 0) {
   const [currentPage, setCurrentPage] = useState<number>(initialPage);
@@ -8,7 +8,7 @@ function useReservatedList(initialPage: number = 0) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { data, refetch } = usePaginatedRequest<ReservatedList>(
+  const { data, refetch } = usePaginatedRequest<ReservationPage>(
     "/v1/members/reservations",
     currentPage
   );

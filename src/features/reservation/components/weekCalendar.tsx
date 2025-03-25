@@ -1,30 +1,34 @@
+// 책임분리
+
 import {
   format,
   startOfWeek,
   endOfWeek,
   eachDayOfInterval,
   parseISO,
-  isToday, // isToday 함수 추가
+  isBefore,
 } from "date-fns";
 
-interface WeekCalendarGridProps {
+interface WeekCalendarProps {
   createDate: string | null;
   selectedDate: string | null;
-  onDateClick: (date: string) => void;
-  isDayDisabled: (date: Date) => boolean;
+  onChange: (date: string) => void;
 }
 
-const WeekCalendarGrid = ({
+const WeekCalendar = ({
   createDate,
   selectedDate,
-  onDateClick,
-  isDayDisabled = () => false, // 기본값 설정
-}: WeekCalendarGridProps) => {
+  onChange,
+}: WeekCalendarProps) => {
   const createDateObject = createDate ? parseISO(createDate) : new Date();
   const weekStart = startOfWeek(createDateObject, { weekStartsOn: 0 });
   const weekEnd = endOfWeek(createDateObject, { weekStartsOn: 0 });
 
   const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
+
+  const today = new Date();
+
+  const isDisabled = (date: Date) => isBefore(date, today); // 오늘 이전은 비활성화
 
   return (
     <div className="grid grid-cols-7 gap-2 justify-between">
@@ -36,21 +40,18 @@ const WeekCalendarGrid = ({
 
       {weekDays.map((day) => {
         const dateFormatted = format(day, "yyyy-MM-dd");
-        const isSelected = selectedDate === dateFormatted;
-        const isDisabled = !isToday(day) && isDayDisabled(day);
+        const selected = selectedDate === dateFormatted;
+        const disabled = isDisabled(day);
 
         return (
           <button
-            key={day.toString()}
-            className={`rounded-full w-10 h-10 mx-auto ${
-              isSelected
-                ? "bg-yellow-300 text-black font-bold"
-                : isDisabled
-                  ? "text-gray-400 cursor-not-allowed"
-                  : ""
-            }`}
-            onClick={() => onDateClick(dateFormatted)}
-            disabled={isDisabled}
+            key={dateFormatted}
+            onClick={() => onChange(dateFormatted)}
+            disabled={disabled}
+            className={`rounded-full w-10 h-10 mx-auto transition-all
+              ${selected ? "bg-yellow-300 text-black font-bold" : ""}
+              ${disabled ? "text-gray-400 cursor-not-allowed" : "hover:bg-gray-100"}
+            `}
           >
             {format(day, "d")}
           </button>
@@ -60,4 +61,4 @@ const WeekCalendarGrid = ({
   );
 };
 
-export default WeekCalendarGrid;
+export default WeekCalendar;
