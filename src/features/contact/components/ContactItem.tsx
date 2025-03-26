@@ -8,7 +8,7 @@ interface ContactItemProps {
     status: string;
     author: string;
     date: string;
-    photos: [];
+    photos: string[];
   };
 }
 function ContactItem({ contact }: ContactItemProps) {
