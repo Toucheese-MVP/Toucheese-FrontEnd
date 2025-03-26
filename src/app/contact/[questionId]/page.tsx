@@ -1,25 +1,14 @@
-"use client";
-
 import { TopBar } from "@/features/common/components/topbar";
 import ContactItem from "@/features/contact/components/ContactItem";
-import { useFetchQuestion } from "@/features/contact/hooks/useFetchAnswer";
-import { use, useEffect } from "react";
+import { getQuestionDetail } from "@/features/contact/hooks/getQuestionDetail";
 
-function QuestionDetailPage({
+export default async function Page({
   params,
 }: {
   params: Promise<{ questionId: string }>;
 }) {
-  const resolvedParams = use(params);
-  const questionId = parseInt(resolvedParams.questionId, 10);
-
-  const { questionDetail, fetchQuestion } = useFetchQuestion();
-
-  useEffect(() => {
-    if (!isNaN(questionId)) {
-      fetchQuestion(questionId);
-    }
-  }, []);
+  const { questionId } = await params;
+  const questionDetail = await getQuestionDetail(parseInt(questionId, 10));
 
   if (!questionDetail) {
     return <div>문의 내용을 찾을 수 없습니다.</div>;
@@ -60,5 +49,3 @@ function QuestionDetailPage({
     </div>
   );
 }
-
-export default QuestionDetailPage;

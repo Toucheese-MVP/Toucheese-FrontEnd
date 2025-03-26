@@ -8,7 +8,7 @@ interface ContactItemProps {
     status: string;
     author: string;
     date: string;
-    photos: [];
+    photos: string[];
   };
 }
 function ContactItem({ contact }: ContactItemProps) {
@@ -16,7 +16,7 @@ function ContactItem({ contact }: ContactItemProps) {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md my-2">
-      <div className="flex items-center mb-2">
+      <div className="flex items-center">
         <h2 className="font-bold text-lg">
           <span className="text-primary-5">Q.</span> {contact.title}
         </h2>
@@ -32,11 +32,11 @@ function ContactItem({ contact }: ContactItemProps) {
       </div>
       <p>{contact.content}</p>
       {contact.photos.length > 0 && (
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 my-4">
           {contact.photos.slice(0, maxPhotos).map((photo, index) => (
             <div
               key={index}
-              className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-2"
+              className="relative w-16 h-16 rounded-lg overflow-hidden border border-gray-2"
             >
               <Image
                 src={photo}

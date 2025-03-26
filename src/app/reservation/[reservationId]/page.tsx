@@ -1,7 +1,23 @@
-import ReservationEditWrapper from "@/features/reservation/ui/ReservationWrapper";
+// ✅ CSR 기반 Entry 역할을 직접 수행하는 페이지
+"use client";
 
-function ReservationEditRoutePage() {
-  return <ReservationEditWrapper />;
+import { useEffect } from "react";
+import { useGNBStore } from "@/features/common/store/useGnbStore";
+import { TopBar } from "@/features/common/components/topbar";
+import ReservationEditView from "@/features/reservation/ui/ReservationEditView";
+
+export default function Page() {
+  const setShowGNB = useGNBStore((state) => state.setShowGNB);
+
+  useEffect(() => {
+    setShowGNB(false);
+    return () => setShowGNB(true);
+  }, []);
+
+  return (
+    <div className="-mx-4 p-4 flex-1">
+      <TopBar message="예약 수정" showCart={false} showShare={false} />
+      <ReservationEditView />
+    </div>
+  );
 }
-
-export default ReservationEditRoutePage;

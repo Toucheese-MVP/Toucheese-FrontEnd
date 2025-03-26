@@ -1,8 +1,8 @@
-export interface ReservationPage {
+export interface ReservatedListDTO {
   totalPages: number;
   totalElements: number;
   size: number;
-  content: Reservation[];
+  content: ReservationDTO[];
   number: number;
   sort: Sort;
   numberOfElements: number;
@@ -12,7 +12,7 @@ export interface ReservationPage {
   empty: boolean;
 }
 
-export interface Reservation {
+export interface ReservationDTO {
   reservationId: number;
   studioId: number;
   studioName: string;
@@ -23,13 +23,6 @@ export interface Reservation {
   status: string;
   productId: number;
 }
-
-// interface Time {
-//   hour: number;
-//   minute: number;
-//   second: number;
-//   nano: number;
-// }
 
 interface Sort {
   empty: boolean;
