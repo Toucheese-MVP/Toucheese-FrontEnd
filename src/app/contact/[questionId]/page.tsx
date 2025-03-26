@@ -5,10 +5,10 @@ import { getQuestionDetail } from "@/features/contact/hooks/getQuestionDetail";
 export default async function Page({
   params,
 }: {
-  params: { questionId: string };
+  params: Promise<{ questionId: string }>;
 }) {
-  const questionId = parseInt(params.questionId, 10);
-  const questionDetail = await getQuestionDetail(questionId);
+  const { questionId } = await params;
+  const questionDetail = await getQuestionDetail(parseInt(questionId, 10));
 
   if (!questionDetail) {
     return <div>문의 내용을 찾을 수 없습니다.</div>;
