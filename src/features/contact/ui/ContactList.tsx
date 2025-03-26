@@ -6,6 +6,7 @@ import CommonPagination from "@/features/common/components/pagination";
 import ContactItem from "../components/ContactItem";
 import ContactNewButton from "../components/ContactNewButton";
 import { ContactListViewModel } from "../vm/ContactListViewModel";
+import { Fragment } from "react";
 
 function ContactList() {
   const { questions, error, loading, modal, handlers, pagination } =
@@ -37,9 +38,8 @@ function ContactList() {
         </div>
       ) : (
         questions.map((item) => (
-          <>
+          <Fragment key={item.id}>
             <div
-              key={item.id}
               className="mb-4 cursor-pointer"
               onClick={() => handlers.handleItemClick(parseInt(item.id, 10))}
             >
@@ -74,7 +74,7 @@ function ContactList() {
               totalPages={pagination.totalPages}
               onPageChange={handlers.handlePageChange}
             />
-          </>
+          </Fragment>
         ))
       )}
 
