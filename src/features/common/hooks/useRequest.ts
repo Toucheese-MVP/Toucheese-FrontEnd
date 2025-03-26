@@ -1,18 +1,23 @@
+"use client";
+
 import { useState, useCallback } from "react";
-import { apiRequest } from "@/api/apiRequest";
+import apiClient from "@/api/apiCient";
+import { getCookie } from "@/utils/cookieUtils/cookieUtils";
 
 interface RequestOptions {
   headers?: Record<string, string>;
 }
 
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+
 function useRequest<T = unknown>() {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const request = useCallback(
     async (
-      method: "GET" | "POST" | "PUT" | "DELETE",
+      method: HttpMethod,
       endpoint: string,
       body?: unknown,
       params?: URLSearchParams,
@@ -22,27 +27,32 @@ function useRequest<T = unknown>() {
       setError(null);
 
       try {
-        const queryString = params?.toString();
-        const url = queryString ? `${endpoint}?${queryString}` : endpoint;
+        const url = params ? `${endpoint}?${params.toString()}` : endpoint;
+        const accessToken = getCookie("accessToken");
+        const deviceId = getCookie("deviceId");
 
-        // Make the API request
-        const response = await apiRequest<T, unknown>(
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+          ...(deviceId && { "Device-Id": deviceId }),
+          ...(options?.headers || {}),
+        };
+
+        const response = await apiClient.request<T>({
           method,
           url,
-          body,
-          undefined,
-          options
-        );
+          data: body,
+          headers,
+        });
 
-        setData(response);
-        return response;
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("알 수 없는 에러가 발생했습니다.");
-        }
-        throw err;
+        setData(response.data);
+        return response.data;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        const message =
+          err?.response?.data?.message || err.message || "요청 중 오류 발생";
+        setError(message);
+        throw new Error(message);
       } finally {
         setLoading(false);
       }

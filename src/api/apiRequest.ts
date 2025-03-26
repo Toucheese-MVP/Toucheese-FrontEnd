@@ -1,46 +1,28 @@
-import axios, { AxiosResponse, ResponseType } from "axios";
+// api/apiRequest.ts
 import apiClient from "./apiCient";
-import { getCookie } from "@/utils/cookieUtils";
+import { cookies } from "next/headers";
 
 export async function apiRequest<T, D = unknown>(
   method: "GET" | "POST" | "PUT" | "DELETE",
   endpoint: string,
   data?: D,
   params?: URLSearchParams,
-  options?: { headers?: Record<string, string>; responseType?: ResponseType }
+  headers: Record<string, string> = {}
 ): Promise<T> {
-  try {
-    const url = params ? `${endpoint}?${params.toString()}` : endpoint;
+  const cookieStore = cookies();
+  const accessToken = (await cookieStore).get("accessToken")?.value;
 
-    const token = getCookie("accessToken");
-
-    const defaultHeaders: Record<string, string> = {
+  const url = params ? `${endpoint}?${params.toString()}` : endpoint;
+  const response = await apiClient.request<T>({
+    method,
+    url,
+    data,
+    headers: {
       "Content-Type": "application/json",
-    };
+      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      ...headers,
+    },
+  });
 
-    if (token) {
-      defaultHeaders["Authorization"] = `Bearer ${token}`;
-    }
-
-    const response: AxiosResponse<T> = await apiClient.request({
-      method,
-      url,
-      data,
-      headers: {
-        ...defaultHeaders,
-        ...options?.headers,
-      },
-      responseType: options?.responseType || "json",
-    });
-
-    return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response?.data?.message) {
-      throw new Error(error.response.data.message);
-    }
-    if (error instanceof Error && error.message) {
-      throw new Error(error.message);
-    }
-    throw new Error("요청 처리 중 알 수 없는 오류가 발생했습니다.");
-  }
+  return response.data;
 }
