@@ -45,12 +45,9 @@ function ReservationListView() {
   }
 
   return (
-    <div>
+    <>
       {reservations.map((reservation) => (
-        <div
-          key={reservation.reservationId}
-          className="p-4 my-4 rounded-lg border bg-white border-gray-200"
-        >
+        <div key={reservation.reservationId}>
           <ReservationCard
             key={reservation.reservationId}
             reservation={mapReservationToCardProps(reservation)}
@@ -64,7 +61,7 @@ function ReservationListView() {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-    </div>
+    </>
   );
 }
 
