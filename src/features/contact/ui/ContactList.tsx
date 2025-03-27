@@ -8,6 +8,7 @@ import ContactItem from "../components/ContactItem";
 import CommonPagination from "@/features/common/components/pagination";
 import { Question } from "../types";
 import useRequest from "@/features/common/hooks/useRequest";
+import Link from "next/link";
 
 interface ContactListProps {
   initialData: {
@@ -59,13 +60,20 @@ function ContactList({ initialData }: ContactListProps) {
   };
 
   return (
-    <div>
+    <div className="relative">
       <AlertModal
         isOpen={isModalOpen}
         message={modalMessage}
         onClose={() => setIsModalOpen(false)}
       />
-
+      <div className="flex justify-end mb-4 ">
+        <Link
+          href="/contact/new"
+          className="fixed bottom-32 right-1/2 translate-x-1/2 z-50 px-4 py-3 bg-primary-4 text-white rounded-full text-sm font-medium shadow-md hover:bg-primary-6 transition"
+        >
+          새 문의 작성
+        </Link>
+      </div>
       {questions.length === 0 ? (
         <div className="text-center text-gray-500 py-6">
           문의 내용이 없습니다.
