@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiRequest } from "@/api/apiRequest";
+import useRequest from "@/features/common/hooks/useRequest";
 import { ReservationResponse, Reservation } from "../types/Admin.types";
 
 export function useAdminReservation(page: number = 1) {
@@ -8,14 +8,16 @@ export function useAdminReservation(page: number = 1) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { request } = useRequest<ReservationResponse>(); // ✅ 훅 호출
+
   const fetchReservations = async (page: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await apiRequest<ReservationResponse>(
+      const response = await request(
         "GET",
-        `/v1/admin/reservations?&page=${page - 1}`
+        `/v1/admin/reservations?page=${page - 1}`
       );
 
       setReservations(response.content);
