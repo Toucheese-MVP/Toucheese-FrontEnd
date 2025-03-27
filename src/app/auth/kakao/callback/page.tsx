@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import { getCookie } from "@/utils/cookieUtils";
+import { getCookie } from "@/utils/cookieUtils/cookieUtils";
 import Image from "next/image";
 
 function KakaoCallback() {
