@@ -1,20 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
 import useRequest from "@/features/common/hooks/useRequest";
-import { getCookie } from "@/utils/getcookie";
+import { getCookie } from "@/utils/cookieUtils/cookieUtils";
+import type { Question } from "../types";
 
 type QuestionResponse = {
   content: Question[];
   totalPages: number;
   totalElements: number;
-};
-
-type Question = {
-  id: string;
-  title: string;
-  content: string;
-  createDate: string;
-  answerStatus: string;
-  imageUrls: [];
 };
 
 export function useQuestionsList(

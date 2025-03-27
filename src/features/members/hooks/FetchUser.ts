@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import useRequest from "@/features/common/hooks/useRequest";
-import { getCookie } from "@/utils/getcookie";
+import { getCookie } from "@/utils/cookieUtils/cookieUtils";
 
 type UserData = {
   memberId: number;

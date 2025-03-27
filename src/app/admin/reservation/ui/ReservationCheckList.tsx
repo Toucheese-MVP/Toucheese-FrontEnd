@@ -1,4 +1,4 @@
-import { handleStatusChange } from "../../hooks/handleStatusChange";
+import { useHandleStatusChange } from "../../hooks/handleStatusChange";
 import { Reservation } from "../../types/Admin.types";
 
 type ReservationListProps = {
@@ -8,6 +8,7 @@ type ReservationListProps = {
 const ReservationCheckList: React.FC<ReservationListProps> = ({
   reservations,
 }) => {
+  const { handleStatusChange } = useHandleStatusChange();
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg">
       <table className="hidden md:table min-w-full text-sm text-gray-800 border-collapse">

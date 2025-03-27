@@ -1,4 +1,3 @@
-// ✅ CSR 기반 Entry 역할을 직접 수행하는 페이지
 "use client";
 
 import { useEffect } from "react";

@@ -1,5 +1,7 @@
+"use client";
+
 import { useRouter } from "next/navigation";
-import { handleReservationUpdate } from "../hooks/useUpdateReservation";
+import { useHandleReservationUpdate } from "../hooks/useUpdateReservation";
 
 interface Props {
   reservationId: number;
@@ -15,13 +17,15 @@ const ReservationActions = ({
   pageIndex,
 }: Props) => {
   const router = useRouter();
+  const { handleReservationUpdate } = useHandleReservationUpdate(); // ✅ 훅 호출 후 함수 사용
 
   const handleUpdate = async () => {
     if (!selectedDate || !selectedTime || !reservationId) {
       alert("날짜와 시간을 선택하세요.");
       return;
     }
-    await handleReservationUpdate(reservationId, selectedDate, selectedTime);
+
+    await handleReservationUpdate(reservationId, selectedDate, selectedTime); // ✅ 함수 호출
     router.push(`/reservation?page=${pageIndex + 1}`);
   };
 

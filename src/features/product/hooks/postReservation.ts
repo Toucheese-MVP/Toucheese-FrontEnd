@@ -1,4 +1,4 @@
-import { getCookie } from "@/utils/getcookie";
+import { getCookie } from "@/utils/cookieUtils/cookieUtils";
 
 export interface ReservationData {
   productId: number;
