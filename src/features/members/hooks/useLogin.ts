@@ -1,13 +1,13 @@
-"use client";
-
 import axios from "axios";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -54,7 +54,8 @@ const useLogin = () => {
         JSON.stringify({ memberId, name, deviceId })
       );
 
-      window.location.href = "/";
+      const redirectTo = searchParams.get("redirect") || "/";
+      router.push(redirectTo); // ✅ 로그인 성공 후 리디렉션 처리
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 400) {

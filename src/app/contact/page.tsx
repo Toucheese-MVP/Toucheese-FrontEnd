@@ -2,8 +2,9 @@ import { TopBar } from "@/features/common/components/topbar";
 import ContactList from "@/features/contact/ui/ContactList";
 import { getQuestionsList } from "@/features/contact/hooks/getQuestionList";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import LoginRequired from "@/features/common/components/loginRequired";
 
-// 페이지 전용 메타데이터 정의
 export const metadata: Metadata = {
   title: "터치즈 | 문의하기",
   description:
@@ -35,14 +36,28 @@ export const metadata: Metadata = {
 };
 
 async function Page() {
-  const response = await getQuestionsList(1);
+  const cookieStore = cookies();
+  const accessToken = (await cookieStore).get("accessToken")?.value;
+  const isLoggedIn = !!accessToken;
+
+  if (!isLoggedIn) {
+    return (
+      <LoginRequired
+        message="문의내역을 확인하려면 로그인이 필요합니다."
+        redirectTo="/members/login?redirect=/contact"
+      />
+    );
+  }
+
+  const response = await getQuestionsList(1); // 이제 로그인된 경우에만 실행됨
+
   return (
     <div className="-mx-4 p-4 pb-20 flex-1">
       <TopBar
         message="문의하기"
-        showBack={false}
         showCart={false}
         showShare={false}
+        showBack={false}
       />
       <ContactList initialData={response} />
     </div>
