@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://toucheese.net
+
+# Sitemaps
+Sitemap: https://toucheese.net/sitemap.xml

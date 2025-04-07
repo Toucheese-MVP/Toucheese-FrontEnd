@@ -15,10 +15,10 @@ export const defaultMetadata: Metadata = {
     "트렌디한 스튜디오",
     "촬영 공간",
   ],
-  metadataBase: new URL("https://toucheese.shop"),
+  metadataBase: new URL("https://toucheese.net"),
   robots: "index, follow",
   alternates: {
-    canonical: "https://toucheese.shop",
+    canonical: "https://toucheese.net",
   },
   icons: {
     icon: [
@@ -40,14 +40,14 @@ export const defaultMetadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://toucheese.shop",
+    url: "https://toucheese.net",
     title: "터치즈 | 나에게 딱 맞는 스튜디오 플랫폼",
     description:
       "트렌디한 스튜디오를 한 곳에! 감각적인 촬영 공간, 나만의 스타일, 간편 비교와 예약까지 – 찰나를 담는 모든 순간을 터치즈에서 경험하세요.",
     siteName: "터치즈",
     images: [
       {
-        url: "https://toucheese.shop/images/og-image.jpg",
+        url: "https://toucheese.net/default/sample.png",
         width: 1200,
         height: 630,
         alt: "터치즈 - 원하는 스튜디오를 한 눈에!",
@@ -59,6 +59,6 @@ export const defaultMetadata: Metadata = {
     title: "터치즈 | 원하는 스튜디오를 한 눈에!",
     description:
       "감각적인 촬영을 위한 모든 것! 스튜디오 비교·문의·예약을 터치즈에서 한 번에.",
-    images: ["https://toucheese.shop/images/og-image.jpg"],
+    images: ["https://toucheese.net/default/sample.png"],
   },
 };
