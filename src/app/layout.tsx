@@ -4,8 +4,6 @@ import { defaultMetadata as metadata } from "@/constants/metadata";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/clientGnbWrapper";
 import Loading from "./loading";
-import BackgroundWrapper from "@/features/common/ui/BackgroundWrapper";
-
 const pretendard = localFont({
   src: [
     {
@@ -18,7 +16,7 @@ const pretendard = localFont({
   variable: "--font-pretendard",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -27,8 +25,8 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard bg-white`}>
         <Suspense fallback={<Loading />}>
-          <main className="relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto pt-16 shadow-lg">
-            <BackgroundWrapper>{children}</BackgroundWrapper>
+          <main className="bg-white relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto pt-16 pb-36 px-4 shadow-lg">
+            {children}
           </main>
         </Suspense>
         <ClientGNBWrapper />
