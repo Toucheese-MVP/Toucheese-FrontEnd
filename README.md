@@ -5,7 +5,7 @@
 
 ## 터치즈 배포주소
 
-https://www.toucheese-macwin.store/
+https://www.toucheese.net/
 
 ## 터치즈 랜딩페이지
 
