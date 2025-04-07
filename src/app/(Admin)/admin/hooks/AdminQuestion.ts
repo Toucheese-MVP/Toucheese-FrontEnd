@@ -3,6 +3,7 @@ import useRequest from "@/features/common/hooks/useRequest";
 
 type QuestionResponse = {
   content: {
+    authorName: string;
     id: number;
     title: string;
     content: string;

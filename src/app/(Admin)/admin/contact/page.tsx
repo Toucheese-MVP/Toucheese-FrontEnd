@@ -4,9 +4,9 @@ import AdminContactList from "./ui/ContactList";
 
 const AdminContactPage = () => {
   return (
-    <div>
-      <AdminContactList />
-    </div>
+    <>
+      <AdminContactList />;
+    </>
   );
 };
 
