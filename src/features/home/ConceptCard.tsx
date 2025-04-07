@@ -6,7 +6,7 @@ interface ConceptCardProps {
   id?: number;
   name?: string;
   index?: number;
-  isLoading: boolean; // ✅ 부모로부터 isLoading을 props로 받음
+  isLoading: boolean;
 }
 
 const ConceptCard: React.FC<ConceptCardProps> = ({
@@ -36,7 +36,7 @@ const ConceptCard: React.FC<ConceptCardProps> = ({
       ) : (
         <div className="relative aspect-[3/4]">
           <Image
-            src={`/concept${index! + 1}.webp`}
+            src={`/concept/concept${index! + 1}.webp`}
             alt={name!}
             fill
             className="object-cover duration-300 hover:scale-105 transition-all"
