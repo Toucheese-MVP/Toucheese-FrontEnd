@@ -134,6 +134,7 @@ function AdminContactList() {
             <th className="px-2 py-2 text-center">ID</th>
             <th className="px-2 py-2 text-center">제목</th>
             <th className="px-2 py-2 text-center">내용</th>
+            <th className="px-2 py-2 text-center">작성자</th>
             <th className="px-2 py-2 text-center">작성일</th>
             <th className="px-2 py-2 text-center">상태</th>
           </tr>
@@ -152,6 +153,7 @@ function AdminContactList() {
               <td className="py-2 px-2 text-center truncate max-w-xs">
                 {question.content}
               </td>
+              <td className="py-2 px-2 text-center">{question.authorName}</td>
               <td className="py-2 px-2 text-center">{question.createDate}</td>
               <td className="py-2 px-2 text-center">{question.answerStatus}</td>
             </tr>
