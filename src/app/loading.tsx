@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="fixed inset-0 flex items-center flex-col justify-center bg-white bg-opacity-75 z-50 text-black">
+    <div className="absolute left-0 right-0 top-0 bottom-0 flex flex-col items-center justify-center bg-opacity-75 z-50 text-black">
       <svg
         width="954"
         height="936"
@@ -18,7 +18,7 @@ export default function Loading() {
           fill="black"
         />
       </svg>
-      <p className="text-lg mt-4">로딩중...</p>
+      <p className="text-lg mt-4 ml-2">로딩중...</p>
     </div>
   );
 }
