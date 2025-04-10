@@ -84,13 +84,13 @@ export function useProductDetail(product: ProductDetailItems) {
       });
 
       setTimeout(() => {
-        setIsAlertOpen(false);
         router.push("/cart/");
       }, 1500);
-    } catch (error) {
-      console.error("예약 요청 중 오류 발생:", error);
-      setAlertMessage("예약 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
-      setIsAlertOpen(true);
+    } catch {
+      alert("로그인 후 이용 가능한 서비스입니다.");
+      const redirectUrl = `/members/login?redirect=/products/${reservationData.productId}`;
+      window.location.href = redirectUrl;
+      return;
     }
   };
 

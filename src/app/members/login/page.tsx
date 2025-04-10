@@ -2,6 +2,7 @@ import ClientWrapper from "@/features/common/components/ClientWrapper";
 import LoginForm from "@/features/members/ui/LoginForm";
 import SNSLogin from "@/features/members/components/SNSLogin";
 import Image from "next/image";
+import Link from "next/link";
 
 const LoginPage = () => {
   return (
@@ -21,6 +22,12 @@ const LoginPage = () => {
         </div>
         <LoginForm />
         <SNSLogin />
+        <Link
+          href="/"
+          className="text-center block mt-20 text-sm text-gray-500 underline"
+        >
+          비로그인으로 둘러보기
+        </Link>
       </div>
     </ClientWrapper>
   );

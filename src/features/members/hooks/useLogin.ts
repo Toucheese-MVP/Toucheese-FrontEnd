@@ -55,7 +55,7 @@ const useLogin = () => {
       );
 
       const redirectTo = searchParams.get("redirect") || "/";
-      router.push(redirectTo); // ✅ 로그인 성공 후 리디렉션 처리
+      router.push(redirectTo);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 400) {
