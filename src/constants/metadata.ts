@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 
 export const defaultMetadata: Metadata = {
-  title: "터치즈 | 나에게 딱 맞는 스튜디오 플랫폼",
+  title: "터치즈",
   description:
     "터치즈, 여생 중 찬란한 찰나를 담다. 증명사진부터 감성 스냅까지! 스튜디오 비교·문의·예약을 한 번에 해결하세요. 트렌디한 스튜디오를 모아 당신의 일정과 스타일에 맞게 추천합니다.",
-  verification: {
-    google: "IJeMgHl-iBTqOb_ZxqwwGeGGeXEoj_vPqa-jntcFmxc",
-  },
   keywords: [
     "스튜디오 예약",
     "사진 스튜디오",
@@ -25,6 +22,7 @@ export const defaultMetadata: Metadata = {
   },
   icons: {
     icon: [
+      { rel: "icon", url: "/favicon.ico" },
       { rel: "icon", url: "/favicons/favicon-16x16.png", sizes: "16x16" },
       { rel: "icon", url: "/favicons/favicon-32x32.png", sizes: "32x32" },
     ],
