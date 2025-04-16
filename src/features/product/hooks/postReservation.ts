@@ -13,31 +13,33 @@ export interface ReservationData {
 export const postReservation = async (reservationData: ReservationData) => {
   const token = getCookie("refreshToken");
 
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/members/carts`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(reservationData),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`상품담기 실패: ${response.status}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/members/carts`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(reservationData),
     }
+  );
 
-    const contentType = response.headers.get("Content-Type");
-    if (contentType && contentType.includes("application/json")) {
-      return await response.json();
-    }
-
-    return null;
-  } catch (error) {
-    console.error("예약 요청 중 오류 발생:", error);
-    throw error;
+  if (response.status === 401) {
+    alert("로그인 후 이용 가능한 서비스입니다.");
+    const redirectUrl = `/members/login?redirectTo=/products/${reservationData.productId}`;
+    window.location.href = redirectUrl;
+    return;
   }
+
+  if (!response.ok) {
+    throw new Error(`상품담기 실패: ${response.status}`);
+  }
+
+  const contentType = response.headers.get("Content-Type");
+  if (contentType?.includes("application/json")) {
+    return await response.json();
+  }
+
+  return null;
 };
