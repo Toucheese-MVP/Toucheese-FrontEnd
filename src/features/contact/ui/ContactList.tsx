@@ -8,7 +8,7 @@ import ContactItem from "../components/ContactItem";
 import CommonPagination from "@/features/common/components/pagination";
 import { Question } from "../types";
 import useRequest from "@/features/common/hooks/useRequest";
-import Link from "next/link";
+import ContactNewButton from "../components/contactNewButton";
 
 interface ContactListProps {
   initialData: {
@@ -60,63 +60,58 @@ function ContactList({ initialData }: ContactListProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="h-[200vh]">
       <AlertModal
         isOpen={isModalOpen}
         message={modalMessage}
         onClose={() => setIsModalOpen(false)}
       />
-      <div className="flex justify-end mb-4 ">
-        <Link
-          href="/contact/new"
-          className="fixed bottom-32 right-1/2 translate-x-1/2 z-50 px-4 py-3 bg-primary-4 text-white rounded-full text-sm font-medium shadow-md hover:bg-primary-6 transition"
-        >
-          새 문의 작성
-        </Link>
-      </div>
+      <ContactNewButton />
       {questions.length === 0 ? (
         <div className="text-center text-gray-500 py-6">
           문의 내용이 없습니다.
         </div>
       ) : (
-        questions.map((item) => (
-          <div key={item.id} className="mb-4 cursor-pointer">
-            <div
-              className="flex flex-col"
-              onClick={() => handleItemClick(item.id)}
-            >
-              <div className="flex space-x-2 justify-end">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(item.id);
+        <>
+          {questions.map((item) => (
+            <div key={item.id} className="mb-4 cursor-pointer">
+              <div
+                className="flex flex-col"
+                onClick={() => handleItemClick(item.id)}
+              >
+                <div className="flex space-x-2 justify-end">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(item.id);
+                    }}
+                    className="text-gray-500 text-sm hover:text-gray-700"
+                  >
+                    삭제
+                  </button>
+                </div>
+                <ContactItem
+                  contact={{
+                    id: item.id,
+                    title: item.title,
+                    content: item.content,
+                    status: item.answerStatus,
+                    author: "작성자",
+                    date: item.createDate,
+                    photos: item.imageUrls,
                   }}
-                  className="text-gray-500 text-sm hover:text-gray-700"
-                >
-                  삭제
-                </button>
+                />
               </div>
-              <ContactItem
-                contact={{
-                  id: item.id,
-                  title: item.title,
-                  content: item.content,
-                  status: item.answerStatus,
-                  author: "작성자",
-                  date: item.createDate,
-                  photos: item.imageUrls,
-                }}
-              />
             </div>
-          </div>
-        ))
-      )}
+          ))}
 
-      <CommonPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={refetch}
-      />
+          <CommonPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={refetch}
+          />
+        </>
+      )}
     </div>
   );
 }
