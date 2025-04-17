@@ -77,10 +77,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .global_gnb {
-    padding: 12px 0; /* 작은 화면에서 여백 조정 */
-  }
-
   .global_gnb button {
     font-size: var(--font-size-sm);
   }

@@ -11,7 +11,7 @@ const Links = () => {
   ];
 
   return (
-    <nav className="flex justify-around gap-4 py-4">
+    <nav className="flex justify-around gap-4">
       {links.map((link) => (
         <NavLink key={link.title} item={link} />
       ))}
