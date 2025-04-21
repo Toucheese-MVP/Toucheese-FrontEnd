@@ -1,5 +1,6 @@
 import { useHandleStatusChange } from "../../hooks/handleStatusChange";
 import { Reservation } from "../../types/Admin.types";
+import { format } from "date-fns";
 
 type ReservationListProps = {
   reservations: Reservation[];
@@ -24,6 +25,7 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
             <th className="px-2 py-2 text-center">상품 가격</th>
             <th className="px-2 py-2 text-left">선택 옵션</th>
             <th className="px-2 py-2 text-center">예약 상태</th>
+            <th className="px-2 py-2 text-center">신청 일자</th>
           </tr>
         </thead>
         <tbody>
@@ -95,6 +97,12 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
                   <option value="촬영완료">촬영완료</option>
                 </select>
               </td>
+              <td className="py-4 px-2 border-r text-center">
+                {format(
+                  new Date(reservation.reservationCompletedAt),
+                  "yyyy-MM-dd HH:mm"
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -149,6 +157,13 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
                 </select>
               </div>
             </details>
+            <p>
+              신청 일자:{" "}
+              {format(
+                new Date(reservation.reservationCompletedAt),
+                "yyyy-MM-dd HH:mm"
+              )}
+            </p>
           </div>
         ))}
       </div>
