@@ -11,9 +11,9 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
 }) => {
   const { handleStatusChange } = useHandleStatusChange();
   return (
-    <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+    <div className="overflow-x-auto max-h-[70vh] overflow-y-scroll">
       <table className="hidden md:table min-w-full text-sm text-gray-800 border-collapse">
-        <thead className="bg-gray-200">
+        <thead className="sticky top-0 z-10 bg-gray-200">
           <tr>
             <th className="px-2 py-2 text-center">이름</th>
             <th className="px-2 py-2 text-center">전화번호</th>
@@ -60,22 +60,23 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
               <td className="py-4 my-2 border-r text-center">
                 {reservation.productPrice}
               </td>
-              <td>
-                {!reservation.selectAddOptions ||
-                reservation.selectAddOptions.length === 0 ? (
-                  <p className=" px-2 py-1 text-left border-r">
-                    선택된 옵션이 없습니다.
-                  </p>
+              <td className="py-2 px-2 border-r text-left max-w-[200px]">
+                {reservation.selectAddOptions.length === 0 ? (
+                  <p>선택된 옵션이 없습니다.</p>
                 ) : (
-                  reservation.selectAddOptions.map((selectAddOption) => (
-                    <p
-                      key={selectAddOption.selectOptionId}
-                      className="px-2 py-1 text-left border-r"
-                    >
-                      {selectAddOption.selectOptionName} -{" "}
-                      {selectAddOption.selectOptionPrice}원
-                    </p>
-                  ))
+                  <details className="cursor-pointer select-none text-blue-600">
+                    <summary>
+                      총 {reservation.selectAddOptions.length}개 옵션 보기
+                    </summary>
+                    <div className="mt-1 text-gray-800">
+                      {reservation.selectAddOptions.map((option) => (
+                        <p key={option.selectOptionId}>
+                          {option.selectOptionName} - {option.selectOptionPrice}
+                          원
+                        </p>
+                      ))}
+                    </div>
+                  </details>
                 )}
               </td>
               <td className="px-4 py-2 font-semibold">
@@ -98,10 +99,12 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
                 </select>
               </td>
               <td className="py-4 px-2 border-r text-center">
-                {format(
-                  new Date(reservation.reservationCompletedAt),
-                  "yyyy-MM-dd HH:mm"
-                )}
+                {reservation.reservationCompletedAt
+                  ? format(
+                      new Date(reservation.reservationCompletedAt),
+                      "yyyy-MM-dd HH:mm"
+                    )
+                  : "기존 미표기"}
               </td>
             </tr>
           ))}
@@ -158,11 +161,13 @@ const ReservationCheckList: React.FC<ReservationListProps> = ({
               </div>
             </details>
             <p>
-              신청 일자:{" "}
-              {format(
-                new Date(reservation.reservationCompletedAt),
-                "yyyy-MM-dd HH:mm"
-              )}
+              신청 일자:
+              {reservation.reservationCompletedAt
+                ? format(
+                    new Date(reservation.reservationCompletedAt),
+                    "yyyy-MM-dd HH:mm"
+                  )
+                : "기존 미표기"}
             </p>
           </div>
         ))}

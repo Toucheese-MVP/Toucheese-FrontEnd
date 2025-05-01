@@ -19,7 +19,7 @@ export interface Reservation {
   productPrice: number; // 상품 가격
   selectAddOptions: SelectAddOption[]; // 선택 옵션 배열
   createTime: string;
-  reservationCompletedAt: string; // 예약 신청 일자 (ISO 8601)
+  reservationCompletedAt?: string | null; // 예약 신청 일자 (ISO 8601)
 }
 
 // 페이징 관련 정렬 정보 인터페이스
