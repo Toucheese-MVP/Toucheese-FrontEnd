@@ -18,7 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-4">
+    <div className="flex justify-center items-center space-x-2 mt-4 absolute left-0 right-0 bottom-20">
       <button
         className={`px-3 py-1 rounded-md ${
           currentPage === 1
