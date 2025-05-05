@@ -159,10 +159,14 @@ const StudioList = ({
             </Link>
           ))}
 
+          {/**NOTE - concept 3의 page 분기처리 - page3부터 안보이도록 설정 */}
           <CommonPagination
             currentPage={currentPage + 1}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
+            totalPages={conceptId === 3 ? 2 : totalPages}
+            onPageChange={(newPage) => {
+              if (conceptId === 3 && newPage > 2) return;
+              handlePageChange(newPage);
+            }}
           />
         </>
       ) : (
