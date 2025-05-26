@@ -16,7 +16,7 @@ const LoginRequired = ({ message, redirectTo = "/members/login" }: Props) => {
   };
 
   return (
-    <div className="flex-1 flex  flex-col items-center justify-center gap-4 text-center ">
+    <div className="flex flex-col items-center justify-center gap-4 text-center absolute left-0 right-0 bottom-24 top-0">
       <svg
         width="954"
         height="936"

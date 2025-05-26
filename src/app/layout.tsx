@@ -24,7 +24,7 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard bg-white`}>
-        <main className="bg-white relative flex flex-col min-h-screen max-w-[var(--max-width)] mx-auto pt-16 pb-36 px-4 shadow-lg">
+        <main className="md:relative md:min-h-screen h-auto max-w-[var(--max-width)] mx-auto pt-16 pb-24 px-4 md:shadow-md">
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </main>
         <ClientGNBWrapper />
