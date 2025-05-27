@@ -25,7 +25,7 @@ const useProductOrderStore = create<ProductOrderState>((set) => ({
   productTitle: "",
   productId: null,
   productImage: "",
-  quantity: 1,
+  quantity: 0,
   selectedAddOptions: [],
   selectedDate: null,
   totalPrice: 0,
