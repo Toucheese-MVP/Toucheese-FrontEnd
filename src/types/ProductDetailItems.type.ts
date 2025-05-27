@@ -7,6 +7,7 @@ export interface ProductDetailItems {
   standard: number;
   price: number;
   studioId?: number;
+  plusOptionInfo?: { isPlusOpt: number; plusOptPrice: number };
   addOptions: {
     id: number;
     name: string;

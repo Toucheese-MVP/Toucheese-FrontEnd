@@ -36,13 +36,18 @@ export function useProductDetail(product: ProductDetailItems) {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
   const calculateTotalPrice = () => {
     const optionsTotal = selectedAddOptions.reduce(
       (sum, option) => sum + option.price,
       0
     );
-    return product.price * quantity + optionsTotal;
+
+    const additionalPrice =
+      product.plusOptionInfo?.isPlusOpt === 1
+        ? quantity * (product.plusOptionInfo.plusOptPrice ?? 0)
+        : 0;
+
+    return product.price + optionsTotal + additionalPrice;
   };
 
   const handleOrder = async () => {

@@ -19,7 +19,9 @@ function ProductRoutePage({
   }, [params]);
 
   if (productId === null) {
-    return <div>상품 데이터를 불러오는 중입니다...</div>;
+    return (
+      <div className="text-center">상품 데이터를 불러오는 중입니다...</div>
+    );
   }
 
   return (

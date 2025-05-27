@@ -46,9 +46,9 @@ const CalendarGrid = ({
             key={day.toString()}
             className={`rounded-full w-10 h-10 mx-auto ${
               selectedDate === format(day, "yyyy-MM-dd")
-                ? "bg-cheese-bg font-semibold"
+                ? "bg-primary-4 font-semibold"
                 : isToday(day)
-                  ? " bg-custom-bg"
+                  ? " bg-primary-2"
                   : isDayDisabled(day)
                     ? "text-gray-300 cursor-not-allowed"
                     : ""
