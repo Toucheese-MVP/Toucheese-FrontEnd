@@ -86,7 +86,7 @@ const ReservationDate = ({
   }
 
   return (
-    <div className="aspect-3/4 max-w-custom w-full bg-white p-4 flex flex-col rounded-lg">
+    <div className="min-h-[500px] max-h-[90%] p-4 flex flex-col pb-24">
       <CalendarHeader
         currentMonth={currentMonth}
         onPrevious={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -99,15 +99,13 @@ const ReservationDate = ({
         onDateClick={setSelectedDate}
         isDayDisabled={isDayDisabled}
       />
-      {selectedDate && (
-        <TimeSelector
-          selectedDate={selectedDate}
-          calendarData={calendarData}
-          selectedTime={selectedTime}
-          onTimeClick={setSelectedTime}
-          isTimeDisabled={isTimeDisabled}
-        />
-      )}
+      <TimeSelector
+        selectedDate={selectedDate || ""}
+        calendarData={calendarData}
+        selectedTime={selectedTime}
+        onTimeClick={setSelectedTime}
+        isTimeDisabled={isTimeDisabled}
+      />
       <div className="mt-auto flex gap-2">
         <div className="flex w-1/2 ">
           <button

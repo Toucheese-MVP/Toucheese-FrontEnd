@@ -26,7 +26,7 @@ const TimeSelector = ({
   );
 
   return (
-    <div className="mt-4">
+    <div className="my-6">
       <h3 className="text-lg font-semibold mb-2">예약가능시간대</h3>
       {availableTimes.length === 0 ? (
         <p className="text-gray-500">예약날짜를 먼저 선택해주세요.</p>
