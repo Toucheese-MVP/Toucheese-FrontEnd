@@ -1,14 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 import useProductStore from "@/features/product/store/ProductStore";
 import ProductDetail from "../components/ProductDetail";
 
 function ProductWrapper({ productId }: { productId: number }) {
-  const setShowGNB = useGNBStore((state) => state.setShowGNB);
-
   const { data: product, loading, error } = useProductsDetail(productId);
   const setProductId = useProductStore((state) => state.setProductId);
   const setProductTitle = useProductStore((state) => state.setProductTitle);
@@ -34,11 +31,6 @@ function ProductWrapper({ productId }: { productId: number }) {
     setProductDescription,
     setProductImage,
   ]);
-
-  useEffect(() => {
-    setShowGNB(false);
-    return () => setShowGNB(true);
-  }, [setShowGNB]);
 
   if (loading) return <div>상품 데이터를 로딩 중입니다...</div>;
   if (error) {

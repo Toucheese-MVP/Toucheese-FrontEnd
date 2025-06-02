@@ -8,7 +8,6 @@ import StudioSummary from "@/features/studios/components/StudioSummary";
 import { StudioTabs } from "@/features/studios/components/StudioTabs";
 import { StudioProducts } from "@/features/studios/components/StudioProducts";
 import { StudioReviews } from "@/features/studios/ui/StudioReviews";
-import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { TopBar } from "@/features/common/components/topbar";
 import useStudioStore from "@/features/studios/store/StudioStore";
 import { StudioDetailSkeleton } from "@/features/common/components/StudioSkeletonLoader";
@@ -22,15 +21,12 @@ function StudioDetailPage({
   const studioIdNumber = parseInt(studioId, 10);
 
   const { activeTab, setStudioId, setOperatingHours } = useStudioStore();
-  const setShowGNB = useGNBStore((state) => state.setShowGNB);
   const { data: studioData, loading } = useStudioDetail(studioIdNumber);
   const { data: reviews } = useStudioReviews(studioIdNumber);
 
   useEffect(() => {
     setStudioId(studioIdNumber);
-    setShowGNB(false);
-    return () => setShowGNB(true);
-  }, [studioIdNumber, setStudioId, setShowGNB, setOperatingHours]);
+  }, [studioIdNumber, setStudioId, setOperatingHours]);
 
   if (loading) {
     return <StudioDetailSkeleton />;
