@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     url: "https://toucheese.shop/contact",
     images: [
       {
-        url: "https://toucheese.shop/images/og-image.jpg",
+        url: "https://toucheese.shop/images/og-image-contact.jpg",
         width: 1200,
         height: 630,
         alt: "터치즈 문의하기 페이지",
@@ -28,10 +28,10 @@ export const metadata: Metadata = {
     title: "터치즈 | 문의하기",
     description:
       "터치즈 이용 중 궁금한 점은 언제든지 문의해주세요. 사용자 의견을 소중히 생각합니다.",
-    images: ["https://toucheese-macwin.store/images/og-image.jpg"],
+    images: ["https://toucheese.net/images/og-image-contact.jpg"],
   },
   alternates: {
-    canonical: "https://toucheese-macwin.store/contact",
+    canonical: "https://toucheese.net/contact",
   },
 };
 
@@ -49,7 +49,7 @@ async function Page() {
     );
   }
 
-  const response = await getQuestionsList(1); // 이제 로그인된 경우에만 실행됨
+  const response = await getQuestionsList(1);
 
   return (
     <div className="-mx-4 p-4 pb-20 flex-1">

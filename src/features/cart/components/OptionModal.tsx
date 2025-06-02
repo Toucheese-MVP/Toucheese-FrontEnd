@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { AddOption, SelectAddOption } from "@/types/Cart.type";
 import Image from "next/image";
-import AlertModal from "@/features/common/components/AlertModal";
 
 interface OptionModalProps {
   onClose: () => void;
@@ -42,8 +41,9 @@ const OptionModal: React.FC<OptionModalProps> = ({
   const [totalPrice, setTotalPrice] = useState(initialValues.totalPrice);
   const [personnel, setPersonnel] = useState(initialValues.personnel);
   const [selectedOptions, setSelectedOptions] = useState<AddOption[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+
+  const basePersonnel = cartItem.productStandard;
+  const additionalPersonnel = personnel - basePersonnel;
 
   useEffect(() => {
     const initialSelectedOptions =
@@ -56,26 +56,21 @@ const OptionModal: React.FC<OptionModalProps> = ({
     setSelectedOptions(initialSelectedOptions);
   }, [initialValues]);
 
-  const handlePersonnelChange = (type: "increase" | "decrease") => {
-    const maxPersonnel = cartItem.productStandard;
-    const minPersonnel = cartItem.productStandard;
+  const handleIncrease = () => {
+    setPersonnel((prev) => {
+      const next = prev + 1;
+      setTotalPrice((prevPrice) => prevPrice + cartItem.productPrice);
+      return next;
+    });
+  };
 
-    if (type === "increase") {
-      if (personnel < maxPersonnel) {
-        setPersonnel((prev) => prev + 1);
-        setTotalPrice((prevPrice) => prevPrice + cartItem.productPrice);
-      } else {
-        setModalMessage(`상품의 최대 예약 인원이 ${maxPersonnel}명입니다.`);
-        setIsModalOpen(true);
-      }
-    } else {
-      if (personnel > minPersonnel) {
-        setPersonnel((prev) => prev - 1);
+  const handleDecrease = () => {
+    if (personnel > basePersonnel) {
+      setPersonnel((prev) => {
+        const next = prev - 1;
         setTotalPrice((prevPrice) => prevPrice - cartItem.productPrice);
-      } else {
-        setModalMessage(`싱픔의 최소 예약 인원이 ${minPersonnel}명입니다.`);
-        setIsModalOpen(true);
-      }
+        return next;
+      });
     }
   };
 
@@ -107,7 +102,6 @@ const OptionModal: React.FC<OptionModalProps> = ({
     onSave(updatedData);
     onClose();
   };
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end justify-center">
       <div className="bg-white w-full max-w-custom rounded-t-lg">
@@ -162,29 +156,33 @@ const OptionModal: React.FC<OptionModalProps> = ({
             </p>
           </div>
           <div className="flex justify-between items-center mb-4 border-b py-4">
-            <span className="text-gray-700 text-lg font-bold">인원</span>
+            <span className="text-gray-700 text-lg font-bold">추가인원</span>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => handlePersonnelChange("decrease")}
-                className="p-2 rounde"
+                onClick={handleDecrease}
+                className="p-1 rounded disabled:opacity-30 bg-gray-2"
+                disabled={personnel <= basePersonnel}
               >
                 <Image
                   src="/icons/remove.svg"
                   alt="인원감소"
-                  width={24}
-                  height={24}
+                  width={16}
+                  height={16}
                 />
               </button>
-              <span>{personnel}</span>
+
+              <span>{additionalPersonnel}</span>
+
               <button
-                onClick={() => handlePersonnelChange("increase")}
-                className="p-2 rounde"
+                onClick={handleIncrease}
+                className="p-1 rounded disabled:opacity-30 bg-gray-2"
+                disabled={additionalPersonnel >= basePersonnel}
               >
                 <Image
                   src="/icons/add.svg"
                   alt="인원추가"
-                  width={24}
-                  height={24}
+                  width={16}
+                  height={16}
                 />
               </button>
             </div>
@@ -232,11 +230,6 @@ const OptionModal: React.FC<OptionModalProps> = ({
             취소
           </button>
         </div>
-        <AlertModal
-          isOpen={isModalOpen}
-          message={modalMessage}
-          onClose={() => setIsModalOpen(false)}
-        />
       </div>
     </div>
   );
