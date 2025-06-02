@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="absolute left-0 right-0 top-0 bottom-0 flex flex-col items-center justify-center bg-opacity-75 z-50 text-black">
+    <div className="absolute left-0 right-0 top-0 bottom-24 flex flex-col items-center justify-center bg-opacity-75 z-50 text-black">
       <svg
         width="954"
         height="936"
