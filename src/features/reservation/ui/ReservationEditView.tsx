@@ -11,6 +11,7 @@ import TimeSelector from "../components/TimeSelector";
 import ReservationActions from "../components/ReservationAction";
 import ReservationDate from "@/features/product/components/ReservationDate";
 import { useQueryParams } from "@/utils/useQueryParams";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ReservationEditView = () => {
   const router = useRouter();
@@ -97,15 +98,35 @@ const ReservationEditView = () => {
         pageIndex={pageIndex}
       />
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <ReservationDate
-            studioId={reservation.studioId || 0}
-            onDateTimeSelect={handleDateTimeSelect}
-            onCloseModal={handleCloseModal}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {isModalOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleCloseModal} // 배경 클릭 시 닫기
+            />
+
+            {/* Bottom Sheet */}
+            <motion.div
+              className="fixed bottom-0 left-0 right-0 max-w-custom w-full mx-auto bg-white rounded-t-2xl z-50 shadow-lg overflow-y-auto"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+            >
+              <ReservationDate
+                studioId={reservation.studioId || 0}
+                onDateTimeSelect={handleDateTimeSelect}
+                onCloseModal={handleCloseModal}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
